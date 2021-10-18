@@ -71,7 +71,7 @@ class App extends React.Component {
     }
 
   //Update Description  
-  handleSelectChange(e) {
+  handleUpdateItem(e) {
     console.log(e.target.value);
     this.setState({itemUpdate: e.target.value})
   }
@@ -131,7 +131,7 @@ class App extends React.Component {
         {/* Updating Description of an Item. */}
         <form className="Update-item">
           <h3>Update Description</h3>
-          <select onChange={this.handleSelectChange.bind(this)}>
+          <select onChange={this.handleUpdateItem.bind(this)}>
             {this.state.data.map(x => {
               return (<option key={x.item} value={x.item}>{x.item}</option>)
             })}
