@@ -70,23 +70,30 @@ class App extends React.Component {
       this.setState({data: this.state.data.filter( x => x._id !== itemId)});
     }
 
-  //Update Description
-  handleUpdateItem(e) {
+  //Update Description  
+  handleSelectChange(e) {
+    console.log(e.target.value);
     this.setState({itemUpdate: e.target.value})
   }
-
   handleUpdateDes(e) {
     this.setState({desUpdate: e.target.value})
   }
-  
   updateDes(e) {
     e.preventDefault();
     const itemToUpdate = this.state.itemUpdate;
     const desToUpdate = this.state.desUpdate;
-    
+
+    const newData = this.state.data;
+    newData.map(x => {
+      if(x.item === itemToUpdate) {
+        x.des = desToUpdate;
+      }
+      return console.log("Descripton is updated.");
+    })
+    this.setState({data: newData});
+
     if (desToUpdate.length === 0) {
-      console.log("No Descripton Defined.")
-      return;
+      alert("Please enter new descripton.");
     }
 
     const requestOptions = {
@@ -96,47 +103,45 @@ class App extends React.Component {
     }
     fetch("/items/"+ itemToUpdate, requestOptions)
       .then(res => res.json())
-      .then(resData => this.setState({data: resData}))
-    const newData = this.state.data;
-    newData.map(x => {
-      if(x.item === itemToUpdate) {
-        x.des = desToUpdate;
-      }
-      return console.log("Descripton is updated.")
-    })
-    this.setState({data: newData});
+      .then(resData => console.log(resData))
+      
   }
 
   render() {
-    const dataState = this.state.data;
+    // const dataState = this.state.data;
     return (
       <div className="App Background">
         <img src={logo} className="App-logo" alt="logo" />
-        {dataState.map(x => 
+
+        {/* Show Items. */}
+        {this.state.data.map(x => 
           <div key={Math.random()*777}>
             <h3>Name: {x.item}</h3> <p>Description: {x.des}</p>
             <button value={x._id} name={x.item} onClick={this.deleteItem.bind(this)}>Delete</button>
           </div>
           )}
-        {/* <form action="/items" method="POST" className="Input-form"> */}
+
+        {/* Add an Item to Database. */}
         <form className="Input-form">
           <input onChange={this.handleItemChange.bind(this)} type="text" name="item" placeholder="Name of the Item."></input>
           <input onChange={this.handleDesChange.bind(this)} type="text" name="des" placeholder="Description of Item"></input>
           <button onClick={this.submitInput.bind(this)}>Send Item</button>
         </form>
 
+        {/* Updating Description of an Item. */}
         <form className="Update-item">
           <h3>Update Description</h3>
-          <input onChange={this.handleUpdateItem.bind(this)} type="text" name="item" placeholder="Name of the Item."></input>
+          <select onChange={this.handleSelectChange.bind(this)}>
+            {this.state.data.map(x => {
+              return (<option key={x.item} value={x.item}>{x.item}</option>)
+            })}
+          </select>
           <input onChange={this.handleUpdateDes.bind(this)} type="text" name="des" placeholder="New Description here."></input>
           <button onClick={this.updateDes.bind(this)}>Update Description</button>
         </form>
     </div>
     );
   }
-
 }
-
-
 
 export default App;
