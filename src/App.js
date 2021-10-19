@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
+import SelectUpdate from './SelectUpdate'
 
 class App extends React.Component {
   constructor (props) {
@@ -13,6 +14,7 @@ class App extends React.Component {
       itemUpdate: "",
       desUpdate: ""
     }
+    this.updateItem = this.updateItem.bind(this);
   }; 
 
   componentDidMount() {
@@ -70,11 +72,17 @@ class App extends React.Component {
       this.setState({data: this.state.data.filter( x => x._id !== itemId)});
     }
 
-  //Update Description  
-  handleUpdateItem(e) {
-    console.log(e.target.value);
+  //Update Description
+
+  //handleUpdateItem in Component
+  updateItem(e) {
     this.setState({itemUpdate: e.target.value})
   }
+  // handleUpdateItem(e) {
+  //   console.log(e.target.value);
+  //   this.setState({itemUpdate: e.target.value})
+  // }
+
   handleUpdateDes(e) {
     this.setState({desUpdate: e.target.value})
   }
@@ -108,7 +116,7 @@ class App extends React.Component {
   }
 
   render() {
-    // const dataState = this.state.data;
+    const dataState = this.state.data;
     return (
       <div className="App Background">
         <img src={logo} className="App-logo" alt="logo" />
@@ -131,11 +139,15 @@ class App extends React.Component {
         {/* Updating Description of an Item. */}
         <form className="Update-item">
           <h3>Update Description</h3>
-          <select onChange={this.handleUpdateItem.bind(this)}>
+
+          <SelectUpdate functionUpdate={this.updateItem} dataState={dataState} />
+          {/* <select onChange={this.handleUpdateItem.bind(this)}>
             {this.state.data.map(x => {
               return (<option key={x.item} value={x.item}>{x.item}</option>)
             })}
-          </select>
+          </select> */}
+
+
           <input onChange={this.handleUpdateDes.bind(this)} type="text" name="des" placeholder="New Description here."></input>
           <button onClick={this.updateDes.bind(this)}>Update Description</button>
         </form>

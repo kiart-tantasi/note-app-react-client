@@ -39,6 +39,8 @@
 
 .Input-form input, .Update-item input {
   margin-right: 10px;
+  border-radius: 5px;
+  height: 20px;
 }
 
 .Input-form {
@@ -47,5 +49,11 @@
 }
 
 .Update-item {
-  margin-bottom: 100px;;
+  margin-bottom: 100px;
+}
+
+.Update-item input {
+  margin-left: 10px;
+  width: 200px;
+  height: 20px;
 }
