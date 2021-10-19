@@ -6,7 +6,7 @@
   height: 40vmin;
   pointer-events: none;
   display: block;
-  margin-bottom: 30px;
+  margin: 40px 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -46,7 +46,8 @@
 .Input-form input, .Update-item input {
   margin-right: 10px;
   border-radius: 5px;
-  height: 20px;
+  height: 60px;
+  text-align: left;
 }
 
 .Input-form {
@@ -54,23 +55,43 @@
   margin-bottom: 30px;
 }
 
+.Input-form input {
+  display: block;
+  margin: 5px auto;
+  width: 100%;
+}
+
+#First-input {
+  height: 30px;
+}
+
 .Update-item {
   margin-bottom: 100px;
+  text-align: center;
+  margin: auto 0;
+  padding-bottom: 100px;
 }
 
 .Update-item input {
-  margin-left: 10px;
-  width: 200px;
-  height: 20px;
+  margin: 20px 0;
+  width: 300px;
+  display: block;
 }
 
-
 .Item-block {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.438);
   display: inline-block;
   margin: 10px;
   padding: 20px;
   padding-top: 0;
   border-radius: 10px;
   text-align:left;
+  width: 250px;
+}
+
+.Item-block p {
+  font-size: 15px;
+  letter-spacing: 1px;
+  line-height: 145%;
+  width: 230px;
 }

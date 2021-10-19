@@ -124,7 +124,7 @@ class App extends React.Component {
           {/* Show Items. */}
           {this.state.data.map(x => 
             <div className="Item-block" key={x._id}>
-              <h3>Name: {x.item}</h3> <p>Description: {x.des}</p>
+              <p>Item:</p><h3>{x.item}</h3> <p>Description: {x.des}</p>
               <button value={x._id} name={x.item} onClick={this.deleteItem.bind(this)}>Delete</button>
             </div>
             )}
@@ -133,7 +133,7 @@ class App extends React.Component {
         {/* Add an Item to Database. */}
         <form className="Input-form">
         <h3>Add Item with Description</h3>
-          <input onChange={this.handleItemChange.bind(this)} type="text" name="item" placeholder="Name of the Item."></input>
+          <input onChange={this.handleItemChange.bind(this)} type="text" name="item" id="First-input" placeholder="Name of the Item."></input>
           <input onChange={this.handleDesChange.bind(this)} type="text" name="des" placeholder="Description of Item"></input>
           <button onClick={this.submitInput.bind(this)}>Send Item</button>
         </form>
