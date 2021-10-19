@@ -5,6 +5,8 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  display: block;
+  margin-bottom: 30px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -37,6 +39,10 @@
   }
 }
 
+.Input-form, .Update-item {
+  display: block;
+}
+
 .Input-form input, .Update-item input {
   margin-right: 10px;
   border-radius: 5px;
@@ -56,4 +62,15 @@
   margin-left: 10px;
   width: 200px;
   height: 20px;
+}
+
+
+.Item-block {
+  background-color: black;
+  display: inline-block;
+  margin: 10px;
+  padding: 20px;
+  padding-top: 0;
+  border-radius: 10px;
+  text-align:left;
 }

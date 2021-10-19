@@ -116,21 +116,23 @@ class App extends React.Component {
   }
 
   render() {
-    const dataState = this.state.data;
     return (
       <div className="App Background">
         <img src={logo} className="App-logo" alt="logo" />
 
-        {/* Show Items. */}
-        {this.state.data.map(x => 
-          <div key={Math.random()*777}>
-            <h3>Name: {x.item}</h3> <p>Description: {x.des}</p>
-            <button value={x._id} name={x.item} onClick={this.deleteItem.bind(this)}>Delete</button>
-          </div>
-          )}
+        <div>
+          {/* Show Items. */}
+          {this.state.data.map(x => 
+            <div className="Item-block" key={x._id}>
+              <h3>Name: {x.item}</h3> <p>Description: {x.des}</p>
+              <button value={x._id} name={x.item} onClick={this.deleteItem.bind(this)}>Delete</button>
+            </div>
+            )}
+        </div>
 
         {/* Add an Item to Database. */}
         <form className="Input-form">
+        <h3>Add Item with Description</h3>
           <input onChange={this.handleItemChange.bind(this)} type="text" name="item" placeholder="Name of the Item."></input>
           <input onChange={this.handleDesChange.bind(this)} type="text" name="des" placeholder="Description of Item"></input>
           <button onClick={this.submitInput.bind(this)}>Send Item</button>
@@ -140,7 +142,7 @@ class App extends React.Component {
         <form className="Update-item">
           <h3>Update Description</h3>
 
-          <SelectUpdate functionUpdate={this.updateItem} dataState={dataState} />
+          <SelectUpdate functionUpdate={this.updateItem} dataState={this.state.data} />
           {/* <select onChange={this.handleUpdateItem.bind(this)}>
             {this.state.data.map(x => {
               return (<option key={x.item} value={x.item}>{x.item}</option>)
