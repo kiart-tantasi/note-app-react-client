@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import SelectUpdate from './SelectUpdate'
+import SelectUpdate from './SelectUpdate' //You can also use './SelectUpdate2' to use functional component (The same thing.)
+
 
 class App extends React.Component {
   constructor (props) {
@@ -73,19 +74,14 @@ class App extends React.Component {
     }
 
   //Update Description
-
-  //handleUpdateItem in Component
   updateItem(e) {
     this.setState({itemUpdate: e.target.value})
   }
-  // handleUpdateItem(e) {
-  //   console.log(e.target.value);
-  //   this.setState({itemUpdate: e.target.value})
-  // }
 
   handleUpdateDes(e) {
     this.setState({desUpdate: e.target.value})
   }
+
   updateDes(e) {
     e.preventDefault();
     const itemToUpdate = this.state.itemUpdate;
@@ -96,7 +92,7 @@ class App extends React.Component {
       if(x.item === itemToUpdate) {
         x.des = desToUpdate;
       }
-      return console.log("Descripton is updated.");
+      return console.log("Descripton in Component State was Updated.");
     })
     this.setState({data: newData});
 
@@ -116,6 +112,7 @@ class App extends React.Component {
   }
 
   render() {
+
     return (
       <div className="App Background">
         <img src={logo} className="App-logo" alt="logo" />
@@ -139,20 +136,23 @@ class App extends React.Component {
         </form>
 
         {/* Updating Description of an Item. */}
-        <form className="Update-item">
-          <h3>Update Description</h3>
+        <div className="Update-item">
+          <form>
+            {/* className="Update-item" */}
+            <h3>Update Description</h3>
+            
+            <SelectUpdate functionUpdate={this.updateItem} dataState={this.state.data} />
+            {/* <select onChange={this.handleUpdateItem.bind(this)}>
+              {this.state.data.map(x => {
+                return (<option key={x.item} value={x.item}>{x.item}</option>)
+              })}
+            </select> */}
 
-          <SelectUpdate functionUpdate={this.updateItem} dataState={this.state.data} />
-          {/* <select onChange={this.handleUpdateItem.bind(this)}>
-            {this.state.data.map(x => {
-              return (<option key={x.item} value={x.item}>{x.item}</option>)
-            })}
-          </select> */}
 
-
-          <input onChange={this.handleUpdateDes.bind(this)} type="text" name="des" placeholder="New Description here."></input>
-          <button onClick={this.updateDes.bind(this)}>Update Description</button>
-        </form>
+            <input onChange={this.handleUpdateDes.bind(this)} type="text" name="des" placeholder="New Description here."></input>
+            <button onClick={this.updateDes.bind(this)}>Update Description</button>
+          </form>
+        </div>
     </div>
     );
   }
