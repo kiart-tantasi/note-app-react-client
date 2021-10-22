@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import React from 'react';
-import SelectUpdate from './SelectUpdate' //You can also use './SelectUpdate2' to use functional component (The same thing.)
+import React, {createRef} from 'react';
+import ShowItem from './ShowItem';
+import UpdateItem from './UpdateItem1' //You can also use './SelectUpdate2' to use functional component (The same thing.)
 
 
 class App extends React.Component {
@@ -15,10 +16,17 @@ class App extends React.Component {
       itemUpdate: "",
       desUpdate: ""
     }
+    //passing function to another component
     this.updateItem = this.updateItem.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
+    this.handleUpdateDes = this.handleUpdateDes.bind(this);
+    this.updateDes = this.updateDes.bind(this);
+    //createRef
+    this.inputRef = createRef();
   }; 
 
   componentDidMount() {
+    this.inputRef.current.focus();
     this.callApi();
   }
 
@@ -111,48 +119,25 @@ class App extends React.Component {
       
   }
 
-  render() {
+  // ------------------ RENDER ------------------ //
 
+  render() {
     return (
       <div className="App Background">
         <img src={logo} className="App-logo" alt="logo" />
 
-        <div>
-          {/* Show Items. */}
-          {this.state.data.map(x => 
-            <div className="Item-block" key={x._id}>
-              <p>Item:</p><h3>{x.item}</h3> <p>Description: {x.des}</p>
-              <button value={x._id} name={x.item} onClick={this.deleteItem.bind(this)}>Delete</button>
-            </div>
-            )}
-        </div>
+        <ShowItem state={this.state} deleteItem={this.deleteItem}/>
 
         {/* Add an Item to Database. */}
         <form className="Input-form">
         <h3>Add Item with Description</h3>
-          <input onChange={this.handleItemChange.bind(this)} type="text" name="item" id="First-input" placeholder="Name of the Item."></input>
+          <input ref={this.inputRef} onChange={this.handleItemChange.bind(this)} type="text" name="item" id="First-input" placeholder="Name of the Item."></input>
           <input onChange={this.handleDesChange.bind(this)} type="text" name="des" placeholder="Description of Item"></input>
           <button onClick={this.submitInput.bind(this)}>Send Item</button>
         </form>
 
         {/* Updating Description of an Item. */}
-        <div className="Update-item">
-          <form>
-            {/* className="Update-item" */}
-            <h3>Update Description</h3>
-            
-            <SelectUpdate functionUpdate={this.updateItem} dataState={this.state.data} />
-            {/* <select onChange={this.handleUpdateItem.bind(this)}>
-              {this.state.data.map(x => {
-                return (<option key={x.item} value={x.item}>{x.item}</option>)
-              })}
-            </select> */}
-
-
-            <input onChange={this.handleUpdateDes.bind(this)} type="text" name="des" placeholder="New Description here."></input>
-            <button onClick={this.updateDes.bind(this)}>Update Description</button>
-          </form>
-        </div>
+        <UpdateItem state={this.state.data} updateItem={this.updateItem} handleUpdateDes={this.handleUpdateDes} updateDes={this.updateDes} />
     </div>
     );
   }
