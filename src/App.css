@@ -1,12 +1,8 @@
-.App {
-  text-align: center;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
   display: block;
-  margin: 40px 0;
+  margin: 0 auto;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -15,19 +11,21 @@
   }
 }
 
-.Background {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-link {
-  color: #61dafb;
+.Background {
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+  background-color: #282c34;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 75px;
 }
 
 @keyframes App-logo-spin {
@@ -39,59 +37,61 @@
   }
 }
 
-.Input-form, .Update-item {
-  display: block;
+/* Show Items */
+.Show-item {
+  width: 80%;
+  margin: 0 auto;
+  padding-bottom: 20px;
 }
-
-.Input-form input, .Update-item input {
-  margin-right: 10px;
-  border-radius: 5px;
-  height: 60px;
-  text-align: left;
-}
-
-.Input-form {
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-
-.Input-form input {
-  display: block;
-  margin: 5px auto;
-  width: 100%;
-}
-
-#First-input {
-  height: 30px;
-}
-
-.Update-item {
-  margin-bottom: 100px;
-  text-align: center;
-  margin: auto 0;
-  padding-bottom: 100px;
-}
-
-.Update-item input {
-  margin: 20px 0;
-  width: 300px;
-  display: block;
-}
-
 .Item-block {
   background-color: rgba(0, 0, 0, 0.438);
   display: inline-block;
   margin: 10px;
   padding: 20px;
-  padding-top: 0;
   border-radius: 10px;
   text-align:left;
-  width: 250px;
+  width: 23%;
 }
 
 .Item-block p {
+  /* word-wrap: break-word; */
+  word-break: break-all;
   font-size: 15px;
   letter-spacing: 1px;
-  line-height: 145%;
-  width: 230px;
+  line-height: 150%;
+  width: auto;
+  margin: 10px 0;
+}
+
+/* Add Item and Update Item */
+
+.Add-update {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.Add-update h3 {
+  margin-bottom: 10px;
+}
+
+.Add-item, .Update-item {
+  display: inline-block;
+  width: 49.5%;
+  margin: auto 0;
+}
+
+.Add-item input, .Update-item input {
+  border-radius: 5px;
+  height: 60px;
+  text-align: left;
+  margin: 10px auto;
+  width: 60%;
+  display: block;
+}
+.Two-input input:first-child {  /* Name of Item*/
+  height: 20px;
+}
+
+.Update-item select {
+  width: 95px;
 }

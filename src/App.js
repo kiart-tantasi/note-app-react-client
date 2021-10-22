@@ -2,7 +2,8 @@ import logo from './logo.svg';
 import './App.css';
 import React, {createRef} from 'react';
 import ShowItem from './ShowItem';
-import UpdateItem from './UpdateItem1' //You can also use './SelectUpdate2' to use functional component (The same thing.)
+import UpdateItem from './UpdateItem' //You can also use './SelectUpdate2' to use functional component (The same thing.)
+import AddItem from './AddItem';
 
 
 class App extends React.Component {
@@ -123,22 +124,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App Background">
+      <section className="Background">
         <img src={logo} className="App-logo" alt="logo" />
 
         <ShowItem state={this.state} deleteItem={this.deleteItem}/>
 
-        {/* Add an Item to Database. */}
-        <form className="Input-form">
-        <h3>Add Item with Description</h3>
-          <input ref={this.inputRef} onChange={this.handleItemChange.bind(this)} type="text" name="item" id="First-input" placeholder="Name of the Item."></input>
-          <input onChange={this.handleDesChange.bind(this)} type="text" name="des" placeholder="Description of Item"></input>
-          <button onClick={this.submitInput.bind(this)}>Send Item</button>
-        </form>
+        <div className="Add-update"> {/* Add Item Section and Update Item Section */}
 
-        {/* Updating Description of an Item. */}
-        <UpdateItem state={this.state.data} updateItem={this.updateItem} handleUpdateDes={this.handleUpdateDes} updateDes={this.updateDes} />
-    </div>
+          <AddItem inputRef={this.inputRef} handleItemChange={this.handleItemChange.bind(this)}
+          handleDesChange={this.handleDesChange.bind(this)} submitInput={this.submitInput.bind(this)}/>
+
+          <UpdateItem state={this.state.data} updateItem={this.updateItem} handleUpdateDes={this.handleUpdateDes} updateDes={this.updateDes} />
+        
+        </div>
+        
+    </section>
     );
   }
 }
