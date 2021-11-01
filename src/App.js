@@ -7,8 +7,8 @@ import AddItem from './AddItem';
 
 
 class App extends React.Component {
-  constructor (props) {
-    super (props);
+  constructor () {
+    super ();
 
     this.state = {
       data: [],
@@ -129,12 +129,12 @@ class App extends React.Component {
 
         <ShowItem state={this.state} deleteItem={this.deleteItem}/>
 
-        <div className="Add-update"> {/* Add Item Section and Update Item Section */}
+        <div className="Add-update"> {/* Add Item Section && Update Item Section */}
 
-          <AddItem inputRef={this.inputRef} handleItemChange={this.handleItemChange.bind(this)}
-          handleDesChange={this.handleDesChange.bind(this)} submitInput={this.submitInput.bind(this)}/>
+          <AddItem inputRef={this.inputRef} handleItemChange={this.handleItemChange.bind(this)} itemValue={this.state.itemInput}
+          handleDesChange={this.handleDesChange.bind(this)} desValue={this.state.desInput} submitInput={this.submitInput.bind(this)}/>
 
-          <UpdateItem state={this.state.data} updateItem={this.updateItem} handleUpdateDes={this.handleUpdateDes} updateDes={this.updateDes} />
+          <UpdateItem state={this.state.data} updateItem={this.updateItem} selectValue={this.state.itemUpdate} desValue={this.state.desUpdate} handleUpdateDes={this.handleUpdateDes} updateDes={this.updateDes} />
         
         </div>
         

@@ -29,11 +29,11 @@ export default function updateItem(props) {
         <div className="Update-item">
         <form>
             <h3>Update Description</h3>
-            <select onChange={props.updateItem}>
+            <select value={props.selectValue} onChange={props.updateItem}>
                 <option hidden defaultValue>select item</option>
                 {props.state.map(x => <option key={x._id} value={x.item}>{x.item}</option>)}
             </select>
-            <input onChange={props.handleUpdateDes} type="text" name="des" placeholder="New Description"></input>
+            <input onChange={props.handleUpdateDes} value={props.desValue} type="text" name="des" placeholder="New Description"></input>
             <button onClick={props.updateDes}>Update Description</button>
         </form>
     </div>
