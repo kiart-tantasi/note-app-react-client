@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AddIcon from '@material-ui/icons/Add';
 
 export default function AddItem(props) {
   const [input,setInput] = useState({item:"",des:""});
@@ -23,7 +24,7 @@ export default function AddItem(props) {
           e.preventDefault();
           props.submitInput(input.item,input.des);
           setInput({item:"",des:""});
-        }}>Send Item</button>
+        }}><AddIcon /></button>
       </form>
       </div>
   );

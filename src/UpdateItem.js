@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Option from './Option';
+import UpdateIcon from '@material-ui/icons/UpdateTwoTone'
 
     //---Functional Component Version---//
 
@@ -23,7 +24,7 @@ import Option from './Option';
                 <button onClick={(e) => {
                     e.preventDefault();
                     props.updateDes(update.item,update.des)
-                }}>Update Description</button>
+                }}><UpdateIcon /></button>
             </form>
         </div>
         )
