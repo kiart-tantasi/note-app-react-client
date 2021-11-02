@@ -1,14 +1,10 @@
 import React from 'react';
+import Item from './Item';
 
 export default function showItem(props) {
     return (
-        <div className="Show-item">
-        {props.state.data.map(x => 
-          <div className="Item-block" key={x._id}>
-            <p>Item:</p><h3>{x.item}</h3> <p>Description: {x.des}</p>
-            <button value={x._id} name={x.item} onClick={props.deleteItem}>Delete</button>
-          </div>
-          )}
-      </div>
+    <div className="Show-item">
+      {props.state.data.map(x => <Item key={x._id} id={x._id} item={x.item} des={x.des} deleteItem={props.deleteItem}/> )} 
+    </div>
     )
 }

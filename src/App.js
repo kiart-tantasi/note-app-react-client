@@ -69,17 +69,17 @@ class App extends React.Component {
   }
 
   //Delete Item
-  deleteItem(e) {
-    const itemId= e.target.value;
+  deleteItem(id) {
+    const itemName = this.state.data.find(x => x._id === id).item;
     const requestOptions = {
       method: "DELETE",
       headers: {"Content-Type": "application/json" },
-      body: JSON.stringify({_id:itemId})
+      body: JSON.stringify({_id:id})
     }
-    fetch("/items/"+ e.target.name,requestOptions)
+    fetch("/items/"+ itemName,requestOptions)
       .then(res => res.json())
       .then(resData => this.setState({data: resData}))
-      this.setState({data: this.state.data.filter( x => x._id !== itemId)});
+    this.setState({data: this.state.data.filter( x => x._id !== id)});
     }
 
   //Update Description
