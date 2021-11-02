@@ -1,7 +1,5 @@
 import React from 'react';
 
-{/* <Item key={x._id} id={x._id} item={x.item} description={x.des} deleteItem={props.deleteItem}/> */}
-
 export default function Item(props) {
     return (
     <div className="Item-block">
