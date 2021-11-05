@@ -1,9 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
 import React, {createRef} from 'react';
 import ShowItem from './ShowItem';
-import UpdateItem from './UpdateItem' //You can also use './SelectUpdate2' to use functional component (The same thing.)
+import UpdateItem from './UpdateItem'
 import AddItem from './AddItem';
+import Header from './Header';
+import { Routes, Route } from 'react-router-dom';
+import Add from './Add';
 
 
 class App extends React.Component {
@@ -24,7 +26,7 @@ class App extends React.Component {
   }; 
 
   componentDidMount() {
-    this.inputRef.current.focus();
+    // this.inputRef.current.focus();
     this.callApi();
   }
 
@@ -97,18 +99,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <section className="Background">
-        <img src={logo} className="App-logo" alt="logo" />
+      <div className="Background">
 
-        <ShowItem state={this.state} deleteItem={this.deleteItem}/>
+        <Header />
+          <Routes>
+            <Route path="/" exact element ={<ShowItem state={this.state} deleteItem={this.deleteItem}/>}/>
+            <Route path="/add" element={<Add />}/>
+          </Routes>
+            
 
-        {/* Add Item Section && Update Item Section */}
-        <div className="Add-update"> 
-          <AddItem inputRef={this.inputRef} submitInput={this.submitInput}/>
-          <UpdateItem state={this.state.data} updateDes={this.updateDes} />
-        </div>
+            <div className="Add-update"> 
+              <AddItem inputRef={this.inputRef} submitInput={this.submitInput}/>
+              <UpdateItem state={this.state.data} updateDes={this.updateDes} />
+            </div>
         
-    </section>
+    </div>
     );
   }
 }

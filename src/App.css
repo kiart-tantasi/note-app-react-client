@@ -20,11 +20,10 @@
 .Background {
   text-rendering: optimizeLegibility;
   min-height: 100vh;
-  background-color: #282c34;
+  background-color: #f1f1f1;
   align-items: center;
-  color: white;
+  color: black;
   text-align: center;
-  padding-top: 50px;
   padding-bottom: 75px;
 }
 
@@ -37,30 +36,76 @@
   }
 }
 
+/* Main Nav */
+.main-nav {
+  margin: 0 0;
+  width: 100vw;
+  background-color: white; 
+  color: black;
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.514);
+}
+
+.route {
+  display: inline-block;
+  font-size: 20px;
+}
+
+.route:first-child {
+  padding-left: 20px;
+  border-left: 1px solid black;
+  padding-right: 20px;
+  border-right: 1px solid black;
+}
+
+.route:last-child {
+  padding-left: 20px;
+  padding-right: 20px;
+  border-right: 1px solid black;
+}
+
+.route {
+  text-decoration: none;
+  color: black;
+}
+
 /* Show Items */
 .Show-item {
   width: 80%;
   margin: 0 auto;
+  margin-top: 30px;
   padding-bottom: 20px;
 }
+
 .Item-block {
-  background-color: rgba(0, 0, 0, 0.438);
+  background-color: rgb(247, 247, 247);
   display: inline-block;
   margin: 10px;
   padding: 20px;
   border-radius: 10px;
-  text-align:left;
   width: 23%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.308);
+}
+
+.Item-block h3 {
+  font-size: 25px;
+  margin-bottom: 20px;
 }
 
 .Item-block p {
   /* word-wrap: break-word; */
+  text-align:left;
   word-break: break-all;
   font-size: 15px;
   letter-spacing: 1px;
   line-height: 150%;
   width: auto;
   margin: 10px 0;
+}
+
+.Item-block button {
+  margin-top: 10px;
 }
 
 /* Add Item and Update Item */
@@ -94,4 +139,9 @@
 
 .Update-item select {
   width: 95px;
+}
+
+.active-route {
+  background-color: blue;
+  color: pink;
 }
