@@ -2,15 +2,15 @@
 Web App for Adding/Deleting/Updating items using MERN Stack: MongoDB (Mongoose) + Express + React + NodeJS. 
 
 Note: 
-Download 'root' directory at "https://github.com/kiart-tantasi/react-nodejs-MERN-Stack-Item-Adding-Deleting-Updating-Web-App-kt".
-Download 'client' folder in 'https://github.com/kiart-tantasi/client' and put it inside 'root' directory.
+Download 'root' directory (server folder) at "https://github.com/kiart-tantasi/react-nodejs-Note-App-MERN-STACK-server".
+Download 'client' folder at 'https://github.com/kiart-tantasi/react-nodejs-Note-App-MERN-STACK-client' and put it inside 'root' directory.
 
 
 
 //---To run this project you must have installed Node.js and MongoDB---//
 
 To run the server (Backend)
-Use the command line and go to the 'root' directory
+Use the command line and go to the 'root' directory (server folder)
 and then type "node app.js" to run the server.
 
 To run React (Frontend)
