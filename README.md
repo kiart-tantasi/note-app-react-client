@@ -1,4 +1,4 @@
-# MERN-Stack-WebApp-Adding-Deleting-Updating-Items
+# react-nodejs-Note-App-MERN-STACK
 Web App for Adding/Deleting/Updating items using MERN Stack: MongoDB (Mongoose) + Express + React + NodeJS. 
 
 Note: 
