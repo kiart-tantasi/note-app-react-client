@@ -1,23 +1,12 @@
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-  display: block;
-  margin: 0 auto;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.Background {
+html,body {
+  font-family: 'Zen Kurenaido', sans-serif;
+  font-weight: 400;
   text-rendering: optimizeLegibility;
   min-height: 100vh;
   background-color: #f1f1f1;
@@ -25,15 +14,6 @@
   color: black;
   text-align: center;
   padding-bottom: 75px;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 /* Main Nav */
@@ -45,6 +25,7 @@
   padding: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.24);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.514);
+  margin-bottom: 30px;
 }
 
 .route {
@@ -68,6 +49,11 @@
 .route {
   text-decoration: none;
   color: black;
+}
+
+.active-route {
+  background-color: blue;
+  color: pink;
 }
 
 /* Show Items */
@@ -106,16 +92,13 @@
 
 .Item-block button {
   margin-top: 10px;
+  background-color: rgb(247, 247, 247);
+  border: rgb(247, 247, 247);
 }
 
 /* Add Item and Update Item */
 
-.Add-update {
-  width: 70%;
-  margin: 0 auto;
-}
-
-.Add-update h3 {
+.Add-item h3, .Update-item h3 {
   margin-bottom: 10px;
 }
 
@@ -128,20 +111,24 @@
 .Add-item input, .Update-item input {
   border-radius: 5px;
   height: 60px;
-  text-align: left;
+  text-align: center;
   margin: 10px auto;
   width: 60%;
   display: block;
+  border: 1px solid rgb(247, 247, 247);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.308);
 }
+
+.Add-item button, .Update-item button {
+  border-radius: 10px;
+  background-color: rgb(247, 247, 247);
+  border:1px solid rgba(0, 0, 0, 0.308);
+}
+
 .Two-input input:first-child {  /* Name of Item*/
   height: 20px;
 }
 
 .Update-item select {
   width: 95px;
-}
-
-.active-route {
-  background-color: blue;
-  color: pink;
 }

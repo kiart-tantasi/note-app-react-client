@@ -1,12 +1,10 @@
 import './App.css';
-import React, {createRef} from 'react';
+import React from 'react';
 import ShowItem from './ShowItem';
 import UpdateItem from './UpdateItem'
 import AddItem from './AddItem';
 import Header from './Header';
 import { Routes, Route } from 'react-router-dom';
-import Add from './Add';
-
 
 class App extends React.Component {
   constructor () {
@@ -21,16 +19,13 @@ class App extends React.Component {
     this.deleteItem = this.deleteItem.bind(this);
     this.updateDes = this.updateDes.bind(this);
 
-    //createRef
-    this.inputRef = createRef();
   }; 
 
   componentDidMount() {
-    // this.inputRef.current.focus();
     this.callApi();
   }
 
-  // GET
+  // Get Data
   callApi = () => {
     fetch("/items")
       .then(res => res.json())
@@ -102,17 +97,13 @@ class App extends React.Component {
       <div className="Background">
 
         <Header />
-          <Routes>
-            <Route path="/" exact element ={<ShowItem state={this.state} deleteItem={this.deleteItem}/>}/>
-            <Route path="/add" element={<Add />}/>
-          </Routes>
-            
 
-            <div className="Add-update"> 
-              <AddItem inputRef={this.inputRef} submitInput={this.submitInput}/>
-              <UpdateItem state={this.state.data} updateDes={this.updateDes} />
-            </div>
-        
+        <Routes>
+          <Route path="/" element={<AddItem submitInput={this.submitInput}/>}/>
+          <Route path="/update" element={<UpdateItem state={this.state.data} updateDes={this.updateDes} />} />
+        </Routes>
+        <ShowItem state={this.state} deleteItem={this.deleteItem}/>
+
     </div>
     );
   }

@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Option from './Option';
-import UpdateIcon from '@material-ui/icons/UpdateTwoTone'
+import UpdateIcon from '@mui/icons-material/UpdateRounded';
 
     //---Functional Component Version---//
 
     export default function UpdateItem(props) {
         const [update,setUpdate] = useState({item:"",des:""});
+        const inputRef = useRef();
+
+        useEffect(() => {
+            inputRef.current.focus();
+        })
+
         function handleChange(e) {
             const {name,value} = e.target;
             setUpdate(prev => {
@@ -20,7 +26,7 @@ import UpdateIcon from '@material-ui/icons/UpdateTwoTone'
                     <option hidden defaultValue>select item</option>
                     {props.state.map(x => <Option key={x._id} value={x.item} />)}
                 </select>
-                <input onChange={handleChange} value={update.des} type="text" name="des" placeholder="New Description"></input>
+                <input ref={inputRef} onChange={handleChange} value={update.des} type="text" name="des" placeholder="New Description"></input>
                 <button onClick={(e) => {
                     e.preventDefault();
                     props.updateDes(update.item,update.des)
