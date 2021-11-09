@@ -26,7 +26,7 @@ import UpdateIcon from '@mui/icons-material/UpdateRounded';
                     <option hidden defaultValue>select item</option>
                     {props.state.map(x => <Option key={x._id} value={x.item} />)}
                 </select>
-                <input ref={inputRef} onChange={handleChange} value={update.des} type="text" name="des" placeholder="New Description"></input>
+                <input ref={inputRef} onChange={handleChange} value={update.des} type="text" name="des" placeholder="New Description" autoComplete="off"></input>
                 <button onClick={(e) => {
                     e.preventDefault();
                     props.updateDes(update.item,update.des)

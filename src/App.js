@@ -34,12 +34,13 @@ class App extends React.Component {
 
   // Add Item
   submitInput(item,des) {
-    if (this.state.data.filter(x => x.item === this.state.itemInput).length !== 0) {
+    if (this.state.data.filter(x => x.item === item).length !== 0) {
       alert("The name of item is already used.")
       return;
     }
-    if (this.state.itemInput === "" || this.state.desInput === "") {
-      alert("Can't send any blank fields.")
+    if (item === "" || des === "") {
+      alert("Please define both tite and description.");
+      return;
     } else {
     const requestOptions = {
       method: "POST",
