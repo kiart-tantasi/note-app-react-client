@@ -28,32 +28,28 @@ html,body {
   margin-bottom: 30px;
 }
 
-.route {
+.route, .route-active {
   display: inline-block;
   font-size: 20px;
+  text-decoration: none;
+  color: #000;
 }
 
-.route:first-child {
+.route:first-child, .route-active:first-child {
   padding-left: 20px;
   border-left: 1px solid black;
   padding-right: 20px;
   border-right: 1px solid black;
 }
 
-.route:last-child {
+.route:last-child, .route-active:last-child {
   padding-left: 20px;
   padding-right: 20px;
   border-right: 1px solid black;
 }
 
-.route {
-  text-decoration: none;
-  color: black;
-}
-
-.active-route {
-  background-color: blue;
-  color: pink;
+.route-active {
+  font-size: 150%;
 }
 
 /* Show Items */

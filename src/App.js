@@ -1,8 +1,8 @@
 import './App.css';
 import React from 'react';
-import ShowItem from './ShowItem';
-import UpdateItem from './UpdateItem'
-import AddItem from './AddItem';
+import ShowNote from './ShowNote';
+import UpdateNote from './UpdateNote'
+import AddNote from './AddNote';
 import Header from './Header';
 import { Routes, Route } from 'react-router-dom';
 
@@ -100,10 +100,10 @@ class App extends React.Component {
         <Header />
 
         <Routes>
-          <Route path="/" element={<AddItem submitInput={this.submitInput}/>}/>
-          <Route path="/update" element={<UpdateItem state={this.state.data} updateDes={this.updateDes} />} />
+          <Route path="/" element={<AddNote submitInput={this.submitInput}/>}/>
+          <Route path="/update" element={<UpdateNote state={this.state.data} updateDes={this.updateDes} />} />
         </Routes>
-        <ShowItem state={this.state} deleteItem={this.deleteItem}/>
+        <ShowNote state={this.state} deleteItem={this.deleteItem}/>
 
     </div>
     );

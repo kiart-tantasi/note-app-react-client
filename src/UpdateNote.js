@@ -4,7 +4,7 @@ import UpdateIcon from '@mui/icons-material/UpdateRounded';
 
     //---Functional Component Version---//
 
-    export default function UpdateItem(props) {
+    export default function UpdateNote(props) {
         const [update,setUpdate] = useState({item:"",des:""});
         const inputRef = useRef();
 
@@ -21,7 +21,7 @@ import UpdateIcon from '@mui/icons-material/UpdateRounded';
         return (
             <div className="Update-item">
             <form>
-                <h3>Update Description</h3>
+                <h3>Update</h3>
                 <select value={update.item} name="item" onChange={handleChange}>
                     <option hidden defaultValue>select item</option>
                     {props.state.map(x => <Option key={x._id} value={x.item} />)}
