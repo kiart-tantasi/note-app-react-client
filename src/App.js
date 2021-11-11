@@ -35,11 +35,11 @@ class App extends React.Component {
   // Add Item
   submitInput(item,des) {
     if (this.state.data.filter(x => x.item === item).length !== 0) {
-      alert("The name of item is already used.")
+      alert("The name is already used.")
       return;
     }
     if (item === "" || des === "") {
-      alert("Please define both tite and description.");
+      alert("Title and Detail are required.");
       return;
     } else {
     const requestOptions = {
@@ -49,7 +49,9 @@ class App extends React.Component {
     }
     fetch("/items",requestOptions)
       .then(res => res.json())
-      .then(resData => this.setState({data: resData}))
+      .then(resData => {
+        this.setState({data: resData});
+      })
     }
   }
 
@@ -62,8 +64,6 @@ class App extends React.Component {
       body: JSON.stringify({_id:id})
     }
     fetch("/items/"+ itemName,requestOptions)
-      .then(res => res.json())
-      .then(resData => this.setState({data: resData}))
     this.setState({data: this.state.data.filter( x => x._id !== id)});
   }
 
@@ -96,15 +96,12 @@ class App extends React.Component {
   render() {
     return (
       <div className="Background">
-
         <Header />
-
         <Routes>
           <Route path="/" element={<AddNote submitInput={this.submitInput}/>}/>
           <Route path="/update" element={<UpdateNote state={this.state.data} updateDes={this.updateDes} />} />
         </Routes>
         <ShowNote state={this.state} deleteItem={this.deleteItem}/>
-
     </div>
     );
   }
