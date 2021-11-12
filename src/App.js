@@ -79,8 +79,6 @@ class App extends React.Component {
       body: JSON.stringify({des: des})
     }
     fetch("/items/"+ item, requestOptions)
-      .then(res => res.json())
-      .then(resData => console.log(resData))
     const newData = this.state.data;
     newData.map(x => {
       if (x.item === item) {
