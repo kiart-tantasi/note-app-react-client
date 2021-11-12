@@ -7,29 +7,26 @@ import Header from './Header';
 import { Routes, Route } from 'react-router-dom';
 
 class App extends React.Component {
-  constructor () {
-    super ();
-
-    this.state = {
-      data: []
-    }
-
-    //passing function to another component
-    this.submitInput = this.submitInput.bind(this);
-    this.deleteItem = this.deleteItem.bind(this);
-    this.updateDes = this.updateDes.bind(this);
-
-  }; 
+  //state
+  state = {data: []}
+  
+  //passing function to another component
+  submitInput = this.submitInput.bind(this);
+  deleteItem = this.deleteItem.bind(this);
+  updateDes = this.updateDes.bind(this);
 
   componentDidMount() {
-    this.callApi();
+    this.fetchData();
   }
 
   // Get Data
-  callApi = () => {
+  fetchData = () => {
     fetch("/items")
       .then(res => res.json())
-      .then(resData => this.setState({data: resData}));
+      .then(resData => this.setState({data: resData}))
+      .catch(() => {
+        console.log("No Items");
+      })
   }
 
   // Add Item
