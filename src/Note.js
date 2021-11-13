@@ -1,14 +1,19 @@
-import React from 'react';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function Note(props) {
-    return (
+  return (
     <div className="Item-block">
-        <h3>{props.item}</h3><p>{props.des}</p>
-        <button className="delete-button" onClick={() => {
-            props.deleteItem(props.id);
-        }}><DeleteIcon className="" /></button>
-    </div> 
-    )
-    
+      <h3>{props.item}</h3>
+      <p>{props.des}</p>
+      <button
+        className="delete-button"
+        onClick={() => {
+          props.deleteItem(props.id);
+        }}
+      >
+        <DeleteIcon className="" />
+      </button>
+    </div>
+  );
 }
