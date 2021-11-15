@@ -16,11 +16,11 @@ class App extends React.Component {
   updateDes = this.updateDes.bind(this);
 
   componentDidMount() {
-    this.fetchData();
+    this.getData();
   }
 
   // Get Data
-  fetchData = () => {
+  getData = () => {
     fetch("/items")
       .then((res) => res.json())
       .then((resData) => this.setState({ data: resData }))
@@ -61,7 +61,7 @@ class App extends React.Component {
       body: JSON.stringify({ _id: id }),
     };
     fetch("/items/" + itemName, requestOptions);
-    setTimeout(() => this.fetchData(),100);
+    setTimeout(() => this.getData(),100);
     // this.setState({ data: this.state.data.filter((x) => x._id !== id) });
   }
 
@@ -77,7 +77,7 @@ class App extends React.Component {
       body: JSON.stringify({ des: des }),
     };
     fetch("/items/" + item, requestOptions);
-    setTimeout(() => this.fetchData(),100);
+    setTimeout(() => this.getData(),100);
     // const newData = this.state.data.map((x) => {
     //   if (x.item === item) {
     //     return {_id:x._id, item:x.item, des: des}
