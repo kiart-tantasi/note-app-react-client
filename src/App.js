@@ -61,7 +61,8 @@ class App extends React.Component {
       body: JSON.stringify({ _id: id }),
     };
     fetch("/items/" + itemName, requestOptions);
-    this.setState({ data: this.state.data.filter((x) => x._id !== id) });
+    setTimeout(() => this.fetchData(),100);
+    // this.setState({ data: this.state.data.filter((x) => x._id !== id) });
   }
 
   //Update Description
@@ -76,14 +77,15 @@ class App extends React.Component {
       body: JSON.stringify({ des: des }),
     };
     fetch("/items/" + item, requestOptions);
-    const newData = this.state.data.map((x) => {
-      if (x.item === item) {
-        return {_id:x._id, item:x.item, des: des}
-      } else {
-        return x;
-      }
-    });
-    this.setState({ data: newData });
+    setTimeout(() => this.fetchData(),100);
+    // const newData = this.state.data.map((x) => {
+    //   if (x.item === item) {
+    //     return {_id:x._id, item:x.item, des: des}
+    //   } else {
+    //     return x;
+    //   }
+    // });
+    // this.setState({ data: newData });
   }
 
   // ------------------ RENDER ------------------ //
