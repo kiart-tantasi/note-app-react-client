@@ -3,8 +3,8 @@ import Note from "./Note";
 
 export default function ShowNote(props) {
   return (
-    <div className="Show-item">
-      {props.state.data.map((x) => {
+    <div className="Show-item">      
+      {props.data.map((x) => {
         return (
           <Note
             key={x._id}

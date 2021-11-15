@@ -1,38 +1,32 @@
 import "./App.css";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ShowNote from "./Showing Note/ShowNote";
 import UpdateNote from "./Updating Note/UpdateNote";
 import AddNote from "./Adding Note/AddNote";
 import Header from "./Header/Header";
 import { Routes, Route } from "react-router-dom";
 
-class App extends React.Component {
+export default function App() {
   //state
-  state = { data: [] };
-
-  //passing function to another component
-  submitInput = this.submitInput.bind(this);
-  deleteItem = this.deleteItem.bind(this);
-  updateDes = this.updateDes.bind(this);
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  // Get Data
-  getData = () => {
+  const [data, setData] = useState([]);
+  //fetch data
+  function fetchData() {
     fetch("/items")
       .then((res) => res.json())
-      .then((resData) => this.setState({ data: resData }))
-      .catch(() => {
-        console.log("ERROR: No Items from Database.");
-      });
-  };
+      .then((data) => {
+        setData(data);
+      })
+      .catch(() => console.log("No data from database."));
+  }
+  //useEffect
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  // Add Item
-  submitInput(item, des) {
-    if (this.state.data.filter((x) => x.item === item).length !== 0) {
-      alert("The name is already used.");
+  //Adding
+  function submitInput(item, des) {
+    if (data.find((x) => x.item === item && x.des === des)) {
+      alert("You cannot write the same exact note.");
       return;
     }
     if (item === "" || des === "") {
@@ -46,27 +40,27 @@ class App extends React.Component {
       };
       fetch("/items", requestOptions)
         .then((res) => res.json())
-        .then((resData) => {
-          this.setState({ data: resData });
+        .then((data) => setData(data))
+        .catch(() => {
+          console.log("Adding Error.");
         });
     }
   }
 
-  //Delete Item
-  deleteItem(id) {
-    const itemName = this.state.data.find((x) => x._id === id).item;
+  //Deleting
+  function deleteItem(id) {
+    const itemName = data.find((x) => x._id === id).item;
     const requestOptions = {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ _id: id }),
     };
     fetch("/items/" + itemName, requestOptions);
-    setTimeout(() => this.getData(),100);
-    // this.setState({ data: this.state.data.filter((x) => x._id !== id) });
+    setTimeout(() => fetchData(), 100);
   }
 
-  //Update Description
-  updateDes(item, des) {
+  //Updating
+  function updateDes(item, des) {
     if (des.length === 0) {
       alert("Please enter new descripton.");
       return;
@@ -77,39 +71,21 @@ class App extends React.Component {
       body: JSON.stringify({ des: des }),
     };
     fetch("/items/" + item, requestOptions);
-    setTimeout(() => this.getData(),100);
-    // const newData = this.state.data.map((x) => {
-    //   if (x.item === item) {
-    //     return {_id:x._id, item:x.item, des: des}
-    //   } else {
-    //     return x;
-    //   }
-    // });
-    // this.setState({ data: newData });
+    setTimeout(() => fetchData(), 100);
   }
 
-  // ------------------ RENDER ------------------ //
-
-  render() {
-    return (
-      <div className="Background">
-        <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={<AddNote submitInput={this.submitInput} />}
-          />
-          <Route
-            path="/update"
-            element={
-              <UpdateNote state={this.state.data} updateDes={this.updateDes} />
-            }
-          />
-        </Routes>
-        <ShowNote state={this.state} deleteItem={this.deleteItem} />
-      </div>
-    );
-  }
+  //render
+  return (
+    <div>
+      <Header />
+      <Routes>
+        <Route path="/" element={<AddNote submitInput={submitInput} />} />
+        <Route
+          path="/update"
+          element={<UpdateNote data={data} updateDes={updateDes} />}
+        />
+      </Routes>
+      <ShowNote data={data} deleteItem={deleteItem} />
+    </div>
+  );
 }
-
-export default App;
