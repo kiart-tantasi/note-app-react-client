@@ -1,9 +1,9 @@
 import "./App.css";
 import React from "react";
-import ShowNote from "./ShowNote";
-import UpdateNote from "./UpdateNote";
-import AddNote from "./AddNote";
-import Header from "./Header";
+import ShowNote from "./Showing Note/ShowNote";
+import UpdateNote from "./Updating Note/UpdateNote";
+import AddNote from "./Adding Note/AddNote";
+import Header from "./Header/Header";
 import { Routes, Route } from "react-router-dom";
 
 class App extends React.Component {
