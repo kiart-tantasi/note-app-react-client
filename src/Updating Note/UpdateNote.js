@@ -13,6 +13,15 @@ export default function UpdateNote(props) {
       return { ...prev, [name]: value };
     });
   }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.updateDes(update.item, update.des);
+    setUpdate((prev) => {
+      return {...prev, des: "" };
+    });
+  }
+
   return (
     <div className="Update-item">
       <form>
@@ -34,15 +43,7 @@ export default function UpdateNote(props) {
           placeholder="New Description"
           autoComplete="off"
         ></input>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            props.updateDes(update.item, update.des);
-            setUpdate(prev => {
-              return {...prev,item: "", des: ""};
-            });
-          }}
-        >
+        <button onClick={handleSubmit}>
           <UpdateIcon />
         </button>
       </form>

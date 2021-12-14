@@ -16,8 +16,9 @@ export default function App() {
       .then((data) => {
         setData(data);
       })
-      .catch(() => console.log("No data from database."));
+      .catch((error) => console.log(error.message));
   }
+
   //useEffect
   useEffect(() => {
     fetchData();
@@ -41,8 +42,8 @@ export default function App() {
       fetch("/items", requestOptions)
         .then((res) => res.json())
         .then((data) => setData(data))
-        .catch(() => {
-          console.log("Adding Error.");
+        .catch((error) => {
+          console.log(error.message);
         });
     }
   }
@@ -55,8 +56,12 @@ export default function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ _id: id }),
     };
-    fetch("/items/" + itemName, requestOptions);
-    setTimeout(() => fetchData(), 100);
+    fetch("/items/" + itemName, requestOptions)
+    .then((res) => {
+      if (res.ok) {
+        fetchData();
+      }
+    });
   }
 
   //Updating
@@ -70,8 +75,12 @@ export default function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ des: des }),
     };
-    fetch("/items/" + item, requestOptions);
-    setTimeout(() => fetchData(), 100);
+    fetch("/items/" + item, requestOptions)
+    .then((res) => {
+      if (res.ok) {
+        fetchData();
+      }
+    });
   }
 
   //render
