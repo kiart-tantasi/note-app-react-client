@@ -26,18 +26,20 @@ export default function App() {
 
   //Adding
   function submitInput(item, des) {
-    if (data.find((x) => x.item === item && x.des === des)) {
-      alert("You cannot write the same exact note.");
+    const itemName = item.trim();
+    if (data.find((x) => x.item === itemName)) {
+      alert("This title is already used.");
       return;
     }
     if (item === "" || des === "") {
       alert("Title and Detail are required.");
       return;
     } else {
+      
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ item: item, des: des }),
+        body: JSON.stringify({ item: itemName, des: des }),
       };
       fetch("/items", requestOptions)
         .then((res) => res.json())
@@ -49,19 +51,18 @@ export default function App() {
   }
 
   //Deleting
-  function deleteItem(id) {
-    const itemName = data.find((x) => x._id === id).item;
+  function deleteItem(name) {
     const requestOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ _id: id }),
     };
-    fetch("/items/" + itemName, requestOptions)
-    .then((res) => {
-      if (res.ok) {
-        fetchData();
-      }
-    });
+    fetch("/items/" + name, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      })
+      .catch(() => {
+        setData([]);
+      });
   }
 
   //Updating
@@ -76,11 +77,11 @@ export default function App() {
       body: JSON.stringify({ des: des }),
     };
     fetch("/items/" + item, requestOptions)
-    .then((res) => {
-      if (res.ok) {
-        fetchData();
-      }
-    });
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => console.log("UPDATING ERROR:", error.message));
   }
 
   //render

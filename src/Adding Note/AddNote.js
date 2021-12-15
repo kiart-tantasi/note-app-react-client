@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import AddIcon from "@mui/icons-material/Add";
 
 export default function AddNote(props) {
   const [input, setInput] = useState({ item: "", des: "" });
   const [expanded, setExpanded] = useState(false);
+  const titleRef = useRef();
 
   function handleInputChange(e) {
     const { name, value } = e.target;
@@ -16,6 +17,13 @@ export default function AddNote(props) {
     if (expanded === false) {
       setExpanded(true);
     }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.submitInput(input.item, input.des);
+    setInput({ item: "", des: "" });
+    titleRef.current.focus();
   }
 
   return (
@@ -32,6 +40,7 @@ export default function AddNote(props) {
             id="First-input"
             placeholder={expanded ? "Title" : "Note..."}
             autoComplete="off"
+            ref={titleRef}
           ></input>
 
           {expanded && (
@@ -47,11 +56,7 @@ export default function AddNote(props) {
         </div>
         <button
           type="submit"
-          onClick={(e) => {
-            e.preventDefault();
-            props.submitInput(input.item, input.des);
-            setInput({ item: "", des: "" });
-          }}
+          onClick={handleSubmit}
         >
           <AddIcon />
         </button>
