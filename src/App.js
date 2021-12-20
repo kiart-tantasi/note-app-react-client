@@ -1,4 +1,5 @@
 import "./App.css";
+import "./Media-Query.css";
 import React, { useState, useEffect } from "react";
 import ShowNote from "./Showing Note/ShowNote";
 import UpdateNote from "./Updating Note/UpdateNote";
@@ -27,27 +28,41 @@ export default function App() {
   //Adding
   function submitInput(item, des) {
     const itemName = item.trim();
+    const getTimeNow = new Date().getTime();
+
+    // Title is already used
     if (data.find((x) => x.item === itemName)) {
       alert("This title is already used.");
       return;
     }
+    // Fill(s) is/are blanks.
     if (item === "" || des === "") {
       alert("Title and Detail are required.");
       return;
-    } else {
-      
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ item: itemName, des: des }),
-      };
-      fetch("/items", requestOptions)
-        .then((res) => res.json())
-        .then((data) => setData(data))
-        .catch((error) => {
-          console.log(error.message);
-        });
     }
+    // Title is longer than 22 characters.
+    if (item.length > 22) {
+      alert("Title is too long.");
+      return;
+    }
+    // Description is longer than 92 characters.
+    if (des.length > 92) {
+      alert("Detail is too long.");
+      return;
+    }
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ item: itemName, des: des, date: getTimeNow }),
+    };
+    fetch("/items", requestOptions)
+      .then((res) => res.json())
+      .then((data) => setData(data))
+      .catch((error) => {
+        console.log(error.message);
+      });
+    return "success";
   }
 
   //Deleting

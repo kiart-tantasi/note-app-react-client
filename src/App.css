@@ -8,13 +8,9 @@ html,
 body {
   font-family: "Zen Kurenaido", sans-serif;
   font-weight: 400;
-  text-rendering: optimizeLegibility;
-  min-height: 100vh;
   background-color: #f1f1f1;
-  align-items: center;
-  color: black;
+  color: #000;
   text-align: center;
-  padding-bottom: 75px;
 }
 
 /* Main Nav */
@@ -56,44 +52,72 @@ body {
   font-size: 150%;
 }
 
-/* Show Items */
+/* Show Notes */
 .Show-item {
-  width: 80%;
+  width: max-content;
+  max-width: 1200px;
   margin: 0 auto;
   padding-bottom: 20px;
+  text-align: left;
 }
 
 .Item-block {
+  display: flex;
   background-color: rgb(247, 247, 247);
   display: inline-block;
   margin: 10px;
-  padding: 20px;
+  padding: 15px 12.5px;
   border-radius: 10px;
-  width: 23%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.308);
+  width: 280px;
+  height: 220px;
 }
 
 .Item-block h3 {
   font-size: 25px;
   margin-top: 10px;
-  margin-bottom: 20px;
+  text-align: center;
 }
 
-.Item-block p {
-  /* word-wrap: break-word; */
-  text-align: left;
+.description-text {
+  word-wrap: break-word;
   word-break: break-all;
-  font-size: 15px;
+  margin: 10px 0;
+  font-size: 16px;
   letter-spacing: 1px;
   line-height: 150%;
-  width: auto;
-  margin: 10px 0;
+}
+
+.date-text {
+  font-size: 10px;
 }
 
 .Item-block button {
-  margin-top: 10px;
   background-color: rgb(247, 247, 247);
   border: rgb(247, 247, 247);
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
+/* FLEX SYSTEM IN SHOW NOTE SECTION */
+
+.item-block-flex {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.item-block-flex-footer, .item-block-flex-heading {
+  flex-grow: 0;
+
+}
+
+.item-block-flex-body {
+  flex-grow: 1;
+}
+
+.item-block-flex-footer {
+  text-align: right;
 }
 
 /* Add Item and Update Item */

@@ -11,6 +11,7 @@ export default function ShowNote(props) {
             id={x._id}
             item={x.item}
             des={x.des}
+            date={x.date}
             deleteItem={props.deleteItem}
           />
         );

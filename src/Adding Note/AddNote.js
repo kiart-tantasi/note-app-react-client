@@ -21,9 +21,12 @@ export default function AddNote(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    props.submitInput(input.item, input.des);
-    setInput({ item: "", des: "" });
-    titleRef.current.focus();
+    const success = props.submitInput(input.item, input.des);
+    if(success) {
+      setInput({ item: "", des: "" });
+      titleRef.current.focus();
+      return;
+    }
   }
 
   return (

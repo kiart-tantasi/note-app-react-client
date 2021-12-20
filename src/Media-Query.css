@@ -1,0 +1,20 @@
+@media (max-width: 1300px) {
+
+    .Show-item {
+        width: 90%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .Add-item {
+        width: 80%;
+    }
+    
+    .Two-input {
+        width: 100%;
+        text-align: center;
+    }
+
+}
