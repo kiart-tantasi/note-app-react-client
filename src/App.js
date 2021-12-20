@@ -99,6 +99,8 @@ export default function App() {
       .catch((error) => console.log("UPDATING ERROR:", error.message));
   }
 
+  const updateSection = (data.length > 0) ? <UpdateNote data={data} updateDes={updateDes} /> : <div><p>Let's Write a Note!</p></div>;
+
   //render
   return (
     <div>
@@ -107,7 +109,7 @@ export default function App() {
         <Route path="/" element={<AddNote submitInput={submitInput} />} />
         <Route
           path="/update"
-          element={<UpdateNote data={data} updateDes={updateDes} />}
+          element={updateSection}
         />
       </Routes>
       <ShowNote data={data} deleteItem={deleteItem} />

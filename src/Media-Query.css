@@ -1,20 +1,42 @@
 @media (max-width: 1300px) {
-
     .Show-item {
-        width: 90%;
-        text-align: center;
+        max-width: 900px;
     }
 }
 
-@media (max-width: 650px) {
-
-    .Add-item {
-        width: 80%;
-    }
-    
-    .Two-input {
-        width: 100%;
-        text-align: center;
+@media (max-width: 950px) {
+    .Show-item {
+        max-width: 600px;
     }
 
+    .Update-item select {
+        width: 400px;
+        height: 30px;
+      }
+
+    .Add-item button,
+    .Update-item button {
+        width: 400px;
+    }
+}
+
+@media (max-width: 670px) {
+    .Show-item {
+        max-width: 300px;
+    }
+
+    .Two-input input,
+    .Update-item input {
+        width: 300px;
+    }
+
+    .Update-item select {
+        width: 300px;
+        height: 30px;
+      }
+
+      .Add-item button,
+      .Update-item button {
+        width: 300px;
+    }
 }

@@ -15,7 +15,7 @@ export default function Note(props) {
         <div className="item-block-flex-body">
           <p className="description-text">{props.des}</p>
         </div>
-        <div className="item-block-flex-footer">
+        <div className="item-block-footer item-block-flex-footer">
           <p className="date-text">{localDate}</p>
           <button className="delete-button" onClick={handleButton}>
             <DeleteIcon />
