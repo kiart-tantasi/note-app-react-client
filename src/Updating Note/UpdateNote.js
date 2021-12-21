@@ -33,8 +33,6 @@ export default function UpdateNote(props) {
   return (
     <div className="Update-item">
       <form>
-        <h3>Update</h3>
-
         <select value={update.id} onChange={handleSelectChange}>
           <option hidden defaultValue>
             เลือกโพสต์

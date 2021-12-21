@@ -32,7 +32,6 @@ export default function AddNote(props) {
   return (
     <div className="Add-item">
       <form>
-        <h3>Let's Post It !</h3>
         <div className="Two-input">
           <input
             className="install-font"

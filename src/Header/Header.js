@@ -8,13 +8,13 @@ export default function Header() {
         className={({ isActive }) => (isActive ? "route-active" : "route")}
         to="/"
       >
-        Post It
+        โพสต์อิท
       </NavLink>
       <NavLink
         className={({ isActive }) => (isActive ? "route-active" : "route")}
         to="/update"
       >
-        Update It
+        อัปเดต
       </NavLink>
     </div>
   );
