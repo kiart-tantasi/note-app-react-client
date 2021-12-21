@@ -1,34 +1,34 @@
 import "./App.css";
 import "./Media-Query.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import ShowNote from "./Showing Note/ShowNote";
 import UpdateNote from "./Updating Note/UpdateNote";
 import AddNote from "./Adding Note/AddNote";
 import Header from "./Header/Header";
 import { Routes, Route } from "react-router-dom";
+import LocalStorageContext from "./share/LocalStorageContext";
 
 export default function App() {
   //state
+  const LocalStorageCTX = useContext(LocalStorageContext);
   const [data, setData] = useState([]);
-  //fetch data
-  function fetchData() {
-    fetch("http://localhost:5000/items")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => console.log(error.message));
-  }
 
-  //useEffect
-  useEffect(() => {
-    fetchData();
-  }, []);
+  useState(() => {
+    console.log(LocalStorageCTX.posts);
+  },[])
+
+  //fetch data
+  // function fetchData() {
+  //   fetch("http://localhost:5000/items")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setData(data);
+  //     })
+  //     .catch((error) => console.log(error.message));
+  // }
 
   //Adding
   function submitInput(item, des) {
-    const itemName = item.trim();
-    const getTimeNow = new Date().getTime();
 
     // Fill(s) is/are blanks.
     if (item === "" || des === "") {
@@ -46,34 +46,37 @@ export default function App() {
       return;
     }
 
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ item: itemName, des: des, date: getTimeNow }),
-    };
-    fetch("http://localhost:5000/items", requestOptions)
-      .then((res) => res.json())
-      .then((data) => setData(data))
-      .catch((error) => {
-        console.log(error.message);
-      });
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ item: itemName, des: des, date: getTimeNow }),
+    // };
+    // fetch("http://localhost:5000/items", requestOptions)
+    //   .then((res) => res.json())
+    //   .then((data) => setData(data))
+    //   .catch((error) => {
+    //     console.log(error.message);
+    //   });
+    const itemName = item.trim();
+    LocalStorageCTX.addPost(itemName, des);
     return "success";
   }
 
   //Deleting
   function deleteItem(id) {
-    const requestOptions = {
-      method: "DELETE",
-    };
-    fetch("http://localhost:5000/items/" + id, requestOptions)
-      .then((res) => {
-        if (res.ok) {
-          setData((prev) => {
-            return prev.filter((x) => x._id !== id);
-          });
-        }
-      })
-      .catch((error) => console.log("DELETING ERROR:", error.message));
+    // const requestOptions = {
+    //   method: "DELETE",
+    // };
+    // fetch("http://localhost:5000/items/" + id, requestOptions)
+    //   .then((res) => {
+    //     if (res.ok) {
+    //       setData((prev) => {
+    //         return prev.filter((x) => x._id !== id);
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => console.log("DELETING ERROR:", error.message));
+    alert("Deleted.")
   }
 
   //Updating
@@ -82,20 +85,21 @@ export default function App() {
       alert("โปรดระบุรายละเอียดการอัปเดต");
       return;
     }
-    const requestOptions = {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ des: des }),
-    };
-    fetch("http://localhost:5000/items/" + id, requestOptions)
-      .then((res) => {
-        if (res.ok) {
-          setData((prev) => {
-            return prev.map((x) => (x._id === id ? { ...x, des: des } : x));
-          });
-        }
-      })
-      .catch((error) => console.log("UPDATING ERROR:", error.message));
+    // const requestOptions = {
+    //   method: "PATCH",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ des: des }),
+    // };
+    // fetch("http://localhost:5000/items/" + id, requestOptions)
+    //   .then((res) => {
+    //     if (res.ok) {
+    //       setData((prev) => {
+    //         return prev.map((x) => (x._id === id ? { ...x, des: des } : x));
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => console.log("UPDATING ERROR:", error.message));
+    alert("Updated.")
     return "success";
   }
 
