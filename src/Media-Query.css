@@ -5,6 +5,20 @@
 }
 
 @media (max-width: 950px) {
+
+    /* NAV */
+    .route:first-child,
+    .route-active:first-child {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    .route:last-child,
+    .route-active:last-child {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
     .Show-item {
         max-width: 600px;
     }
@@ -21,22 +35,34 @@
 }
 
 @media (max-width: 670px) {
+
+    .Add-item, .Update-item {
+        width: 350px;
+    }
+
     .Show-item {
-        max-width: 300px;
+        width: 350px;   
+    }
+
+    .Item-block {
+        width: 100%;
+        margin: 10px auto;
     }
 
     .Two-input input,
     .Update-item input {
-        width: 300px;
+        width: 100%;
     }
 
     .Update-item select {
-        width: 300px;
+        width: 100%;
         height: 30px;
       }
 
       .Add-item button,
       .Update-item button {
-        width: 300px;
+        width: 100%;
     }
+
+
 }

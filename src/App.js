@@ -12,7 +12,7 @@ export default function App() {
   const [data, setData] = useState([]);
   //fetch data
   function fetchData() {
-    fetch("/items")
+    fetch("http://localhost:5000/items")
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -30,24 +30,19 @@ export default function App() {
     const itemName = item.trim();
     const getTimeNow = new Date().getTime();
 
-    // Title is already used
-    if (data.find((x) => x.item === itemName)) {
-      alert("This title is already used.");
-      return;
-    }
     // Fill(s) is/are blanks.
     if (item === "" || des === "") {
-      alert("Title and Detail are required.");
+      alert("โปรดระบุหัวข้อและรายละเอียด");
       return;
     }
-    // Title is longer than 22 characters.
-    if (item.length > 22) {
-      alert("Title is too long.");
+    // Title is longer than 20 characters.
+    if (item.length > 20) {
+      alert("หัวข้อมีความยาวเกินไป");
       return;
     }
-    // Description is longer than 92 characters.
-    if (des.length > 92) {
-      alert("Detail is too long.");
+    // Description is longer than 90 characters.
+    if (des.length > 90) {
+      alert("รายละเอียดมีความยาวเกินไป");
       return;
     }
 
@@ -56,7 +51,7 @@ export default function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ item: itemName, des: des, date: getTimeNow }),
     };
-    fetch("/items", requestOptions)
+    fetch("http://localhost:5000/items", requestOptions)
       .then((res) => res.json())
       .then((data) => setData(data))
       .catch((error) => {
@@ -66,24 +61,25 @@ export default function App() {
   }
 
   //Deleting
-  function deleteItem(name) {
+  function deleteItem(id) {
     const requestOptions = {
       method: "DELETE",
     };
-    fetch("/items/" + name, requestOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
+    fetch("http://localhost:5000/items/" + id, requestOptions)
+      .then((res) => {
+        if (res.ok) {
+          setData((prev) => {
+            return prev.filter((x) => x._id !== id);
+          });
+        }
       })
-      .catch(() => {
-        setData([]);
-      });
+      .catch((error) => console.log("DELETING ERROR:", error.message));
   }
 
   //Updating
-  function updateDes(item, des) {
+  function updateDes(id, des) {
     if (des.length === 0) {
-      alert("Please enter new descripton.");
+      alert("โปรดระบุรายละเอียดการอัปเดต");
       return;
     }
     const requestOptions = {
@@ -91,26 +87,33 @@ export default function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ des: des }),
     };
-    fetch("/items/" + item, requestOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
+    fetch("http://localhost:5000/items/" + id, requestOptions)
+      .then((res) => {
+        if (res.ok) {
+          setData((prev) => {
+            return prev.map((x) => (x._id === id ? { ...x, des: des } : x));
+          });
+        }
       })
       .catch((error) => console.log("UPDATING ERROR:", error.message));
+    return "success";
   }
 
-  const updateSection = (data.length > 0) ? <UpdateNote data={data} updateDes={updateDes} /> : <div><p>Let's Write a Note!</p></div>;
+  const updateSection =
+    data.length > 0 ? (
+      <UpdateNote data={data} updateDes={updateDes} />
+    ) : (
+      <div>
+        <p>โพสต์อิทกันเลย!</p>
+      </div>
+    );
 
-  //render
   return (
     <div>
       <Header />
       <Routes>
         <Route path="/" element={<AddNote submitInput={submitInput} />} />
-        <Route
-          path="/update"
-          element={updateSection}
-        />
+        <Route path="/update" element={updateSection} />
       </Routes>
       <ShowNote data={data} deleteItem={deleteItem} />
     </div>

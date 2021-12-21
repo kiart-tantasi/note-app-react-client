@@ -1,48 +1,63 @@
 import React, { useRef, useState } from "react";
-import Option from "./Option";
 import UpdateIcon from "@mui/icons-material/UpdateRounded";
 
 export default function UpdateNote(props) {
-  const [update, setUpdate] = useState({ item: "", des: "" });
+  const [update, setUpdate] = useState({ id: "", des: "" });
   const inputRef = useRef();
 
-  function handleChange(e) {
-    const { name, value } = e.target;
+  function handleSelectChange(e) {
+    const value = e.target.value;
     inputRef.current.focus();
     setUpdate((prev) => {
-      return { ...prev, [name]: value };
+      return { ...prev, id: value };
+    });
+  }
+
+  function handleDesChange(e) {
+    const value = e.target.value;
+    setUpdate((prev) => {
+      return { ...prev, des: value };
     });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    props.updateDes(update.item, update.des);
-    setUpdate((prev) => {
-      return {...prev, des: "" };
-    });
+    const success = props.updateDes(update.id, update.des);
+    if (success) {
+      setUpdate((prev) => {
+        return { ...prev, des: "" };
+      });
+    }
   }
 
   return (
     <div className="Update-item">
       <form>
         <h3>Update</h3>
-        <select value={update.item} name="item" onChange={handleChange}>
+
+        <select value={update.id} onChange={handleSelectChange}>
           <option hidden defaultValue>
-            select item
+            เลือกโพสต์
           </option>
+
           {props.data.map((x) => (
-            <Option key={x._id} value={x.item} />
+            <option key={x._id} value={x._id}>
+              {x.item}
+            </option>
           ))}
         </select>
+
         <input
+          className="install-font"
           ref={inputRef}
-          onChange={handleChange}
+          onChange={handleDesChange}
           value={update.des}
           type="text"
           name="des"
-          placeholder="New Description"
+          placeholder="อัปเดตโพสต์"
           autoComplete="off"
         ></input>
+
         <button onClick={handleSubmit}>
           <UpdateIcon />
         </button>
@@ -50,24 +65,3 @@ export default function UpdateNote(props) {
     </div>
   );
 }
-
-//---Class Component Version---// (Not Updated for A Long Time.)
-
-// class UpdateItem extends React.Component {
-//     render() {
-//         return (
-//             <div className="Update-item">
-//                 <form>
-//                     <h3>Update Description</h3>
-//                     <select onChange={this.props.updateItem}>
-//                         <option hidden defaultValue>select</option>
-//                         {this.props.state.map(x => <option key={x._id} value={x.item}>{x.item}</option>)}
-//                     </select>
-//                     <input onChange={this.props.handleUpdateDes} type="text" name="des" placeholder="New Description here."></input>
-//                     <button onClick={this.props.updateDes}>Update Description</button>
-//                 </form>
-//             </div>
-//         )
-//     }
-// }
-// export default UpdateItem;

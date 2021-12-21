@@ -6,22 +6,28 @@
 
 html,
 body {
-  font-family: "Zen Kurenaido", sans-serif;
+  font-family: "Zen Kurenaido", "Mali", "sans-serif";
   font-weight: 400;
-  background-color: #f1f1f1;
+  background-color: rgb(253, 253, 253);
   color: #000;
   text-align: center;
+}
+
+/* install font into inputs */
+.install-font {
+  font-family: "Zen Kurenaido", "Mali", "sans-serif";
+  font-size: 1.2rem;
 }
 
 /* Main Nav */
 .main-nav {
   margin: 0;
   width: 100vw;
-  background-color: white;
+  background-color: #fff;
   color: black;
   padding: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.24);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.514);
+  box-shadow: 0 0 0.5px rgba(0, 0, 0, 0.514);
   margin-bottom: 30px;
 }
 
@@ -61,27 +67,32 @@ body {
 }
 
 .Item-block {
-  background-color: rgb(247, 247, 247);
+  background-color: #fff;
   display: inline-block;
   margin: 10px 10px 6px;
-  padding: 15px 12.5px;
+  padding: 15px 12.5px 5px;
   border-radius: 7.5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.308);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.308);
   width: 280px;
   height: 220px;
-  overflow: hidden;
 }
 
 .Item-block h3 {
-  font-size: 25px;
+  font-size: 20px;
   text-align: center;
+  max-height: 40px;
+  padding-top: 4px;
+  overflow: hidden;
 }
 
 .description-text {
   word-wrap: break-word;
-  margin: 10px 0;
+  margin: 0;
+  padding-top: 4px;
   letter-spacing: 1px;
   line-height: 150%;
+  max-height: 95px;
+  overflow: hidden;
 }
 
 .item-block-footer {
@@ -93,7 +104,7 @@ body {
 }
 
 .Item-block button {
-  background-color: rgb(247, 247, 247);
+  background-color: #fff;
   border: rgb(247, 247, 247);
   margin-top: 2.5px;
   margin-right: 5px;
@@ -120,7 +131,7 @@ body {
 .Add-item,
 .Update-item {
   display: inline-block;
-  margin: auto 0;
+  margin: 0 auto;
 }
 
 .Add-item h3,
@@ -136,29 +147,28 @@ body {
   margin: 10px auto;
   width: 400px;
   display: block;
-  border: 1px solid rgb(247, 247, 247);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.308);
+  border: 1px solid rgba(0, 0, 0, 0.11);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
 }
 
 .Add-item button,
 .Update-item button {
   border-radius: 7px;
-  background-color: rgb(247, 247, 247);
+  background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.308);
   width: 27px;
   height: 28px;
 }
 
 .Two-input input:first-child {
-  /* Name of Item*/
-  height: 20px;
+  height: 30px;
 }
 
 .Update-item select {
-  font-family: "Zen Kurenaido", sans-serif;
+  font-family: "Zen Kurenaido", "Mali", "sans-serif";
   font-weight: bold;
-  font-size: 0.8rem;
-  height: 22px;
+  font-size: 1rem;
+  height: 28px;
   width: 155px;
   border-radius: 3px;
 }

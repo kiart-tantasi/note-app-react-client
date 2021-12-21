@@ -32,27 +32,29 @@ export default function AddNote(props) {
   return (
     <div className="Add-item">
       <form>
-        <h3>Let's Note !</h3>
+        <h3>Let's Post It !</h3>
         <div className="Two-input">
           <input
+            className="install-font"
             onChange={handleInputChange}
             onClick={handleInputOn}
             value={input.item}
             type="text"
             name="item"
             id="First-input"
-            placeholder={expanded ? "Title" : "Note..."}
+            placeholder={expanded ? "หัวข้อ" : "โพสต์อิท !"}
             autoComplete="off"
             ref={titleRef}
           ></input>
 
           {expanded && (
             <input
+              className="install-font"
               onChange={handleInputChange}
               value={input.des}
               type="text"
               name="des"
-              placeholder="Detail"
+              placeholder="รายละเอียด"
               autoComplete="off"
             ></input>
           )}

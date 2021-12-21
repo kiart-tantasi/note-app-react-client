@@ -2,10 +2,11 @@ import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function Note(props) {
-  const localDate = new Date(props.date).toLocaleString("en");
-  function handleButton() {
-    props.deleteItem(props.item);
+  function handleDelete() {
+    props.deleteItem(props.id);
   }
+  const date = new Date(props.date).getDate() + "/" + (new Date(props.date).getMonth()+1) + "/" + new Date(props.date).getUTCFullYear() || "no date described.";
+
   return (
     <div className="Item-block">
       <div className="item-block-flex">
@@ -16,8 +17,8 @@ export default function Note(props) {
           <p className="description-text">{props.des}</p>
         </div>
         <div className="item-block-footer item-block-flex-footer">
-          <p className="date-text">{localDate}</p>
-          <button className="delete-button" onClick={handleButton}>
+          <p className="date-text">{date}</p>
+          <button className="delete-button" onClick={handleDelete}>
             <DeleteIcon />
           </button>
         </div>
