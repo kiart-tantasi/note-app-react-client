@@ -5,6 +5,7 @@ import ShowNote from "./Showing Note/ShowNote";
 import UpdateNote from "./Updating Note/UpdateNote";
 import AddNote from "./Adding Note/AddNote";
 import Header from "./Header/Header";
+import Footer from "./Footer/Footer";
 import { Routes, Route } from "react-router-dom";
 import LocalStorageContext from "./share/LocalStorageContext";
 
@@ -78,6 +79,7 @@ export default function App() {
         <Route path="/update" element={updateSection} />
       </Routes>
       <ShowNote data={data} deleteItem={deleteItem} />
+      <Footer />
     </div>
   );
 }

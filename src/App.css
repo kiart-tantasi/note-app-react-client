@@ -60,6 +60,7 @@ body {
 /* Show Notes */
 .Show-item {
   max-width: 1200px;
+  min-height: 600px;
   padding-bottom: 20px;
   text-align: left;
   margin: 0 auto;
@@ -170,4 +171,14 @@ body {
   height: 28px;
   width: 155px;
   border-radius: 3px;
+}
+
+/* Footer */
+
+.footer {
+  /* display: block; */
+  background-color: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 0.6rem;
+  padding: 10px;
 }
