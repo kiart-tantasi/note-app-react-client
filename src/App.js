@@ -26,12 +26,12 @@ export default function App() {
     }
     // Title is longer than 20 characters.
     if (item.length > 20) {
-      alert("หัวข้อมีความยาวเกินไป");
+      alert("หัวข้อยาวเกินไป");
       return;
     }
     // Description is longer than 90 characters.
     if (des.length > 90) {
-      alert("รายละเอียดมีความยาวเกินไป");
+      alert("รายละเอียดยาวเกินไป");
       return;
     }
 

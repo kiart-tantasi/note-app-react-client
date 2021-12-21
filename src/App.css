@@ -23,8 +23,7 @@ body {
 .main-nav {
   margin: 0;
   width: 100vw;
-  background-color: #fff;
-  color: black;
+  background-color: rgba(0, 0, 0, 0.8);
   padding: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.24);
   box-shadow: 0 0 0.5px rgba(0, 0, 0, 0.514);
@@ -35,22 +34,19 @@ body {
 .route-active {
   display: inline-block;
   text-decoration: none;
-  color: #000;
+  color: #fff;
 }
 
 .route:first-child,
 .route-active:first-child {
   padding-left: 20px;
-  border-left: 1px solid black;
   padding-right: 20px;
-  border-right: 1px solid black;
 }
 
 .route:last-child,
 .route-active:last-child {
   padding-left: 20px;
   padding-right: 20px;
-  border-right: 1px solid black;
 }
 
 .route {
@@ -58,7 +54,7 @@ body {
 }
 
 .route-active {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
 /* Show Notes */
@@ -113,6 +109,10 @@ body {
   margin-right: 5px;
 }
 
+.delete-button {
+  color: rgba(0,0,0,0.7);
+}
+
 /* FLEX SYSTEM IN SHOW NOTE SECTION */
 
 .item-block-flex {
@@ -151,11 +151,12 @@ body {
 
 .Add-item button,
 .Update-item button {
-  border-radius: 7px;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.308);
-  width: 27px;
-  height: 28px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  width: 100px;
+  height: 40px;
 }
 
 .Two-input input:first-child {

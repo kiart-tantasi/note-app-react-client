@@ -7,10 +7,10 @@ const LocalStorageContext = React.createContext({
 
 function LocalStorageContextProvider(props) {
   let initialPosts = [
-    {_id: 1,item: "โพสต์แรกของฉัน", des:"ดูแลสุขภาพด้วยงับ", date: new Date().getTime()},
-    {_id: 2,item: "พรุ่งนี้", des:"ไปเที่ยวว!", date: new Date().getTime()},
-    {_id: 3,item: "ประชุมเช้า", des:"เข้าzoomก่อน10โมง..", date: new Date().getTime()},
-    {_id: 4,item: "หยุดปีใหม่", des:"วันศุกร์นี้แล้ววววว", date: new Date().getTime()},
+    {_id: "4",item: "หยุดปีใหม่", des:"วันศุกร์หน้าแล้ว!", date: new Date().getTime()},
+    {_id: "3",item: "พรุ่งนี้", des:"ทำ OT ...", date: new Date().getTime()},
+    {_id: "2",item: "ประชุมเช้า", des:"วันพุธ เข้าzoomก่อน 10 โมง", date: new Date().getTime()},
+    {_id: "1",item: "โพสต์แรกของฉัน", des:"ดูแลสุขภาพด้วยงับ", date: new Date().getTime()},
   ];
 
   if (localStorage.getItem("myPostIt")) {
@@ -35,13 +35,13 @@ function LocalStorageContextProvider(props) {
   }
 
   function deletePost(id) {
-    const newPosts = posts.filter((x) => x._id !== id);
+    const newPosts = posts.filter((x) => x._id.toString() !== id.toString());
     setPosts(newPosts);
     localStorage.setItem("myPostIt", JSON.stringify(newPosts));
   }
 
   function updatePost(id, des) {
-    const newPosts = posts.map((x) => (x._id === id ? { ...x, des: des } : x));
+    const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, des: des } : x));
     setPosts(newPosts);
     localStorage.setItem("myPostIt", JSON.stringify(newPosts));
   }

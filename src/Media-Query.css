@@ -23,14 +23,24 @@
         max-width: 600px;
     }
 
-    .Update-item select {
-        width: 400px;
-        height: 30px;
-      }
+    #First-input {
+        height: 50px;
+    }
+
+    #Second-input, .Update-item input {
+        height: 100px;
+    }
 
     .Add-item button,
     .Update-item button {
         width: 400px;
+        height: 50px;
+    }
+
+    .Update-item select {
+        width: 400px;
+        height: 45px;
+        background-color: #fff;
     }
 }
 

@@ -35,12 +35,12 @@ export default function AddNote(props) {
         <div className="Two-input">
           <input
             className="install-font"
+            id="First-input"
             onChange={handleInputChange}
             onClick={handleInputOn}
             value={input.item}
             type="text"
             name="item"
-            id="First-input"
             placeholder={expanded ? "หัวข้อ" : "โพสต์อิท !"}
             autoComplete="off"
             ref={titleRef}
@@ -49,6 +49,7 @@ export default function AddNote(props) {
           {expanded && (
             <input
               className="install-font"
+              id="Second-input"
               onChange={handleInputChange}
               value={input.des}
               type="text"
