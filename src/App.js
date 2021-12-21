@@ -52,6 +52,11 @@ export default function App() {
       alert("โปรดระบุรายละเอียดการอัปเดต");
       return;
     }
+    // Description is longer than 90 characters.
+    if (des.length > 90) {
+      alert("รายละเอียดยาวเกินไป");
+      return;
+    }
     updatePost(id,des);
     return "success";
   }
