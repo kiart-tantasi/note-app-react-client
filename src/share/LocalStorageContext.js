@@ -7,10 +7,10 @@ const LocalStorageContext = React.createContext({
 
 function LocalStorageContextProvider(props) {
   let initialPosts = [
-    {_id: 1,item: "โพสต์แรกของฉัน", des:"ดูแลสุขภาพด้วยงับ", date: 1640098139826},
-    {_id: 2,item: "พรุ่งนี้", des:"ไปเที่ยวว!", date: 1640098139826},
-    {_id: 3,item: "ประชุมเช้า", des:"เข้าzoomก่อน10โมง..", date: 1640098139826},
-    {_id: 4,item: "หยุดปีใหม่", des:"วันศุกร์นี้แล้ววววว", date: 1640098139826},
+    {_id: 1,item: "โพสต์แรกของฉัน", des:"ดูแลสุขภาพด้วยงับ", date: new Date().getTime()},
+    {_id: 2,item: "พรุ่งนี้", des:"ไปเที่ยวว!", date: new Date().getTime()},
+    {_id: 3,item: "ประชุมเช้า", des:"เข้าzoomก่อน10โมง..", date: new Date().getTime()},
+    {_id: 4,item: "หยุดปีใหม่", des:"วันศุกร์นี้แล้ววววว", date: new Date().getTime()},
   ];
 
   if (localStorage.getItem("myPostIt")) {
