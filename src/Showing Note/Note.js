@@ -5,7 +5,7 @@ export default function Note(props) {
   function handleDelete() {
     props.deleteItem(props.id);
   }
-  const date = new Date(props.date).getDate() + "/" + (new Date(props.date).getMonth()+1) + "/" + new Date(props.date).getUTCFullYear() || "no date described.";
+  const date = new Date(props.date).getDate().toString() + "/" + ( new Date(props.date).getMonth() + 1 ).toString() + "/" + new Date(props.date).getFullYear().toString() || "no date described.";
 
   return (
     <div className="Item-block">
