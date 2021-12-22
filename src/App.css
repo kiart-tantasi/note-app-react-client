@@ -166,6 +166,7 @@ body {
 
 .Update-item select {
   font-family: "Zen Kurenaido", "Prompt", "sans-serif";
+  background-color: #fff;
   font-weight: bold;
   font-size: 1rem;
   height: 28px;
