@@ -1,5 +1,5 @@
-import "./App.css";
-import "./Media-Query.css";
+import "./css/App.css"
+import "./css/Media-Query.css";
 import React, { useContext } from "react";
 import ShowNote from "./Showing Note/ShowNote";
 import UpdateNote from "./Updating Note/UpdateNote";
@@ -72,13 +72,15 @@ export default function App() {
     );
 
   return (
-    <div>
+    <div className="flex-container">
       <Header />
+      <div className="flex-main-body">
       <Routes>
         <Route path="/" element={<AddNote submitInput={submitInput} />} />
         <Route path="/update" element={updateSection} />
       </Routes>
       <ShowNote data={data} deleteItem={deleteItem} />
+      </div>
       <Footer />
     </div>
   );
