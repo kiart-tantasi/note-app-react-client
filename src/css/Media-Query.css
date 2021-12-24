@@ -45,12 +45,8 @@
 
 @media (max-width: 670px) {
 
-    .Add-item, .Update-item {
+    .Add-item, .Update-item, .Show-item {
         width: 350px;
-    }
-
-    .Show-item {
-        width: 350px;   
     }
 
     .Item-block {
@@ -72,6 +68,11 @@
       .Update-item button {
         width: 100%;
     }
+}
 
-
+@media (max-width: 400px) {
+    .Add-item, .Update-item, .Show-item {
+        width: 90%;
+        min-width: 300px;
+    }
 }
