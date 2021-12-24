@@ -6,50 +6,41 @@ const PostContext = React.createContext({
 });
 
 function PostContextProvider(props) {
-
   const [ isLoading, setLoading ] = useState(true);
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
 
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username: "admin" , password: "password" })
-  };
+  function logIn(username,password) {
+    const options = {
+      method:"POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({username:username, password:password}),
+      credentials: "include"
+    }
+    fetch("http://localhost:4000/login", options)
+    .then(res => res.json())
+    .then(data => console.log(data));
+  }
+  
+  function fetchData() {
+    fetch("http://localhost:4000/posts", {credentials:"include"})
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
 
-  fetch("http://localhost:4000/login", requestOptions)
-  .then(res => {
-    console.log("LOGIN REQUEST STATUS:", res.status);
-    return res.json();
-  })
-  .then(data => {
-    console.log(data);
-    setLoading(false);
-  })
+  }
+  
+  // IF LOGGED IN
 
+  // logIn("admin","password");
+  // fetchData();
 
-  // fetch("http://localhost:4000/posts")
-  // .then((res) => {
-  //   if (res.ok) {
-  //     console.log(res.status);
-  //     return res.json();
-  //   } else {
-  //     throw new Error("403");
-  //   }
-  // }).then(data => {
-  //   console.log(data);
-  //   setLoading(false);
-  // })
-  // .catch(() => {
-  //   console.log("offline mode");
-  //   setTimeout(() => setLoading(false), 1500);
-  // })
-
+  // IF NOT LOGGED IN
   let initialPosts = [
     {_id: "4",item: "หยุดปีใหม่", des:"วันศุกร์หน้าแล้ว!", date: new Date().getTime()},
     {_id: "3",item: "จันทร์หน้า", des:"ทำ OT ...", date: new Date().getTime()},
     {_id: "2",item: "ประชุมเช้า", des:"วันพุธ เข้าzoomก่อน 10 โมง", date: new Date().getTime()},
     {_id: "1",item: "โพสต์แรกของฉัน", des:"ดูแลสุขภาพด้วยงับ", date: new Date().getTime()},
   ];
-
   if (localStorage.getItem("myPostIt")) {
     initialPosts = JSON.parse(localStorage.getItem("myPostIt"));
   }
@@ -85,6 +76,7 @@ function PostContextProvider(props) {
 
   const context = {
     isLoading: isLoading,
+    isLoggedIn: isLoggedIn,
     posts: posts,
     addPost: addPost,
     deletePost: deletePost,
