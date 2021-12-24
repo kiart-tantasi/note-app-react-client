@@ -8,31 +8,42 @@ import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import { Routes, Route } from "react-router-dom";
 import PostContext from "./share/PostContext";
+import Auth from "./Auth/Auth";
 
 export default function App() {
 
+  const { isLoading } = useContext(PostContext);
   const { posts } = useContext(PostContext);
 
-  const updateSection =
-    posts.length > 0 ? (
-      <UpdateNote posts={posts} />
-    ) : (
-      <div>
-        <p>โพสต์อิทกันเลย!</p>
+  // const updateSection =
+  //   posts.length > 0 ? (
+  //     <UpdateNote posts={posts} />
+  //   ) : (
+  //     <div>
+  //       <p>โพสต์อิทกันเลย!</p>
+  //     </div>
+  //   );
+
+  if (isLoading) {
+    return <div>
+      <h1 style={{"textAlign":"center"}}>LOADING</h1>
+    </div>
+  } else {
+
+    return (
+      <div className="flex-container">
+        <Header />
+        <div className="flex-main-body">
+        <Routes>
+          <Route path="/" element={<AddNote />} />
+          <Route path="/update" element={posts.length > 0 ? <UpdateNote posts={posts} /> : <div><p>โพสต์อิทกันเลย </p></div>} />
+          <Route path="/authentication" element={<Auth />} />
+        </Routes>
+        <ShowNote posts={posts} />
+        </div>
+        <Footer />
       </div>
     );
 
-  return (
-    <div className="flex-container">
-      <Header />
-      <div className="flex-main-body">
-      <Routes>
-        <Route path="/" element={<AddNote />} />
-        <Route path="/update" element={updateSection} />
-      </Routes>
-      <ShowNote posts={posts} />
-      </div>
-      <Footer />
-    </div>
-  );
+  }
 }

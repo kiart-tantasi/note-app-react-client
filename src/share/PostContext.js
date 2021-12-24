@@ -6,6 +6,43 @@ const PostContext = React.createContext({
 });
 
 function PostContextProvider(props) {
+
+  const [ isLoading, setLoading ] = useState(true);
+
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username: "admin" , password: "password" })
+  };
+
+  fetch("http://localhost:4000/login", requestOptions)
+  .then(res => {
+    console.log("LOGIN REQUEST STATUS:", res.status);
+    return res.json();
+  })
+  .then(data => {
+    console.log(data);
+    setLoading(false);
+  })
+
+
+  // fetch("http://localhost:4000/posts")
+  // .then((res) => {
+  //   if (res.ok) {
+  //     console.log(res.status);
+  //     return res.json();
+  //   } else {
+  //     throw new Error("403");
+  //   }
+  // }).then(data => {
+  //   console.log(data);
+  //   setLoading(false);
+  // })
+  // .catch(() => {
+  //   console.log("offline mode");
+  //   setTimeout(() => setLoading(false), 1500);
+  // })
+
   let initialPosts = [
     {_id: "4",item: "หยุดปีใหม่", des:"วันศุกร์หน้าแล้ว!", date: new Date().getTime()},
     {_id: "3",item: "จันทร์หน้า", des:"ทำ OT ...", date: new Date().getTime()},
@@ -47,6 +84,7 @@ function PostContextProvider(props) {
   }
 
   const context = {
+    isLoading: isLoading,
     posts: posts,
     addPost: addPost,
     deletePost: deletePost,
