@@ -4,7 +4,7 @@ import Note from "./Note";
 export default function ShowNote(props) {
   return (
     <div className="Show-item">      
-      {props.data.map((x) => {
+      {props.posts.map((x) => {
         return (
           <Note
             key={x._id}
@@ -12,7 +12,6 @@ export default function ShowNote(props) {
             item={x.item}
             des={x.des}
             date={x.date}
-            deleteItem={props.deleteItem}
           />
         );
       })}

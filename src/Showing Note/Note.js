@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PostContext from "../share/PostContext";
 
 export default function Note(props) {
+  const { deletePost } = useContext(PostContext);
   function handleDelete() {
-    props.deleteItem(props.id);
+    deletePost(props.id);
   }
   const date = new Date(props.date).getDate().toString() + "/" + ( new Date(props.date).getMonth() + 1 ).toString() + "/" + new Date(props.date).getFullYear().toString() || "no date described.";
 

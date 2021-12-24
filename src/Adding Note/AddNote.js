@@ -1,10 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import PostContext from "../share/PostContext";
 
 export default function AddNote(props) {
   const [input, setInput] = useState({ item: "", des: "" });
   const [expanded, setExpanded] = useState(false);
   const titleRef = useRef();
+  const { addPost } = useContext(PostContext);
 
   function handleInputChange(e) {
     const { name, value } = e.target;
@@ -21,12 +23,30 @@ export default function AddNote(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const success = props.submitInput(input.item, input.des);
-    if(success) {
-      setInput({ item: "", des: "" });
-      titleRef.current.focus();
+    const item = input.item.trim();
+    const des = input.des.trim();
+    // FAILED
+    // Fill(s) is/are blanks.
+    if (item === "") {
+      alert("กรุณาระบุหัวข้อ");
       return;
     }
+    // Title is longer than 20 characters.
+    if (item.length > 20) {
+      alert("หัวข้อยาวเกินไป");
+      return;
+    }
+    // Description is longer than 90 characters.
+    if (des.length > 90) {
+      alert("รายละเอียดยาวเกินไป");
+      return;
+    }
+
+    // SUCCESS
+    addPost(item, des);
+    setInput({ item: "", des: "" });
+    titleRef.current.focus();
+    return;
   }
 
   return (

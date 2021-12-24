@@ -2,15 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-import { LocalStorageContextProvider } from "./share/LocalStorageContext";
+import { PostContextProvider } from "./share/PostContext";
 
 ReactDOM.render(
-  <LocalStorageContextProvider>
+  <PostContextProvider>
     <React.StrictMode>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </React.StrictMode>
-  </LocalStorageContextProvider>,
+  </PostContextProvider>,
   document.getElementById("root")
 );

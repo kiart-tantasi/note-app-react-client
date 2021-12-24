@@ -7,64 +7,15 @@ import AddNote from "./Adding Note/AddNote";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import { Routes, Route } from "react-router-dom";
-import LocalStorageContext from "./share/LocalStorageContext";
+import PostContext from "./share/PostContext";
 
 export default function App() {
 
-  const LocalStorageCTX = useContext(LocalStorageContext);
-  const data = LocalStorageCTX.posts;
-  const addPost = LocalStorageCTX.addPost;
-  const deletePost = LocalStorageCTX.deletePost;
-  const updatePost = LocalStorageCTX.updatePost;
-
-  //ADDING
-  function submitInput(item, des) {
-
-    // Fill(s) is/are blanks.
-    if (item === "" || des === "") {
-      alert("โปรดระบุหัวข้อและรายละเอียด");
-      return;
-    }
-    // Title is longer than 20 characters.
-    if (item.length > 20) {
-      alert("หัวข้อยาวเกินไป");
-      return;
-    }
-    // Description is longer than 90 characters.
-    if (des.length > 90) {
-      alert("รายละเอียดยาวเกินไป");
-      return;
-    }
-
-    const itemName = item.trim();
-    addPost(itemName, des);
-    return "success";
-  }
-
-  //DELETING
-  function deleteItem(id) {
-    deletePost(id);
-    return "success";
-  }
-
-  //UPDATING
-  function updateDes(id, des) {
-    if (des.length === 0) {
-      alert("โปรดระบุรายละเอียดการอัปเดต");
-      return;
-    }
-    // Description is longer than 90 characters.
-    if (des.length > 90) {
-      alert("รายละเอียดยาวเกินไป");
-      return;
-    }
-    updatePost(id,des);
-    return "success";
-  }
+  const { posts } = useContext(PostContext);
 
   const updateSection =
-    data.length > 0 ? (
-      <UpdateNote data={data} updateDes={updateDes} />
+    posts.length > 0 ? (
+      <UpdateNote posts={posts} />
     ) : (
       <div>
         <p>โพสต์อิทกันเลย!</p>
@@ -76,10 +27,10 @@ export default function App() {
       <Header />
       <div className="flex-main-body">
       <Routes>
-        <Route path="/" element={<AddNote submitInput={submitInput} />} />
+        <Route path="/" element={<AddNote />} />
         <Route path="/update" element={updateSection} />
       </Routes>
-      <ShowNote data={data} deleteItem={deleteItem} />
+      <ShowNote posts={posts} />
       </div>
       <Footer />
     </div>
