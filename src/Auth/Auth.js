@@ -1,11 +1,13 @@
 import React, { useContext, useRef, useState } from 'react'
 import PostContext from '../share/PostContext';
 import styles from "./Auth.module.css";
+import { useNavigate } from "react-router-dom"
 
 export default function Auth() {
     const { isLoggedIn, logIn, logOut } = useContext(PostContext);
     const usernameRef = useRef("");
     const passwordRef = useRef("");
+    const navigate = useNavigate();
 
     const [ registering, setRegistering ] = useState(false);
     let loginOrRegister = (registering) ? "ลงทะเบียน" : "เข้าสู่ระบบ";
@@ -47,6 +49,7 @@ export default function Auth() {
             if (res.ok) {
                 console.log("logged in successfully");
                 logIn();
+                navigate("/",{ replace: true });
             } else {
                 alert("username หรือ password ไม่ถูกต้อง")
             }
