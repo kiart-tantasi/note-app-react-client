@@ -20,7 +20,7 @@ export default function Header() {
         className={({ isActive }) => (isActive ? "route-active" : "route")}
         to="/authentication"
       >
-        Auth
+        ผู้ใช้งาน
       </NavLink>
     </div>
   );

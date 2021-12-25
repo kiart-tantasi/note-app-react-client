@@ -38,14 +38,14 @@ body {
 
 .route:first-child,
 .route-active:first-child {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .route:last-child,
 .route-active:last-child {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .route {

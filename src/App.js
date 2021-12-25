@@ -34,11 +34,10 @@ export default function App() {
         <Header />
         <div className="flex-main-body">
         <Routes>
-          <Route path="/" element={<AddNote />} />
-          <Route path="/update" element={posts.length > 0 ? <UpdateNote posts={posts} /> : <div><p>โพสต์อิทกันเลย </p></div>} />
+          <Route path="/" element={<div><AddNote /><ShowNote posts={posts} /></div>} />
+          <Route path="/update" element={posts.length > 0 ? <div><UpdateNote posts={posts} /><ShowNote posts={posts} /></div> : <div><p>โพสต์อิทกันเลย </p></div>} />
           <Route path="/authentication" element={<Auth />} />
         </Routes>
-        <ShowNote posts={posts} />
         </div>
         <Footer />
       </div>

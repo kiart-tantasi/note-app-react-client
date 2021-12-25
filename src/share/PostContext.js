@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
 
 const PostContext = React.createContext({
+
+  logIn: () => {},
+  logOut: () => {},
+  fetchData: () => {},
+  isLoading: false,
+  isLoggedIn: false,
   posts: [],
   addPost: () => {},
+  deletePost: () => {},
+  updatePost: () => {}
+
 });
 
 function PostContextProvider(props) {
@@ -13,15 +22,11 @@ function PostContextProvider(props) {
   // USE EFFECT
   useEffect(() => {
     async function loadData() {
-
-
-
-      let initialPosts;
       setLoading(true);
+      let initialPosts;
+      // Trying getting data from server first if authenticated
       try {
-        // Check if authenticated
         const response = await fetch("http://localhost:4000/user",{credentials:"include"});
-        // Try getting data from server first
         if (response.ok) {
           const res = await fetch("http://localhost:4000/posts",{credentials:"include"});
           const data = await res.json();
@@ -30,9 +35,8 @@ function PostContextProvider(props) {
         } else {
           throw new Error("offline mode activated")
         }
+      // If not authenticated then get data from local storage or just use default posts
       } catch (err) {
-        console.log(err.message);
-        // Check if there is data from local storage
         if (localStorage.getItem("myPostIt")) {
           initialPosts = JSON.parse(localStorage.getItem("myPostIt"));
         } else {
@@ -47,9 +51,6 @@ function PostContextProvider(props) {
       }
       setLoading(false);
       setPosts(initialPosts);
-
-
-
     }
     //trigger the function
     loadData();
@@ -78,7 +79,7 @@ function PostContextProvider(props) {
     .then(res => {
       if (res.ok) {
         console.log("logged out successfully");
-        setIsLoggedIn(false)
+        setIsLoggedIn(false);
       }
     })
   }
@@ -89,7 +90,6 @@ function PostContextProvider(props) {
     .then(res => res.json())
     .then(data => {
       console.log("fetchedData:", data);
-      setPosts(data);
     })
     .catch(err => console.log(err));
   }
@@ -106,11 +106,25 @@ function PostContextProvider(props) {
       fetch("http://localhost:4000/posts", options)
       .then((res) => {
         if (res.ok) {
-          console.log("added.");
-        } else {
-          alert("adding post failed!")
+          return res.json()
+        } else if (res.status === 400) {
+          throw new Error("title is requied.")
+        } else if (res.status === 403) {
+          setIsLoggedIn(false);
+          throw new Error("no authentication");
         }
       })
+      .then(data => {
+        setPosts(prev => {
+          return [...prev,{
+            _id: data.id,
+            item: item,
+            des: des,
+            date: data.date,
+          }]
+        })
+      })
+      .catch((err) => console.log(err.message))
       return;
     }
     const time = new Date().getTime();
@@ -129,7 +143,23 @@ function PostContextProvider(props) {
 
   // DELETE A POST
   function deletePost(id) {
-    if (isLoggedIn) {return}
+    if (isLoggedIn) {
+      fetch("http://localhost:4000/posts/"+ id, {method:"DELETE", credentials: "include"})
+      .then((res) => {
+        if (res.ok) {
+          setPosts(prev => {
+            return prev.filter((x) => x._id.toString() !== id.toString());
+          })
+        } else if (res.status === 403) {
+          setIsLoggedIn(false);
+          throw new Error("no authentication");
+        } else {
+          throw new Error("deleting failed.")
+        }
+      })
+      .catch(err => console.log("Delete Error:", err.message));
+      return;
+    }
     const newPosts = posts.filter((x) => x._id.toString() !== id.toString());
     setPosts(newPosts);
     localStorage.setItem("myPostIt", JSON.stringify(newPosts));
@@ -137,7 +167,29 @@ function PostContextProvider(props) {
 
   //EDIT A POST
   function updatePost(id, des) {
-    if (isLoggedIn) {return}
+    if (isLoggedIn) {
+      const options = {
+        method:"PATCH",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({des:des}),
+        credentials: "include"
+      }
+      fetch("http://localhost:4000/posts/"+id, options)
+      .then(res => {
+        if(res.ok) {
+          setPosts(prev => {
+            return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, des: des } : x))
+          })
+        } else if (res.status === 403) {
+          setIsLoggedIn(false)
+          throw new Error("no authentication")
+        } else {
+          throw new Error("updating failed.")
+        }
+      })
+      .catch(err => console.log(err.message));
+      return;
+    }
     const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, des: des } : x));
     setPosts(newPosts);
     localStorage.setItem("myPostIt", JSON.stringify(newPosts));

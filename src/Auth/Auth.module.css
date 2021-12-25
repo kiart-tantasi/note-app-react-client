@@ -1,4 +1,44 @@
 .mainAuth {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 50px 0;
+    min-width: 300px;
+    max-width: 350px;
+    margin: 100px auto;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.24);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5); 
+}
+
+.mainAuth button, .mainAuth input {
+    font-family: "Zen Kurenaido", "Prompt", "sans-serif";
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.mainAuth input {
+    width: 200px;
+    height: 30px;
+    border-radius: 3px;
+}
+
+.mainAuth button {
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px 10px;
     background-color: #fff;
-    padding: 100px 0;
+    border: 1px solid #fff;
+}
+
+.mainAuth a {
+    text-decoration: none;
+}
+
+@media (max-width: 400px) {
+    .mainAuth {
+        width: 95%;
+        min-width: 300px;
+    }
 }

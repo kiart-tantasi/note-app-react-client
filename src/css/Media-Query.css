@@ -6,19 +6,6 @@
 
 @media (max-width: 950px) {
 
-    /* NAV */
-    .route:first-child,
-    .route-active:first-child {
-        padding-left: 40px;
-        padding-right: 40px;
-    }
-
-    .route:last-child,
-    .route-active:last-child {
-        padding-left: 40px;
-        padding-right: 40px;
-    }
-
     .Show-item {
         max-width: 600px;
     }
@@ -71,6 +58,21 @@
 }
 
 @media (max-width: 400px) {
+
+    .main-nav {width:100%}
+
+    .route:first-child,
+    .route-active:first-child {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .route:last-child,
+    .route-active:last-child {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
     .Add-item, .Update-item, .Show-item {
         width: 90%;
         min-width: 300px;

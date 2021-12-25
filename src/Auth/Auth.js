@@ -43,7 +43,7 @@ export default function Auth() {
                     <br/><br/>
                     <button onClick={handleLogIn} type="submit">{loginOrRegister}</button>
                     <br/><br/>
-                    <button><a href="http://localhost:4000/auth">LOG IN WITH GOOGLE ACCOUNT</a></button>
+                    <button><a href="http://localhost:4000/auth">LOG IN / SIGN UP WITH GOOGLE</a></button>
                 </form>
             </div>
         )
