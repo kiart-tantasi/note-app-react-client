@@ -6,19 +6,24 @@ export default function UpdateNote(props) {
   const [update, setUpdate] = useState({ id: "", des: "" });
   const inputRef = useRef();
   const { updatePost } = useContext(PostContext);
+  const posts = [...props.posts];
 
   function handleSelectChange(e) {
-    const value = e.target.value;
+    const id = e.target.value;
     inputRef.current.focus();
+    const oldDes = posts.find(x => x._id === id).des;
     setUpdate((prev) => {
-      return { ...prev, id: value };
+      return { ...prev, des: oldDes };
+    });
+    setUpdate((prev) => {
+      return { ...prev, id: id };
     });
   }
 
   function handleDesChange(e) {
-    const value = e.target.value;
+    const des = e.target.value;
     setUpdate((prev) => {
-      return { ...prev, des: value };
+      return { ...prev, des: des };
     });
   }
 
@@ -26,6 +31,11 @@ export default function UpdateNote(props) {
     e.preventDefault();
     const id = update.id.trim();
     const des = update.des.trim();
+    // There is no new description.
+    if (id.length === 0) {
+      alert("โปรดระบุโพสต์ที่ต้องการอัปเดต");
+      return;
+    }
     // There is no new description.
     if (des.length === 0) {
       alert("โปรดระบุรายละเอียดการอัปเดต");
@@ -40,7 +50,14 @@ export default function UpdateNote(props) {
     setUpdate((prev) => {
       return { ...prev, des: "" };
     });
-    
+  }
+
+  if (posts.length === 0) {
+    return (
+      <div className="no-posts-update">
+        <p>โพสต์อิทกันเลย!</p>
+      </div>
+    )
   }
 
   return (
@@ -52,7 +69,7 @@ export default function UpdateNote(props) {
             เลือกโพสต์
           </option>
 
-          {props.posts.map((x) => (
+          {posts.reverse().map((x) => (
             <option key={x._id} value={x._id}>
               {x.item}
             </option>

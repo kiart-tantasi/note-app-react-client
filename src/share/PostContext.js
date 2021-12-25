@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 const PostContext = React.createContext({
-
   logIn: () => {},
   logOut: () => {},
-  fetchData: () => {},
   isLoading: false,
   isLoggedIn: false,
   posts: [],
   addPost: () => {},
   deletePost: () => {},
   updatePost: () => {}
-
 });
 
 function PostContextProvider(props) {
@@ -39,6 +36,13 @@ function PostContextProvider(props) {
       } catch (err) {
         if (localStorage.getItem("myPostIt")) {
           initialPosts = JSON.parse(localStorage.getItem("myPostIt"));
+          // if never updated... 1.0.1
+          if (!localStorage.getItem("myPostItUpdate")) {
+            const reversedArray = [...initialPosts].reverse();
+            localStorage.setItem("myPostIt", JSON.stringify(reversedArray));
+            initialPosts = reversedArray;
+            localStorage.setItem("myPostItUpdate", JSON.stringify({reversedArray: true}));
+          }
         } else {
           initialPosts = [
             {_id: "4",item: "หยุดปีใหม่", des:"วันศุกร์หน้าแล้ว!", date: new Date().getTime()},
@@ -57,20 +61,8 @@ function PostContextProvider(props) {
   },[isLoggedIn])
 
   // LOG IN
-  function logIn(username,password) {
-    const options = {
-      method:"POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({username:username, password:password}),
-      credentials: "include"
-    }
-    fetch("http://localhost:4000/login", options)
-    .then(res => {
-      if (res.ok) {
-        console.log("logged in successfully");
-        setIsLoggedIn(true);
-      }
-    })
+  function logIn() {
+    setIsLoggedIn(true);
   }
 
   // LOG OUT
@@ -82,16 +74,6 @@ function PostContextProvider(props) {
         setIsLoggedIn(false);
       }
     })
-  }
-
-  //FETCH DATA
-  function fetchData() {
-    fetch("http://localhost:4000/posts", {credentials:"include"})
-    .then(res => res.json())
-    .then(data => {
-      console.log("fetchedData:", data);
-    })
-    .catch(err => console.log(err));
   }
 
   // ADD A POST
@@ -129,13 +111,12 @@ function PostContextProvider(props) {
     }
     const time = new Date().getTime();
     const newPosts = [
-      {
-        _id: Math.ceil(Math.random() * 543 * time).toString(),
+      ...posts,{
+        _id: Math.ceil(Math.random() * new Date().getTime() * time).toString(),
         item: item,
         des: des,
         date: time,
-      },
-      ...posts,
+      }
     ];
     setPosts(newPosts);
     localStorage.setItem("myPostIt", JSON.stringify(newPosts));
@@ -198,7 +179,6 @@ function PostContextProvider(props) {
   const context = {
     logIn: logIn,
     logOut: logOut,
-    fetchData: fetchData,
     isLoading: isLoading,
     isLoggedIn: isLoggedIn,
     posts: posts,

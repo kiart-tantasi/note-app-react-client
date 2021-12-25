@@ -173,6 +173,10 @@ body {
   border-radius: 3px;
 }
 
+.no-posts-update {
+  padding-top: 50px;
+}
+
 /* Footer */
 
 .footer {

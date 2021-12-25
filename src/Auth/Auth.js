@@ -3,34 +3,60 @@ import PostContext from '../share/PostContext';
 import styles from "./Auth.module.css";
 
 export default function Auth() {
-    const { isLoggedIn, logIn, logOut, fetchData } = useContext(PostContext);
+    const { isLoggedIn, logIn, logOut } = useContext(PostContext);
     const usernameRef = useRef("");
     const passwordRef = useRef("");
 
-    const [ register, setRegister ] = useState(false);
-    let loginOrRegister = (register) ? "Register" : "Login";
+    const [ registering, setRegistering ] = useState(false);
+    let loginOrRegister = (registering) ? "ลงทะเบียน" : "เข้าสู่ระบบ";
     function handleToggle() {
-        setRegister(!register);
+        setRegistering(!registering);
     }
     function handleLogIn(e) {
         e.preventDefault();
-        if (register) {
-            alert("no register now.");
-            return;
-        }
         const username = usernameRef.current.value;
         const password = passwordRef.current.value;
         if (!username || !password) {
-            alert("username and/or password are blank.")
+            alert("โปรดระบุ username และ password")
             return;
         }
-        logIn(username,password);
+        const options = {
+            method:"POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({username:username, password:password}),
+            credentials: "include"
+        }
+        // register
+        if (registering) {
+            fetch("http://localhost:4000/register", options)
+            .then(res => {
+                if (res.ok) {
+                    console.log("registered successfully");
+                    logIn();
+                } else if (res.status === 403) {
+                    alert("username นี้ถูกใช้งานแล้ว");
+                } else {
+                    alert("การลงทะเบียนล้มเหลว")
+                }
+            })
+            return;
+        }
+        // log in
+        fetch("http://localhost:4000/login", options)
+        .then(res => {
+            if (res.ok) {
+                console.log("logged in successfully");
+                logIn();
+            } else {
+                alert("username หรือ password ไม่ถูกต้อง")
+            }
+        })
     }
 
     if (!isLoggedIn) {
         return (
             <div className={styles.mainAuth}>
-                <button onClick={handleToggle}>Switch to {(register) ? "log in" : "register"}</button>
+                <button className={styles.toggleAuth} onClick={handleToggle}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>
                 <br/><br/>
                 <form>
                     <label htmlFor="username">username</label>
@@ -41,20 +67,19 @@ export default function Auth() {
                     <br/>
                     <input type="password" ref={passwordRef} name="password" autoComplete="off" />
                     <br/><br/>
-                    <button onClick={handleLogIn} type="submit">{loginOrRegister}</button>
+                    <button className={styles.submitAuth} onClick={handleLogIn} type="submit">{loginOrRegister}</button>
                     <br/><br/>
-                    <button><a href="http://localhost:4000/auth">LOG IN / SIGN UP WITH GOOGLE</a></button>
+                    <button><a href="http://localhost:4000/auth">เข้าสู่ระบบ/สมัครโดย GOOGLE ACCOUNT</a></button>
                 </form>
             </div>
         )
     }
     return (
         <div className={styles.mainAuth}>
-            <h1>FOR TESTING</h1>
+            <h1> POST IT APP </h1>
             <br/>
             <button onClick={logOut}>Log Out</button>
             <br/><br/>
-            <button onClick={fetchData}>Fetch data from server</button>
         </div>
     )
 }

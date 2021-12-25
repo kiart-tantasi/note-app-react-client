@@ -2,9 +2,10 @@ import React from "react";
 import Note from "./Note";
 
 export default function ShowNote(props) {
+  const posts = [...props.posts];
   return (
     <div className="Show-item">      
-      {props.posts.map((x) => {
+      {posts.reverse().map((x) => {
         return (
           <Note
             key={x._id}
