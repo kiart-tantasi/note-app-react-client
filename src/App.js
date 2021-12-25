@@ -26,10 +26,9 @@ export default function App() {
 
   if (isLoading) {
     return <div>
-      <h1 style={{"textAlign":"center"}}>LOADING</h1>
+      <h1 style={{"textAlign":"center","marginTop":"30px"}}>LOADING...</h1>
     </div>
   } else {
-
     return (
       <div className="flex-container">
         <Header />
