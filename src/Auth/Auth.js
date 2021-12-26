@@ -30,7 +30,7 @@ export default function Auth() {
         }
         // register
         if (registering) {
-            fetch("http://localhost:4000/register", options)
+            fetch("/register", options)
             .then(res => {
                 if (res.ok) {
                     console.log("registered successfully");
@@ -44,7 +44,7 @@ export default function Auth() {
             return;
         }
         // log in
-        fetch("http://localhost:4000/login", options)
+        fetch("/login", options)
         .then(res => {
             if (res.ok) {
                 console.log("logged in successfully");
@@ -72,7 +72,7 @@ export default function Auth() {
                     <br/><br/>
                     <button className={styles.submitAuth} onClick={handleLogIn} type="submit">{loginOrRegister}</button>
                     <br/><br/>
-                    <button><a href="http://localhost:4000/auth">เข้าสู่ระบบ/สมัครโดย GOOGLE ACCOUNT</a></button>
+                    <button><a href="/auth">เข้าสู่ระบบ/สมัครโดย GOOGLE ACCOUNT</a></button>
                 </form>
             </div>
         )
