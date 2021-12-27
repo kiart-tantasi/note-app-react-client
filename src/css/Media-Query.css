@@ -59,18 +59,24 @@
 
 @media (max-width: 400px) {
 
-    .main-nav {width:100%}
+    .main-nav {
+        width:100%
+    }
+
+    .route,
+    .route-active {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
 
     .route:first-child,
     .route-active:first-child {
-        padding-left: 30px;
-        padding-right: 30px;
+        padding-left: 0px;
     }
 
     .route:last-child,
     .route-active:last-child {
-        padding-left: 30px;
-        padding-right: 30px;
+        padding-right: 0px;
     }
 
     .Add-item, .Update-item, .Show-item {
