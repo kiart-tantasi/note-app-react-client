@@ -72,7 +72,8 @@ export default function Auth() {
                     <br/><br/>
                     <button className={styles.submitAuth} onClick={handleLogIn} type="submit">{loginOrRegister}</button>
                     <br/><br/>
-                    <button><a href="/auth">เข้าสู่ระบบ/สมัครโดย GOOGLE ACCOUNT</a></button>
+                    <button><a href="/api/auth/google">เข้าสู่ระบบ/สมัครโดย GOOGLE ACCOUNT</a></button>
+                    {/* use href="http://localhost:4000/api/auth/google" when testing */}
                 </form>
             </div>
         )
