@@ -16,6 +16,7 @@
     font-family: "Zen Kurenaido", "Prompt", "sans-serif";
     font-weight: bold;
     letter-spacing: 2px;
+    cursor: pointer;
 }
 
 .mainAuth label {
@@ -29,7 +30,6 @@
 }
 
 .mainAuth button {
-    cursor: pointer;
     border-radius: 5px;
     padding: 5px 10px;
     background-color: #fff;

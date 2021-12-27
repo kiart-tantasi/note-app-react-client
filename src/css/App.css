@@ -148,6 +148,7 @@ body {
   display: block;
   border: 1px solid rgba(0, 0, 0, 0.11);
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
 }
 
 .Add-item button,
@@ -158,6 +159,7 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.7);
   width: 100px;
   height: 40px;
+  cursor: pointer;
 }
 
 .Two-input input:first-child {
@@ -172,6 +174,7 @@ body {
   height: 28px;
   width: 155px;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .no-posts-update {
