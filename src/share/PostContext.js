@@ -45,11 +45,13 @@ function PostContextProvider(props) {
           }
         } else {
           initialPosts = [
-            {_id: "4",item: "หยุดปีใหม่", des:"วันศุกร์หน้าแล้ว!", date: new Date().getTime()},
-            {_id: "3",item: "จันทร์หน้า", des:"ทำ OT ...", date: new Date().getTime()},
-            {_id: "2",item: "ประชุมเช้า", des:"วันพุธ เข้าzoomก่อน 10 โมง", date: new Date().getTime()},
             {_id: "1",item: "โพสต์แรกของฉัน", des:"ดูแลสุขภาพด้วยงับ", date: new Date().getTime()},
+            {_id: "2",item: "ประชุมเช้า", des:"วันพุธ เข้าzoomก่อน 10 โมง", date: new Date().getTime()},
+            {_id: "3",item: "จันทร์หน้า", des:"ทำ OT ...", date: new Date().getTime()},
+            {_id: "4",item: "หยุดปีใหม่", des:"วันศุกร์หน้าแล้ว!", date: new Date().getTime()}
           ];
+          localStorage.setItem("myPostIt", JSON.stringify(initialPosts));
+          localStorage.setItem("myPostItUpdate", JSON.stringify({reversedArray: true}));
         }
         setIsLoggedIn(false);
       }
