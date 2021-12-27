@@ -30,7 +30,7 @@ export default function Auth() {
         }
         // register
         if (registering) {
-            fetch("/register", options)
+            fetch("/api/register", options)
             .then(res => {
                 if (res.ok) {
                     console.log("registered successfully");
@@ -44,7 +44,7 @@ export default function Auth() {
             return;
         }
         // log in
-        fetch("/login", options)
+        fetch("/api/login", options)
         .then(res => {
             if (res.ok) {
                 console.log("logged in successfully");

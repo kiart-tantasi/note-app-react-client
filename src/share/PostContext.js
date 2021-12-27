@@ -23,9 +23,9 @@ function PostContextProvider(props) {
       let initialPosts;
       // Trying getting data from server first if authenticated
       try {
-        const response = await fetch("/user",{credentials:"include"});
+        const response = await fetch("/api/user",{credentials:"include"});
         if (response.ok) {
-          const res = await fetch("/posts",{credentials:"include"});
+          const res = await fetch("/api/posts",{credentials:"include"});
           const data = await res.json();
           initialPosts = data;
           setIsLoggedIn(true);
@@ -69,7 +69,7 @@ function PostContextProvider(props) {
 
   // LOG OUT
   function logOut() {
-    fetch("/logout", {credentials:"include", method:"POST"})
+    fetch("/api/logout", {credentials:"include", method:"POST"})
     .then(res => {
       if (res.ok) {
         console.log("logged out successfully");
@@ -87,7 +87,7 @@ function PostContextProvider(props) {
         body: JSON.stringify({item:item,des:des}),
         credentials: "include"
       }
-      fetch("/posts", options)
+      fetch("/api/posts", options)
       .then((res) => {
         if (res.ok) {
           return res.json()
@@ -127,7 +127,7 @@ function PostContextProvider(props) {
   // DELETE A POST
   function deletePost(id) {
     if (isLoggedIn) {
-      fetch("/posts/"+ id, {method:"DELETE", credentials: "include"})
+      fetch("/api/posts/"+ id, {method:"DELETE", credentials: "include"})
       .then((res) => {
         if (res.ok) {
           setPosts(prev => {
@@ -157,7 +157,7 @@ function PostContextProvider(props) {
         body: JSON.stringify({des:des}),
         credentials: "include"
       }
-      fetch("/posts/"+id, options)
+      fetch("/api/posts/"+id, options)
       .then(res => {
         if(res.ok) {
           setPosts(prev => {
