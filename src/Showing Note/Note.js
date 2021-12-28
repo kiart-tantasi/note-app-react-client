@@ -1,12 +1,9 @@
-import React, { useContext } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import PostContext from "../share/PostContext";
+import React from "react";
+import Delete from "./Delete";
+
 
 export default function Note(props) {
-  const { deletePost } = useContext(PostContext);
-  function handleDelete() {
-    deletePost(props.id);
-  }
+
   const date = new Date(props.date).getDate().toString() + "/" + ( new Date(props.date).getMonth() + 1 ).toString() + "/" + new Date(props.date).getFullYear().toString() || "no date described.";
 
   return (
@@ -20,9 +17,7 @@ export default function Note(props) {
         </div>
         <div className="item-block-footer item-block-flex-footer">
           <p className="date-text">{date}</p>
-          <button className="delete-button" onClick={handleDelete}>
-            <DeleteIcon />
-          </button>
+          <Delete id={props.id} />
         </div>
       </div>
     </div>

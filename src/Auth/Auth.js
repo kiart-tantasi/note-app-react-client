@@ -50,8 +50,10 @@ export default function Auth() {
                 console.log("logged in successfully");
                 logIn();
                 navigate("/",{ replace: true });
+            } else if (res.status === 401) {
+                alert("username หรือ password ไม่ถูกต้อง");
             } else {
-                alert("username หรือ password ไม่ถูกต้อง")
+                alert("การเข้าสู่ระบบล้มเหลว");
             }
         })
     }

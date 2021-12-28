@@ -33,7 +33,7 @@ export default function UpdateNote(props) {
     const des = update.des.trim();
     // There is no new description.
     if (id.length === 0) {
-      alert("โปรดระบุโพสต์ที่ต้องการอัปเดต");
+      alert("โปรดเลือกโพสต์ที่ต้องการอัปเดต");
       return;
     }
     // There is no new description.

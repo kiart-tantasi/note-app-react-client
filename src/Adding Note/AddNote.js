@@ -1,3 +1,4 @@
+import styles from "./AddNote.module.css"
 import React, { useState, useRef, useContext } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import PostContext from "../share/PostContext";
@@ -18,6 +19,7 @@ export default function AddNote(props) {
   function handleInputOn() {
     if (expanded === false) {
       setExpanded(true);
+      
     }
   }
 
@@ -52,7 +54,7 @@ export default function AddNote(props) {
   return (
     <div className="Add-item">
       <form>
-        <div className="Two-input">
+        <div className={`Two-input ${expanded ? styles.cursorNone : styles.cursorPointer}`}>
           <input
             className="install-font"
             id="First-input"

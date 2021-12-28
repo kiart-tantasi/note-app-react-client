@@ -1,0 +1,8 @@
+.cursorNone input {
+    cursor: text;
+}
+
+.cursorPointer input {
+    cursor: pointer;
+}
+
