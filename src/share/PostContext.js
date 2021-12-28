@@ -34,6 +34,7 @@ function PostContextProvider(props) {
         }
       // If not authenticated then get data from local storage or just use default posts
       } catch (err) {
+        console.log(err.message);
         if (localStorage.getItem("myPostIt")) {
           initialPosts = JSON.parse(localStorage.getItem("myPostIt"));
           // if never updated... 1.0.1
