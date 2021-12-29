@@ -20,6 +20,10 @@ export default function UpdateModal(props) {
         }
     }
 
+    window.onpopstate = function() {
+        props.closeModal();
+    }
+
     function handleKeyPress(e) {
         // if (e.key === "Enter" && e.shiftKey) {
         //     return;
