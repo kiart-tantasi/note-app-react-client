@@ -20,7 +20,8 @@ export default function UpdateModal(props) {
         }
     }
 
-    window.onpopstate = function() {
+    window.onpopstate = function(e) {
+        e.preventDefault();
         props.closeModal();
     }
 
