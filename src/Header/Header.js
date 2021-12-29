@@ -10,17 +10,17 @@ export default function Header() {
       >
         โพสต์อิท
       </NavLink>
-      <NavLink
+      {/* <NavLink
         className={({ isActive }) => (isActive ? "route-active" : "route")}
         to="/update"
       >
         อัปเดต
-      </NavLink>
+      </NavLink> */}
       <NavLink
         className={({ isActive }) => (isActive ? "route-active" : "route")}
         to="/authentication"
       >
-        ผู้ใช้งาน
+        บัญชี
       </NavLink>
     </div>
   );

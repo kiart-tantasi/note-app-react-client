@@ -151,20 +151,22 @@ function PostContextProvider(props) {
   }
 
   //EDIT A POST
-  function updatePost(id, des) {
+  function updatePost(id, item, des) {
     if (isLoggedIn) {
       const options = {
         method:"PATCH",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({des:des}),
+        body: JSON.stringify({item:item,des:des}),
         credentials: "include"
       }
       fetch("/api/posts/"+id, options)
       .then(res => {
         if(res.ok) {
           setPosts(prev => {
-            return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, des: des } : x))
+            return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x))
           })
+        } else if (res.status === 400) {
+          throw new Error("no title defined.")
         } else if (res.status === 403) {
           setIsLoggedIn(false)
           throw new Error("no authentication")
@@ -175,7 +177,7 @@ function PostContextProvider(props) {
       .catch(err => console.log(err.message));
       return;
     }
-    const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, des: des } : x));
+    const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x));
     setPosts(newPosts);
     localStorage.setItem("myPostIt", JSON.stringify(newPosts));
   }

@@ -28,17 +28,14 @@ export default function AddNote(props) {
     const item = input.item.trim();
     const des = input.des.trim();
     // FAILED
-    // Fill(s) is/are blanks.
     if (item === "") {
       alert("กรุณาระบุหัวข้อ");
       return;
     }
-    // Title is longer than 20 characters.
-    if (item.length > 20) {
+    if (item.length > 25) {
       alert("หัวข้อยาวเกินไป");
       return;
     }
-    // Description is longer than 90 characters.
     if (des.length > 90) {
       alert("รายละเอียดยาวเกินไป");
       return;
