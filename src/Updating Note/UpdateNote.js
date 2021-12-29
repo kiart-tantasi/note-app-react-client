@@ -29,8 +29,9 @@ export default function UpdateNote(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const id = update.id.trim();
+    const id = update.id;
     const des = update.des.trim();
+    const oldTitle = posts.find(x => x._id === id).item;
     // There is no new description.
     if (id.length === 0) {
       alert("โปรดเลือกโพสต์ที่ต้องการอัปเดต");
@@ -46,7 +47,7 @@ export default function UpdateNote(props) {
       alert("รายละเอียดยาวเกินไป");
       return;
     }
-    updatePost(id,des);
+    updatePost(id,oldTitle,des);
     setUpdate((prev) => {
       return { ...prev, des: "" };
     });
