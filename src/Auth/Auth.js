@@ -4,22 +4,20 @@ import styles from "./Auth.module.css";
 import { useNavigate } from "react-router-dom"
 
 export default function Auth() {
-    const { isLoggedIn, logIn, logOut, user } = useContext(PostContext);
+    const { isLoggedIn, logIn, logOut, userName } = useContext(PostContext);
     const usernameRef = useRef("");
     const passwordRef = useRef("");
     const navigate = useNavigate();
     const [ registering, setRegistering ] = useState(false);
-    const [ userName, setUserName ] = useState("POST IT APP");
+    const [ userNameState, setUserNameState ] = useState("POST IT APP");
 
     useEffect(() => {
         if (isLoggedIn) {
-            if (user.username) {
-                setUserName(user.username);
-            } else if (user.name) {
-                setUserName(user.name);
+            if (userName) {
+                setUserNameState(userName);
             }
         }
-    },[isLoggedIn, user])
+    },[isLoggedIn, userName])
 
     function handleToggle() {
         setRegistering(!registering);
@@ -113,7 +111,7 @@ export default function Auth() {
     }
     return (
         <div className={styles.mainAuth}>
-            <h1>{userName}</h1>
+            <h1>{userNameState}</h1>
             <br/>
             <button type="button" onClick={handleLogOut}>Log Out</button>
             <br/><br/>

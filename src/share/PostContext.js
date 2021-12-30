@@ -16,7 +16,7 @@ function PostContextProvider(props) {
   const [posts, setPosts] = useState([]);
   const [ isLoading, setLoading ] = useState(false);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
-  const [ user, setUser ] = useState({});
+  const [ userName, setUserName ] = useState({});
   const [UseEffect, activateUseEffect] = useState(false);
   
   // -------------------- USE EFFECT -------------------- //
@@ -30,7 +30,7 @@ function PostContextProvider(props) {
         if (response.ok) {
           const userData = await response.json();
           initialPosts = userData.posts;
-          setUser(userData);
+          setUserName(userData.userName);
           setIsLoggedIn(true);
         } else {
           throw new Error("offline mode activated")
@@ -190,7 +190,7 @@ function PostContextProvider(props) {
     logOut: logOut,
     isLoading: isLoading,
     isLoggedIn: isLoggedIn,
-    user: user,
+    userName: userName,
     posts: posts,
     addPost: addPost,
     deletePost: deletePost,
