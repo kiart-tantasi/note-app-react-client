@@ -6,7 +6,7 @@ export default function Header() {
     <div className="main-nav">
       <NavLink
         className={({ isActive }) => (isActive ? "route-active" : "route")}
-        to="/"
+        to="/posts"
       >
         โพสต์อิท
       </NavLink>
