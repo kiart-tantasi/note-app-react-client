@@ -12,26 +12,26 @@
 .modalBox {
     border-radius: 5px;
     background-color: #fff;
-    text-align: center;
-    padding: 30px 20px 15px;
-    width: 400px;
+    padding: 50px 0 15px;
+    width: 450px;
     margin: 0 auto;
 }
 
 .modalInput {
-    width: 250px;
+    width: 330px;
     height: 30px;
-    text-align: center;
     font-weight: bold;
     font-size: 1.1rem;
+    padding-left: 5px;
 }
 
 .modalTextarea {
-    min-width: 250px;
+    min-width: 330px;
     min-height: 100px;
-    max-width: 250px;
+    max-width: 330px;
     max-height: 100px;
     font-size: 1rem;
+    padding-left: 5px;
 }
 
 .modalInput, .modalTextarea {
@@ -60,17 +60,22 @@
         padding-top: 100px;
     }
 
+    .modalBox {
+        width: 380px;
+        padding: 30px 0 20px;
+    }
+
     .modalInput {
         height: 40px;
-        width: 280px;
+        width: 330px;
         font-size: 1.3rem;
     }
 
     .modalTextarea {
         min-height: 120px;
         max-height: 120px;
-        min-width:280px;
-        max-width: 280px;
+        min-width: 330px;
+        max-width: 330px;
         font-size: 1.2rem;
     }
 }
@@ -78,7 +83,22 @@
 @media (max-width: 400px) {
     .modalBox {
         width: 95%;
+        padding: 20px 0 10px;
         min-width: 300px;
+    }
+
+    .modalInput {
+        height: 40px;
+        width: 90%;
+        font-size: 1.3rem;
+    }
+
+    .modalTextarea {
+        min-height: 120px;
+        max-height: 120px;
+        min-width: 90%;
+        max-width: 90%;
+        font-size: 1.2rem;
     }
 }
 
