@@ -110,6 +110,11 @@ body {
   cursor: pointer;
 }
 
+.footer-buttons a {
+  text-decoration: none;
+  color: rgba(0,0,0,0.7);
+}
+
 /* FLEX SYSTEM IN SHOW NOTE SECTION */
 
 .item-block-flex {

@@ -1,14 +1,15 @@
 import "./css/App.css"
 import "./css/Media-Query.css";
 import React, { useContext } from "react";
-import ShowNote from "./Showing Note/ShowNote";
+import { Routes, Route, Navigate } from "react-router-dom";
+import PostContext from "./share/PostContext";
+import Notes from "./Notes/Notes";
 import UpdateNote from "./Updating Note/UpdateNote";
 import AddNote from "./Adding Note/AddNote";
-import Header from "./Header/Header";
+import Nav from "./Nav/Nav";
 import Footer from "./Footer/Footer";
-import { Routes, Route } from "react-router-dom";
-import PostContext from "./share/PostContext";
 import Auth from "./Auth/Auth";
+import EditRoute from "./Notes/EditRoute";
 
 export default function App() {
 
@@ -23,12 +24,13 @@ export default function App() {
 
   return (
     <div className="flex-container">
-      <Header />
+      <Nav />
       <div className="flex-main-body">
       <Routes>
-        <Route path="/" element={<div><AddNote /><ShowNote posts={posts} /></div>} />
-        <Route path="/update" element={<div><UpdateNote posts={posts} /><ShowNote posts={posts} /></div> } />
+        <Route path="/posts/*" element={<div><AddNote /><Notes posts={posts} /><EditRoute /></div>} />
+        <Route path="/update" element={<div><UpdateNote posts={posts} /><Notes posts={posts} /></div> } />
         <Route path="/authentication" element={<Auth />} />
+        <Route path="/*" element={<Navigate to="/posts" />} />
       </Routes>
       </div>
       <Footer />

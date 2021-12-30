@@ -57,8 +57,8 @@ function PostContextProvider(props) {
         }
         setIsLoggedIn(false);
       }
-      setLoading(false);
       setPosts(initialPosts);
+      setLoading(false);
     }
     //trigger the function
     loadData();

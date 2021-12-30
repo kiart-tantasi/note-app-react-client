@@ -1,18 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import Delete from "./Delete";
-import UpdateModal from "./UpdateModal";
 import EditIcon from '@mui/icons-material/Edit';
+import { Link } from "react-router-dom";
 
 export default function Note(props) {
-  const [ isUpdateModal, setIsUpdateModal ] = useState(false);
   const date = new Date(props.date).getDate().toString() + "/" + ( new Date(props.date).getMonth() + 1 ).toString() + "/" + new Date(props.date).getFullYear().toString() || "no date described.";
-
-  function handleEditTwo() {
-    setIsUpdateModal(true);
-  }
-  function closeModalTwo() {
-    setIsUpdateModal(false)
-  }
 
   return (
     <div className="Item-block">
@@ -27,16 +19,11 @@ export default function Note(props) {
         <div className="item-block-footer item-block-flex-footer">
           <p className="date-text">{date}</p>
           <div className="footer-buttons">
-            <button onClick={handleEditTwo}>
-              <EditIcon />
-            </button>
+            <Link to={`/posts/edit/${props.id}`}><EditIcon /></Link>
             <Delete id={props.id} />
           </div>
         </div>
       </div>
-
-    {isUpdateModal && <UpdateModal closeModal={closeModalTwo} id={props.id} item={props.item} des={props.des} />}
-
     </div>
   );
 }
