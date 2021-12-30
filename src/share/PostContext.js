@@ -16,8 +16,10 @@ function PostContextProvider(props) {
   const [posts, setPosts] = useState([]);
   const [ isLoading, setLoading ] = useState(false);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
+  const [ user, setUser ] = useState({});
+  const [UseEffect, activateUseEffect] = useState(false);
   
-  // USE EFFECT
+  // -------------------- USE EFFECT -------------------- //
   useEffect(() => {
     async function loadData() {
       setLoading(true);
@@ -26,9 +28,9 @@ function PostContextProvider(props) {
       try {
         const response = await fetch("/api/user",{credentials:"include"});
         if (response.ok) {
-          const res = await fetch("/api/posts",{credentials:"include"});
-          const data = await res.json();
-          initialPosts = data;
+          const userData = await response.json();
+          initialPosts = userData.posts;
+          setUser(userData);
           setIsLoggedIn(true);
         } else {
           throw new Error("offline mode activated")
@@ -60,24 +62,22 @@ function PostContextProvider(props) {
       setPosts(initialPosts);
       setLoading(false);
     }
-    //trigger the function
+
     loadData();
-  },[isLoggedIn])
+
+  },[UseEffect]);
+  // -------------------- END OF useEffect --------------------//
 
   // LOG IN
   function logIn() {
     setIsLoggedIn(true);
+    activateUseEffect(!UseEffect);
   }
 
   // LOG OUT
   function logOut() {
-    fetch("/api/logout", {credentials:"include", method:"POST"})
-    .then(res => {
-      if (res.ok) {
-        console.log("logged out successfully");
-        setIsLoggedIn(false);
-      }
-    })
+    setIsLoggedIn(false);
+    activateUseEffect(!UseEffect);
   }
 
   // ADD A POST
@@ -96,7 +96,7 @@ function PostContextProvider(props) {
         } else if (res.status === 400) {
           throw new Error("title is requied.")
         } else if (res.status === 403) {
-          setIsLoggedIn(false);
+          logOut();
           throw new Error("no authentication");
         }
       })
@@ -113,6 +113,7 @@ function PostContextProvider(props) {
       .catch((err) => console.log(err.message))
       return;
     }
+    // offline
     const time = new Date().getTime();
     const newPosts = [
       ...posts,{
@@ -136,15 +137,16 @@ function PostContextProvider(props) {
             return prev.filter((x) => x._id.toString() !== id.toString());
           })
         } else if (res.status === 403) {
-          setIsLoggedIn(false);
+          logOut();
           throw new Error("no authentication");
         } else {
           throw new Error("deleting failed.")
         }
       })
-      .catch(err => console.log("Delete Error:", err.message));
+      .catch(err => console.log(err.message));
       return;
     }
+    // offline
     const newPosts = posts.filter((x) => x._id.toString() !== id.toString());
     setPosts(newPosts);
     localStorage.setItem("myPostIt", JSON.stringify(newPosts));
@@ -168,7 +170,7 @@ function PostContextProvider(props) {
         } else if (res.status === 400) {
           throw new Error("no title defined.")
         } else if (res.status === 403) {
-          setIsLoggedIn(false)
+          logOut();
           throw new Error("no authentication")
         } else {
           throw new Error("updating failed.")
@@ -177,6 +179,7 @@ function PostContextProvider(props) {
       .catch(err => console.log(err.message));
       return;
     }
+    // offline
     const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x));
     setPosts(newPosts);
     localStorage.setItem("myPostIt", JSON.stringify(newPosts));
@@ -187,6 +190,7 @@ function PostContextProvider(props) {
     logOut: logOut,
     isLoading: isLoading,
     isLoggedIn: isLoggedIn,
+    user: user,
     posts: posts,
     addPost: addPost,
     deletePost: deletePost,

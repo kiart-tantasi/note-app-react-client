@@ -1,19 +1,30 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import PostContext from '../share/PostContext';
 import styles from "./Auth.module.css";
 import { useNavigate } from "react-router-dom"
 
 export default function Auth() {
-    const { isLoggedIn, logIn, logOut } = useContext(PostContext);
+    const { isLoggedIn, logIn, logOut, user } = useContext(PostContext);
     const usernameRef = useRef("");
     const passwordRef = useRef("");
     const navigate = useNavigate();
-
     const [ registering, setRegistering ] = useState(false);
-    let loginOrRegister = (registering) ? "ลงทะเบียน" : "เข้าสู่ระบบ";
+    const [ userName, setUserName ] = useState("POST IT APP");
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            if (user.username) {
+                setUserName(user.username);
+            } else if (user.name) {
+                setUserName(user.name);
+            }
+        }
+    },[isLoggedIn, user])
+
     function handleToggle() {
         setRegistering(!registering);
     }
+
     function handleLogIn(e) {
         e.preventDefault();
         const username = usernameRef.current.value;
@@ -34,14 +45,16 @@ export default function Auth() {
             .then(res => {
                 if (res.ok) {
                     console.log("registered successfully");
-                    logIn();
+                    usernameRef.current.value = "";
+                    passwordRef.current.value = "";
+                    alert("ลงทะเบียนสำเร็จ");
+                    setRegistering(false);
                 } else if (res.status === 403) {
                     alert("username นี้ถูกใช้งานแล้ว");
                 } else {
                     alert("การลงทะเบียนล้มเหลว")
                 }
             })
-            return;
         }
         // log in
         fetch("/api/login", options)
@@ -49,13 +62,30 @@ export default function Auth() {
             if (res.ok) {
                 console.log("logged in successfully");
                 logIn();
-                navigate("/",{ replace: true });
+                navigate("/posts",{ replace: true });
             } else if (res.status === 401) {
                 alert("username หรือ password ไม่ถูกต้อง");
+                throw new Error("username หรือ password ไม่ถูกต้อง");
             } else {
                 alert("การเข้าสู่ระบบล้มเหลว");
+                throw new Error("การเข้าสู่ระบบล้มเหลว");
             }
         })
+        .catch((err) => console.log(err.message));
+    }
+
+    function handleLogOut() {
+        fetch("/api/logout", {credentials:"include", method:"POST"})
+        .then(res => {
+          if (res.ok) {
+            console.log("logged out successfully");
+            logOut();
+          } else {
+              logOut();
+              throw new Error("failed logging out.")
+          }
+        })
+        .catch(err => console.log(err.message));
     }
 
     if (!isLoggedIn) {
@@ -72,19 +102,20 @@ export default function Auth() {
                     <br/>
                     <input type="password" ref={passwordRef} name="password" autoComplete="off" />
                     <br/><br/>
-                    <button className={styles.submitAuth} onClick={handleLogIn} type="submit">{loginOrRegister}</button>
+                    <button className={styles.submitAuth} onClick={handleLogIn} type="submit">{(registering) ? "ลงทะเบียน" : "เข้าสู่ระบบ"}</button>
                     <br/><br/>
                     <button><a href="/api/auth/google">เข้าสู่ระบบ/สมัครโดย GOOGLE ACCOUNT</a></button>
-                    {/* use href="http://localhost:4000/api/auth/google" when testing */}
+                    {/* when testing on 3000, use below */}
+                    {/* <button><a href="http://localhost:4000/api/auth/google">เข้าสู่ระบบ/สมัครโดย GOOGLE (3000)</a></button> */}
                 </form>
             </div>
         )
     }
     return (
         <div className={styles.mainAuth}>
-            <h1> POST IT APP </h1>
+            <h1>{userName}</h1>
             <br/>
-            <button onClick={logOut}>Log Out</button>
+            <button type="button" onClick={handleLogOut}>Log Out</button>
             <br/><br/>
         </div>
     )
