@@ -12,10 +12,8 @@ export default function Auth() {
     const [ userNameState, setUserNameState ] = useState("POST IT APP");
 
     useEffect(() => {
-        if (isLoggedIn) {
-            if (userName) {
-                setUserNameState(userName);
-            }
+        if (isLoggedIn !== false && userName !== "") {
+            setUserNameState(userName);
         }
     },[isLoggedIn, userName])
 

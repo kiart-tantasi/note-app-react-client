@@ -1,22 +1,13 @@
 import React, { useEffect, useState } from "react";
 import generateId from "./generateId";
 
-const PostContext = React.createContext({
-  logIn: () => {},
-  logOut: () => {},
-  isLoading: false,
-  isLoggedIn: false,
-  posts: [],
-  addPost: () => {},
-  deletePost: () => {},
-  updatePost: () => {}
-});
+const PostContext = React.createContext({});
 
 function PostContextProvider(props) {
   const [posts, setPosts] = useState([]);
   const [ isLoading, setLoading ] = useState(false);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
-  const [ userName, setUserName ] = useState({});
+  const [ userName, setUserName ] = useState("");
   const [UseEffect, activateUseEffect] = useState(false);
   
   // -------------------- USE EFFECT -------------------- //
