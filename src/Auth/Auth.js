@@ -51,23 +51,24 @@ export default function Auth() {
                     alert("การลงทะเบียนล้มเหลว")
                 }
             })
-        }
         // log in
-        fetch("/api/login", options)
-        .then(res => {
-            if (res.ok) {
-                console.log("logged in successfully");
-                logIn();
-                navigate("/posts",{ replace: true });
-            } else if (res.status === 401) {
-                alert("username หรือ password ไม่ถูกต้อง");
-                throw new Error("username หรือ password ไม่ถูกต้อง");
-            } else {
-                alert("การเข้าสู่ระบบล้มเหลว");
-                throw new Error("การเข้าสู่ระบบล้มเหลว");
-            }
-        })
-        .catch((err) => console.log(err.message));
+        } else if (!registering) {
+            fetch("/api/login", options)
+            .then(res => {
+                if (res.ok) {
+                    console.log("logged in successfully");
+                    logIn();
+                    navigate("/posts",{ replace: true });
+                } else if (res.status === 401) {
+                    alert("username หรือ password ไม่ถูกต้อง");
+                    throw new Error("username หรือ password ไม่ถูกต้อง");
+                } else {
+                    alert("การเข้าสู่ระบบล้มเหลว");
+                    throw new Error("การเข้าสู่ระบบล้มเหลว");
+                }
+            })
+            .catch((err) => console.log(err.message));
+        }
     }
 
     function handleLogOut() {
@@ -100,9 +101,9 @@ export default function Auth() {
                     <br/><br/>
                     <button className={styles.submitAuth} onClick={handleLogIn} type="submit">{(registering) ? "ลงทะเบียน" : "เข้าสู่ระบบ"}</button>
                     <br/><br/>
-                    {/* <button><a href="/api/auth/google">เข้าสู่ระบบ/สมัครโดย GOOGLE ACCOUNT</a></button> */}
+                    <button><a href="/api/auth/google">เข้าสู่ระบบ/สมัครโดย GOOGLE ACCOUNT</a></button>
                     {/* when testing on 3000, use below */}
-                    <button><a href="http://localhost:4000/api/auth/google">เข้าสู่ระบบ/สมัครโดย GOOGLE (3000)</a></button>
+                    {/* <button><a href="http://localhost:4000/api/auth/google">เข้าสู่ระบบ/สมัครโดย GOOGLE (3000)</a></button> */}
                 </form>
             </div>
         )
