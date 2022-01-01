@@ -62,6 +62,16 @@
     color: #fff;
 }
 
+.userName:hover {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.logoutButton:hover {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
 @media (max-width: 400px) {
     .mainAuth {
         width: 95%;

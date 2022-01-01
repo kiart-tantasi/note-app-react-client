@@ -1,5 +1,5 @@
 import styles from "./Update.module.css";
-import React, {useRef, useContext, useEffect} from 'react';
+import React, {useRef, useContext, useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PostContext from "../share/PostContext";
 
@@ -10,6 +10,8 @@ export default function Update() {
     const navigate = useNavigate();
     const titleRef = useRef();
     const desRef = useRef();
+    const [ borderStyle, setBorderStyle ] = useState({"border":"1px solid rgba(0,0,0,0.5)"});
+    const [ desBorderStyle, setDesBorderStyle ] = useState({"border":"1px solid rgba(0,0,0,0.5)"});
 
     useEffect(() => {
         if (posts.length > 0) {
@@ -25,7 +27,14 @@ export default function Update() {
         }
     }
 
-    function handleKeyPress(e) {
+    function handleKeyPressTitle(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            desRef.current.focus();
+        }
+    }
+
+    function handleKeyPressDes(e) {
         if (e.key === "Enter") {
             e.preventDefault();
             handleSubmit(e);
@@ -45,30 +54,41 @@ export default function Update() {
             navigate("/posts", {replace:true});
             return;
         }
+        function setTitleRed() {
+            setBorderStyle({"border":"1px solid red"});
+            setTimeout(() => {
+                setBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
+            }, 3000);
+        }
+        function setDesRed(){
+            setDesBorderStyle({"border":"1px solid red"});
+            setTimeout(() => {
+                setDesBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
+            }, 3000);
+        }
         if (title.length === 0){
-            alert("โปรดระบุหัวข้อ");
+            setTitleRed();
             return;
         }
         if (title.length > 25) {
-            alert("หัวข้อยาวเกินไป");
+            setTitleRed();
             return;
         }
         if (des.length > 90){
-            alert("รายละเอียดยาวเกินไป");
+            setDesRed();
             return;
         }
         updatePost(id,title,des);
         navigate("/posts", {replace:true});
-
     }
 
     return (
         <div className={`backdrop-div ${styles.modalBackdrop}`}>
             <div className={styles.modalBox}>
                 <form onSubmit={handleSubmit}>
-                    <input type="text" ref={titleRef} className={styles.modalInput} />
+                    <input type="text" ref={titleRef} className={styles.modalInput} style={borderStyle} onKeyPress={handleKeyPressTitle} />
                     <br/><br/>
-                    <textarea onKeyPress={handleKeyPress} type="text" ref={desRef} className={styles.modalTextarea} />
+                    <textarea onKeyPress={handleKeyPressDes} type="text" ref={desRef} className={styles.modalTextarea} style={desBorderStyle} />
                     <div className={styles.modalButtons}>
                         <button type="button" onClick={handleCancel}>ยกเลิก</button>
                         <button type="submit">อัปเดต</button>

@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import PostContext from '../share/PostContext';
 import styles from "./Auth.module.css";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import Alert from '../Modal/Alert';
 
 export default function Auth() {
     const { isLoggedIn, logIn, logOut, userName } = useContext(PostContext);
@@ -10,6 +11,8 @@ export default function Auth() {
     const navigate = useNavigate();
     const [ registering, setRegistering ] = useState(false);
     const [ userNameState, setUserNameState ] = useState("POST IT APP");
+    const [alertMessage,setAlertMessage] = useState("");
+    const [alertOn, setAlertOn] = useState(false);
 
     useEffect(() => {
         if (isLoggedIn !== false && userName !== "") {
@@ -26,7 +29,8 @@ export default function Auth() {
         const username = usernameRef.current.value;
         const password = passwordRef.current.value;
         if (!username || !password) {
-            alert("โปรดระบุ username และ password")
+            setAlertMessage("โปรดระบุยูสเซอร์เนมและพาสเวิร์ด");
+            setAlertOn(true);
             return;
         }
         const options = {
@@ -43,12 +47,16 @@ export default function Auth() {
                     console.log("registered successfully");
                     usernameRef.current.value = "";
                     passwordRef.current.value = "";
-                    alert("ลงทะเบียนสำเร็จ");
+                    setAlertMessage("ลงทะเบียนสำเร็จ");
+                    setAlertOn(true);
                     setRegistering(false);
                 } else if (res.status === 403) {
-                    alert("username นี้ถูกใช้งานแล้ว");
+                    setAlertMessage("ยูสเซอร์เนมนี้ถูกใช้งานแล้ว");
+                    setAlertOn(true);
                 } else {
-                    alert("การลงทะเบียนล้มเหลว")
+                    setAlertMessage("การลงทะเบียนล้มเหลว");
+                    setAlertOn(true);
+                    
                 }
             })
         // log in
@@ -60,11 +68,11 @@ export default function Auth() {
                     logIn();
                     navigate("/posts",{ replace: true });
                 } else if (res.status === 401) {
-                    alert("username หรือ password ไม่ถูกต้อง");
-                    throw new Error("username หรือ password ไม่ถูกต้อง");
+                    setAlertMessage("ยูสเซอร์เนมหรือพาสเวิร์ดไม่ถูกต้อง");
+                    setAlertOn(true);
                 } else {
-                    alert("การเข้าสู่ระบบล้มเหลว");
-                    throw new Error("การเข้าสู่ระบบล้มเหลว");
+                    setAlertMessage("การเข้าสู่ระบบล้มเหลว");
+                    setAlertOn(true);
                 }
             })
             .catch((err) => console.log(err.message));
@@ -85,8 +93,20 @@ export default function Auth() {
         .catch(err => console.log(err.message));
     }
 
+    function closeModal() {
+        setAlertOn(false);
+    }
+
+    window.onclick = function(event) {
+        if (event.target === document.querySelector(".close-modal")) {
+            closeModal();
+        }
+    }
+
     if (!isLoggedIn) {
         return (
+            <>
+            {alertOn && <Alert message={alertMessage} handleButton={closeModal} />}
             <div className={styles.mainAuth}>
                 <button className={styles.toggleAuth} onClick={handleToggle}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>
                 <br/><br/>
@@ -106,13 +126,14 @@ export default function Auth() {
                     <button className={styles.googleAuth}><a className={styles.googleA} href="http://localhost:4000/api/auth/google">เข้าสู่ระบบ/สมัครโดย GOOGLE (3000)</a></button>
                 </form>
             </div>
+            </>
         )
     }
     return (
         <div className={styles.mainAuth}>
-            <h1>{userNameState}</h1>
+            <h1 className={styles.userName}>{userNameState}</h1>
             <br/>
-            <button type="button" onClick={handleLogOut}>Log Out</button>
+            <button className={styles.logoutButton} type="button" onClick={handleLogOut}>ออกจากระบบ</button>
             <br/><br/>
         </div>
     )

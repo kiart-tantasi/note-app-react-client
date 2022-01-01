@@ -2,12 +2,16 @@ import styles from "./AddNote.module.css"
 import React, { useState, useRef, useContext } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import PostContext from "../share/PostContext";
+import Alert from "../Modal/Alert";
 
 export default function AddNote(props) {
   const [input, setInput] = useState({ item: "", des: "" });
   const [expanded, setExpanded] = useState(false);
   const titleRef = useRef();
+  const desRef = useRef();
   const { addPost } = useContext(PostContext);
+  const [alertMessage,setAlertMessage] = useState("");
+  const [alertOn, setAlertOn] = useState(false);
 
   function handleInputChange(e) {
     const { name, value } = e.target;
@@ -23,21 +27,31 @@ export default function AddNote(props) {
     }
   }
 
+  function handleKeyPress(e) {
+    if (e.key === "Enter" && expanded === true) {
+      e.preventDefault();
+      desRef.current.focus();
+    }
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     const item = input.item.trim();
     const des = input.des.trim();
     // FAILED
     if (item === "") {
-      alert("กรุณาระบุหัวข้อ");
+      setAlertMessage("กรุณาระบุหัวข้อ");
+      setAlertOn(true);
       return;
     }
     if (item.length > 25) {
-      alert("หัวข้อยาวเกินไป");
+      setAlertMessage("หัวข้อยาวเกินไป");
+      setAlertOn(true);
       return;
     }
     if (des.length > 90) {
-      alert("รายละเอียดยาวเกินไป");
+      setAlertMessage("รายละเอียดยาวเกินไป");
+      setAlertOn(true);
       return;
     }
 
@@ -48,7 +62,19 @@ export default function AddNote(props) {
     return;
   }
 
+  function closeModal() {
+    setAlertOn(false);
+  }
+
+  window.onclick = function(event) {
+      if (event.target === document.querySelector(".close-modal")) {
+          closeModal();
+      }
+  }
+
   return (
+    <>
+    {alertOn && <Alert message={alertMessage} handleButton={closeModal} />}
     <div className="Add-item">
       <form>
         <div className={`Two-input ${expanded ? styles.cursorNone : styles.cursorPointer}`}>
@@ -57,6 +83,7 @@ export default function AddNote(props) {
             id="First-input"
             onChange={handleInputChange}
             onClick={handleInputOn}
+            onKeyPress={handleKeyPress}
             value={input.item}
             type="text"
             name="item"
@@ -75,6 +102,7 @@ export default function AddNote(props) {
               name="des"
               placeholder="รายละเอียด"
               autoComplete="off"
+              ref={desRef}
             ></input>
           )}
         </div>
@@ -86,5 +114,6 @@ export default function AddNote(props) {
         </button>
       </form>
     </div>
+    </>
   );
 }
