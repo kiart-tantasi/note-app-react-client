@@ -72,6 +72,15 @@ export default function AddNote(props) {
       }
   }
 
+  window.onkeydown = (e) => {
+    if (alertOn) {
+      if (e.key === "Enter" || e.key === "Escape") {
+        e.preventDefault();
+        closeModal();
+      }
+    }
+  }
+
   return (
     <>
     {alertOn && <Alert message={alertMessage} handleButton={closeModal} />}

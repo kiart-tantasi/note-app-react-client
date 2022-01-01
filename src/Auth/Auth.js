@@ -103,6 +103,15 @@ export default function Auth() {
         }
     }
 
+    window.onkeydown = (e) => {
+        if (alertOn) {
+          if (e.key === "Enter" || e.key === "Escape") {
+            e.preventDefault();
+            closeModal();
+          }
+        }
+      }
+
     if (!isLoggedIn) {
         return (
             <>
