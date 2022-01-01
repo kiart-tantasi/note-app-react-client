@@ -29,7 +29,7 @@ export default function Auth() {
         const username = usernameRef.current.value;
         const password = passwordRef.current.value;
         if (!username || !password) {
-            setAlertMessage("โปรดระบุยูสเซอร์เนมและพาสเวิร์ด");
+            setAlertMessage("โปรดระบุ username และ password");
             setAlertOn(true);
             return;
         }
@@ -51,7 +51,7 @@ export default function Auth() {
                     setAlertOn(true);
                     setRegistering(false);
                 } else if (res.status === 403) {
-                    setAlertMessage("ยูสเซอร์เนมนี้ถูกใช้งานแล้ว");
+                    setAlertMessage("username นี้ถูกใช้งานแล้ว");
                     setAlertOn(true);
                 } else {
                     setAlertMessage("การลงทะเบียนล้มเหลว");
@@ -68,7 +68,7 @@ export default function Auth() {
                     logIn();
                     navigate("/posts",{ replace: true });
                 } else if (res.status === 401) {
-                    setAlertMessage("ยูสเซอร์เนมหรือพาสเวิร์ดไม่ถูกต้อง");
+                    setAlertMessage("username หรือ password ไม่ถูกต้อง");
                     setAlertOn(true);
                 } else {
                     setAlertMessage("การเข้าสู่ระบบล้มเหลว");
