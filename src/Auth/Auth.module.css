@@ -50,6 +50,18 @@
     width: 200px;
 }
 
+.toggleAuth:hover, .submitAuth:hover, .googleAuth:hover {
+    background-color: rgba(0, 0, 0);
+    border: 1px solid #000;
+    color: #fff;
+}
+
+.googleAuth:hover .googleA {
+    background-color: rgba(0, 0, 0);
+    border: 1px solid #000;
+    color: #fff;
+}
+
 @media (max-width: 400px) {
     .mainAuth {
         width: 95%;

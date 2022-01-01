@@ -69,16 +69,6 @@
         padding-right: 20px;
     }
 
-    .route:first-child,
-    .route-active:first-child {
-        padding-left: 0px;
-    }
-
-    .route:last-child,
-    .route-active:last-child {
-        padding-right: 0px;
-    }
-
     .Add-item, .Update-item, .Show-item {
         width: 90%;
         min-width: 300px;
