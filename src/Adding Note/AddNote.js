@@ -34,10 +34,16 @@ export default function AddNote(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const item = titleRef.current.value.trim() || "";
-    const des = desRef.current.value.trim() || "";
 
     // FAILED
+    if (expanded === false) {
+      setAlertMessage("โปรดระบุข้อความ");
+      setAlertOn(true);
+      return;
+    }
+    
+    const item = titleRef.current.value.trim() || "";
+    const des = desRef.current.value.trim() || "";
     if (!item && !des) {
       setAlertMessage("โปรดระบุข้อความ");
       setAlertOn(true);
