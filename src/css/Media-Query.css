@@ -75,8 +75,11 @@
 
     .route,
     .route-active {
-        padding-left: 20px;
-        padding-right: 20px;
+        padding: 2.5px 20px;
+    }
+
+    .route:first-child, .route-active:first-child {
+        padding: 2.5px 10px;
     }
 
     .Add-item, .Update-item, .Show-item {

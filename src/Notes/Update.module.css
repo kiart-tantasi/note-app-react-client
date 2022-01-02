@@ -32,6 +32,7 @@
     max-height: 100px;
     font-size: 1rem;
     padding-left: 5px;
+    overflow: hidden;
 }
 
 .modalInput, .modalTextarea {

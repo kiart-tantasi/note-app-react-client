@@ -47,6 +47,10 @@ body {
   padding: 2.5px 25px;
 }
 
+.route:first-child, .route-active:first-child {
+  padding: 2.5px 15px;
+}
+
 /* Show Notes */
 .Show-item {
   max-width: 1200px;
