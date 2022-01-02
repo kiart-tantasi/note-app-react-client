@@ -27,17 +27,23 @@ export default function Update() {
         }
     }
 
-    function handleKeyPressTitle(e) {
+    function handleTitleKeyDown(e) {
         if (e.key === "Enter") {
+            e.preventDefault();
+            desRef.current.focus();
+        } else if (e.key === "ArrowDown") {
             e.preventDefault();
             desRef.current.focus();
         }
     }
 
-    function handleKeyPressDes(e) {
+    function handleDesKeyDown(e) {
         if (e.key === "Enter") {
             e.preventDefault();
             handleSubmit(e);
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            titleRef.current.focus();
         }
     }
 
@@ -82,9 +88,9 @@ export default function Update() {
         <div className={`backdrop-div ${styles.modalBackdrop}`}>
             <div className={styles.modalBox}>
                 <form onSubmit={handleSubmit}>
-                    <input type="text" ref={titleRef} className={styles.modalInput} style={borderStyle} onKeyPress={handleKeyPressTitle} />
+                    <input type="text" ref={titleRef} className={styles.modalInput} style={borderStyle} onKeyDown={handleTitleKeyDown} />
                     <br/><br/>
-                    <textarea onKeyPress={handleKeyPressDes} type="text" ref={desRef} className={styles.modalTextarea} style={desBorderStyle} />
+                    <textarea onKeyDown={handleDesKeyDown} type="text" ref={desRef} className={styles.modalTextarea} style={desBorderStyle} />
                     <div className={styles.modalButtons}>
                         <button type="button" onClick={handleCancel}>ยกเลิก</button>
                         <button type="submit">อัปเดต</button>
