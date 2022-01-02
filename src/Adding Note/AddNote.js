@@ -54,11 +54,11 @@ export default function AddNote(props) {
       setAlertOn(true);
       return;
     }
-    if (item.length !== 0 && des.length > 145) {
+    if (item.length !== 0 && des.length > 95) {
       setAlertMessage("รายละเอียดยาวเกินไป");
       setAlertOn(true);
       return;
-    } else if (item.length === 0 && des.length > 180) {
+    } else if (item.length === 0 && des.length > 120) {
       setAlertMessage("รายละเอียดยาวเกินไป");
       setAlertOn(true);
       return;

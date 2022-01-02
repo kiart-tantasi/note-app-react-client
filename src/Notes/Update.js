@@ -61,13 +61,13 @@ export default function Update() {
             }, 3000);
             return;
         }
-        if (title.length !== 0 && des.length > 145) {
+        if (title.length !== 0 && des.length > 95) {
             setDesBorderStyle({"border":"1px solid red"});
             setTimeout(() => {
                 setDesBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
             }, 3000);
             return;
-        } else if (title.length === 0 && des.length > 180) {
+        } else if (title.length === 0 && des.length > 120) {
             setDesBorderStyle({"border":"1px solid red"});
             setTimeout(() => {
                 setDesBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});

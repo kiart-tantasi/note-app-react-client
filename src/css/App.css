@@ -78,6 +78,7 @@ body {
 }
 
 .description-text {
+  font-size: 1.1rem;
   word-wrap: break-word;
   margin: 0;
   padding-top: 4px;
