@@ -1,46 +1,45 @@
 import styles from "./AddNote.module.css"
 import React, { useState, useRef, useContext } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import PostContext from "../share/PostContext";
+import PostContext from "../shared/PostContext";
 import Alert from "../Modal/Alert";
 
 export default function AddNote(props) {
-  const [input, setInput] = useState({ item: "", des: "" });
-  const [expanded, setExpanded] = useState(false);
   const titleRef = useRef();
   const desRef = useRef();
   const { addPost } = useContext(PostContext);
+  const [expanded, setExpanded] = useState(false);
   const [alertMessage,setAlertMessage] = useState("");
   const [alertOn, setAlertOn] = useState(false);
 
-  function handleInputChange(e) {
-    const { name, value } = e.target;
-    setInput((prev) => {
-      return { ...prev, [name]: value };
-    });
-  }
-
-  function handleInputOn() {
+  function handleTitleOn() {
     if (expanded === false) {
       setExpanded(true);
-      
     }
   }
 
-  function handleKeyPress(e) {
-    if (e.key === "Enter" && expanded === true) {
+  function handleTitleKeyPress(e) {
+    if (e.key === "Enter" || e.key === "ArrowDown") {
       e.preventDefault();
       desRef.current.focus();
     }
   }
 
+  function handleDesKeyDown(e) {
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      titleRef.current.focus();
+    }
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    const item = input.item.trim();
-    const des = input.des.trim();
+    const item = titleRef.current.value.trim() || "";
+    const des = desRef.current.value.trim() || "";
+
     // FAILED
-    if (item === "") {
-      setAlertMessage("กรุณาระบุหัวข้อ");
+    if (!item && !des) {
+      setAlertMessage("โปรดระบุข้อความ");
       setAlertOn(true);
       return;
     }
@@ -49,7 +48,11 @@ export default function AddNote(props) {
       setAlertOn(true);
       return;
     }
-    if (des.length > 90) {
+    if (item.length !== 0 && des.length > 145) {
+      setAlertMessage("รายละเอียดยาวเกินไป");
+      setAlertOn(true);
+      return;
+    } else if (item.length === 0 && des.length > 180) {
       setAlertMessage("รายละเอียดยาวเกินไป");
       setAlertOn(true);
       return;
@@ -57,9 +60,9 @@ export default function AddNote(props) {
 
     // SUCCESS
     addPost(item, des);
-    setInput({ item: "", des: "" });
-    titleRef.current.focus();
-    return;
+    titleRef.current.value = "";
+    desRef.current.value = "";
+    desRef.current.focus();
   }
 
   function closeModal() {
@@ -87,33 +90,25 @@ export default function AddNote(props) {
     <div className="Add-item">
       <form>
         <div className={`Two-input ${expanded ? styles.cursorNone : styles.cursorPointer}`}>
-          <input
+          {expanded && <input
             className="install-font"
-            id="First-input"
-            onChange={handleInputChange}
-            onClick={handleInputOn}
-            onKeyPress={handleKeyPress}
-            value={input.item}
+            onKeyDown={handleTitleKeyPress}
             type="text"
-            name="item"
-            placeholder={expanded ? "หัวข้อ" : "โพสต์อิท !"}
+            placeholder="หัวข้อ"
             autoComplete="off"
             ref={titleRef}
+          ></input>}
+          
+          <input
+            className="install-font"
+            onClick={handleTitleOn}
+            onKeyDown={handleDesKeyDown}
+            type="text"
+            placeholder="โพสต์อิท !"
+            autoComplete="off"
+            ref={desRef}
           ></input>
 
-          {expanded && (
-            <input
-              className="install-font"
-              id="Second-input"
-              onChange={handleInputChange}
-              value={input.des}
-              type="text"
-              name="des"
-              placeholder="รายละเอียด"
-              autoComplete="off"
-              ref={desRef}
-            ></input>
-          )}
         </div>
         <button
           type="submit"

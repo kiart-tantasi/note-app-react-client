@@ -21,12 +21,14 @@ body {
 
 /* Main Nav */
 .main-nav {
-  margin: 0;
+  position: fixed;
+  top: 0;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.24);
-  box-shadow: 0 0 0.5px rgba(0, 0, 0, 0.514);
+  background-color: rgb(43, 43, 43);
+  padding: 12.5px;
+  border-bottom: 1px solid rgb(43, 43, 43);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.514);
+  z-index: 999;
 }
 
 .route {
@@ -44,13 +46,6 @@ body {
   color: #fff;
   padding: 2.5px 25px;
 }
-
-.route:hover, .route-active:hover {
-  border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.3)
-}
-
-
 
 /* Show Notes */
 .Show-item {
@@ -75,13 +70,7 @@ body {
   font-size: 20px;
   text-align: center;
   max-height: 40px;
-  padding-top: 4px;
   overflow: hidden;
-}
-
-.Item-block h3:hover {
-  color:rgba(0, 0, 0, 0.8)
-
 }
 
 .description-text {
@@ -90,7 +79,6 @@ body {
   padding-top: 4px;
   letter-spacing: 1px;
   line-height: 150%;
-  max-height: 95px;
   overflow: hidden;
 }
 
@@ -100,6 +88,8 @@ body {
 
 .date-text {
   font-size: 11px;
+  position: relative;
+  top: 30%;
 }
 
 .footer-buttons button {
@@ -111,13 +101,12 @@ body {
   cursor: pointer;
 }
 
-.footer-buttons a:hover, .footer-buttons button:hover {
-  color: rgba(0, 0, 0)
-}
-
 .footer-buttons a {
   text-decoration: none;
-  color: rgba(0,0,0,0.7);
+}
+
+.footer-buttons button {
+  padding: 3px 5px;
 }
 
 /* FLEX SYSTEM IN SHOW NOTE SECTION */
@@ -128,13 +117,30 @@ body {
   height: 100%;
 }
 
-.item-block-flex-footer, .item-block-flex-heading {
+.item-block-flex-footer {
   flex-grow: 0;
 }
 
 .item-block-flex-body {
   flex-grow: 1;
+  padding-top: 4px;
 }
+
+/* FLEX SYSTEM for footer of notes */
+
+.item-block-footer {
+  display: flex;
+  flex-direction: row;
+}
+
+.footer-date {
+  flex-grow: 0;
+}
+
+.footer-buttons {
+  flex-grow: 1;
+}
+
 
 /* Add Item and Update Item */
 
@@ -166,12 +172,6 @@ body {
   width: 100px;
   height: 40px;
   cursor: pointer;
-}
-
-.Add-item button:hover,
-.Update-item button:hover {
-  background-color: rgba(0, 0, 0, 0.7); 
-  color: #000;
 }
 
 .Two-input input:first-child {
@@ -215,4 +215,5 @@ body {
 
 .flex-main-body {
   flex-grow: 1;
+  padding-top: 80px;
 }

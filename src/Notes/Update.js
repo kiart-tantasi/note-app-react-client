@@ -1,7 +1,7 @@
 import styles from "./Update.module.css";
 import React, {useRef, useContext, useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import PostContext from "../share/PostContext";
+import PostContext from "../shared/PostContext";
 
 export default function Update() {
     const { postId } = useParams();
@@ -54,28 +54,24 @@ export default function Update() {
             navigate("/posts", {replace:true});
             return;
         }
-        function setTitleRed() {
+        if (title.length > 25) {
             setBorderStyle({"border":"1px solid red"});
             setTimeout(() => {
                 setBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
             }, 3000);
+            return;
         }
-        function setDesRed(){
+        if (title.length !== 0 && des.length > 145) {
             setDesBorderStyle({"border":"1px solid red"});
             setTimeout(() => {
                 setDesBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
             }, 3000);
-        }
-        if (title.length === 0){
-            setTitleRed();
             return;
-        }
-        if (title.length > 25) {
-            setTitleRed();
-            return;
-        }
-        if (des.length > 90){
-            setDesRed();
+        } else if (title.length === 0 && des.length > 180) {
+            setDesBorderStyle({"border":"1px solid red"});
+            setTimeout(() => {
+                setDesBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
+            }, 3000);
             return;
         }
         updatePost(id,title,des);

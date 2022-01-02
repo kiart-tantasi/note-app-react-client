@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import PostContext from '../share/PostContext';
+import PostContext from '../shared/PostContext';
 import styles from "./Auth.module.css";
 import { useNavigate } from "react-router-dom";
 import Alert from '../Modal/Alert';
@@ -120,11 +120,11 @@ export default function Auth() {
                 <button className={styles.toggleAuth} onClick={handleToggle}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>
                 <br/><br/>
                 <form>
-                    <label htmlFor="username">username</label>
+                    <label htmlFor="username" className={styles.labelUsernamePassword}>username</label>
                     <br/>
                     <input type="text" ref={usernameRef} name="username" autoComplete="off" />
                     <br/><br/>
-                    <label htmlFor="password">password</label>
+                    <label htmlFor="password" className={styles.labelUsernamePassword}>password</label>
                     <br/>
                     <input type="password" ref={passwordRef} name="password" autoComplete="off" />
                     <br/><br/>

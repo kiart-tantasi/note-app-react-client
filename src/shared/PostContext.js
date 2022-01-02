@@ -85,10 +85,10 @@ function PostContextProvider(props) {
         if (res.ok) {
           return res.json()
         } else if (res.status === 400) {
-          throw new Error("title is requied.")
+          throw new Error("No information sent")
         } else if (res.status === 403) {
           logOut();
-          throw new Error("no authentication");
+          throw new Error("No authentication");
         }
       })
       .then(data => {
@@ -102,20 +102,20 @@ function PostContextProvider(props) {
         })
       })
       .catch((err) => console.log(err.message))
-      return;
+    } else {
+      // offline
+      const time = new Date().getTime();
+      const newPosts = [
+        ...posts,{
+          _id: generateId(),
+          item: item,
+          des: des,
+          date: time,
+        }
+      ];
+      setPosts(newPosts);
+      localStorage.setItem("myPostIt", JSON.stringify(newPosts));
     }
-    // offline
-    const time = new Date().getTime();
-    const newPosts = [
-      ...posts,{
-        _id: generateId(),
-        item: item,
-        des: des,
-        date: time,
-      }
-    ];
-    setPosts(newPosts);
-    localStorage.setItem("myPostIt", JSON.stringify(newPosts));
   }
 
   // DELETE A POST
@@ -129,18 +129,18 @@ function PostContextProvider(props) {
           })
         } else if (res.status === 403) {
           logOut();
-          throw new Error("no authentication");
+          throw new Error("No authentication");
         } else {
           throw new Error("deleting failed.")
         }
       })
       .catch(err => console.log(err.message));
-      return;
+    } else {
+      // offline
+      const newPosts = posts.filter((x) => x._id.toString() !== id.toString());
+      setPosts(newPosts);
+      localStorage.setItem("myPostIt", JSON.stringify(newPosts));
     }
-    // offline
-    const newPosts = posts.filter((x) => x._id.toString() !== id.toString());
-    setPosts(newPosts);
-    localStorage.setItem("myPostIt", JSON.stringify(newPosts));
   }
 
   //EDIT A POST
@@ -159,21 +159,22 @@ function PostContextProvider(props) {
             return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x))
           })
         } else if (res.status === 400) {
-          throw new Error("no title defined.")
+          throw new Error("No information sent")
         } else if (res.status === 403) {
           logOut();
-          throw new Error("no authentication")
+          throw new Error("No authentication")
         } else {
           throw new Error("updating failed.")
         }
       })
       .catch(err => console.log(err.message));
-      return;
+    } else {
+      // offline
+      const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x));
+      setPosts(newPosts);
+      localStorage.setItem("myPostIt", JSON.stringify(newPosts));
     }
-    // offline
-    const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x));
-    setPosts(newPosts);
-    localStorage.setItem("myPostIt", JSON.stringify(newPosts));
+    
   }
 
   const context = {

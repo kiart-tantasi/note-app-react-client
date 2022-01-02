@@ -50,28 +50,40 @@
     width: 200px;
 }
 
-.toggleAuth:hover, .submitAuth:hover, .googleAuth:hover {
-    background-color: rgba(0, 0, 0);
-    border: 1px solid #000;
-    color: #fff;
+/* RESPONSIVENESS */
+
+/* HOVER */
+@media (min-width: 950px) {
+
+    .toggleAuth:hover, .submitAuth:hover, .googleAuth:hover {
+        background-color: rgba(0, 0, 0);
+        border: 1px solid #000;
+        color: #fff;
+    }
+    
+    .googleAuth:hover .googleA {
+        background-color: rgba(0, 0, 0);
+        border: 1px solid #000;
+        color: #fff;
+    }
+
+    .labelUsernamePassword:hover {
+        color:rgba(0, 0, 0, 0.75);        
+    }
+    
+    .userName:hover {
+        color: rgba(0, 0, 0, 0.8);
+    }
+    
+    .logoutButton:hover {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(0, 0, 0, 0.5);
+    }
+
 }
 
-.googleAuth:hover .googleA {
-    background-color: rgba(0, 0, 0);
-    border: 1px solid #000;
-    color: #fff;
-}
-
-.userName:hover {
-    color: rgba(0, 0, 0, 0.8);
-}
-
-.logoutButton:hover {
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(0, 0, 0, 0.5);
-}
-
+/* responsive width for phones */
 @media (max-width: 400px) {
     .mainAuth {
         width: 95%;
