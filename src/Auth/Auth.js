@@ -110,7 +110,14 @@ export default function Auth() {
             closeModal();
           }
         }
-      }
+    }
+
+    function handleEnterFlow(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            passwordRef.current.focus();
+        }
+    }
 
     if (!isLoggedIn) {
         return (
@@ -122,7 +129,7 @@ export default function Auth() {
                 <form>
                     <label htmlFor="username" className={styles.labelUsernamePassword}>username</label>
                     <br/>
-                    <input type="text" ref={usernameRef} name="username" autoComplete="off" />
+                    <input type="text" ref={usernameRef} name="username" autoComplete="off" onKeyDown={handleEnterFlow} />
                     <br/><br/>
                     <label htmlFor="password" className={styles.labelUsernamePassword}>password</label>
                     <br/>

@@ -12,7 +12,7 @@ export default function Header() {
       </NavLink>
       <NavLink
         className={({ isActive }) => (isActive ? "route-active" : "route")}
-        to="/authentication"
+        to="/account"
       >
         บัญชี
       </NavLink>

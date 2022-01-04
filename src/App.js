@@ -27,7 +27,7 @@ export default function App() {
       <div className="flex-main-body">
       <Routes>
         <Route path="/posts/*" element={<div><AddNote /><Notes posts={posts} /><EditRoute /></div>} />
-        <Route path="/authentication" element={<Auth />} />
+        <Route path="/account" element={<Auth />} />
         <Route path="/*" element={<Navigate to="/posts" />} />
       </Routes>
       </div>
