@@ -96,12 +96,11 @@ function PostContextProvider(props) {
     logIn: logIn,
     logOut: logOut,
     isLoggedIn: isLoggedIn,
-    // loading
+
+    //loading and username
     isLoading: isLoading,
-    setIsLoading: setIsLoading,
-    // username
     userName: userName,
-    setUserName: setUserName,
+
     // posts
     posts: posts,
     setPosts: setPosts,
