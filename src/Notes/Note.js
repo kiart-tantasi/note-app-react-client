@@ -1,5 +1,5 @@
 import React from "react";
-import Delete from "./Delete";
+import Delete from "../Delete/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from "react-router-dom";
 import styles from "./Note.module.css";

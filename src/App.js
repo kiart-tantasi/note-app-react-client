@@ -8,7 +8,7 @@ import Footer from "./Footer/Footer";
 import Notes from "./Notes/Notes";
 import AddNote from "./Adding Note/AddNote";
 import Auth from "./Auth/Auth";
-import EditRoute from "./Notes/EditRoute";
+import EditRoute from "./Update/EditRoute";
 
 export default function App() {
 
