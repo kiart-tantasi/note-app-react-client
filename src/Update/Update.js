@@ -82,7 +82,8 @@ export default function Update() {
             return;
         }
 
-        //SUCCESS        
+        // SUCCESS
+        //online updating      
         if (isLoggedIn) {
             const options = {
             method:"PATCH",
@@ -106,8 +107,11 @@ export default function Update() {
                 }
             })
             .catch(err => console.log(err.message));
+        //offline updating
         } else {
-            // offline updating
+            
+            const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x));
+            localStorage.setItem("myPostIt", JSON.stringify(newPosts));
             updatePost(id,item,des);
         }
         navigate("/posts", {replace:true});

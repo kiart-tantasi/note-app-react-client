@@ -3,6 +3,7 @@ import React, { useState, useRef, useContext } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import PostContext from "../shared/PostContext";
 import Alert from "../Modal/Alert";
+import generateId from "../shared/generateId";
 
 export default function AddNote(props) {
   const titleRef = useRef();
@@ -10,7 +11,7 @@ export default function AddNote(props) {
   const [expanded, setExpanded] = useState(false);
   const [alertMessage,setAlertMessage] = useState("");
   const [alertOn, setAlertOn] = useState(false);
-  const { addPost, isLoggedIn, logOut } = useContext(PostContext);
+  const { posts, addPost, isLoggedIn, logOut } = useContext(PostContext);
 
   function handleTitleOn() {
     if (expanded === false) {
@@ -65,6 +66,7 @@ export default function AddNote(props) {
     }
 
     // SUCCESS
+    //online adding
     if (isLoggedIn) {
       const options = {
         method:"POST",
@@ -84,14 +86,23 @@ export default function AddNote(props) {
         }
       })
       .then(data => {
-        //online adding
         addPost(data.id,item,des,data.date);
       })
       .catch((err) => console.log(err.message))
+    //offline adding
     } else {
-      //offline adding
+      const newItemId = generateId();
       const getDate = new Date().getTime();
-      addPost("", item, des, getDate);
+      const newPosts = [
+        ...posts,{
+          _id: newItemId,
+          item: item,
+          des: des,
+          date: getDate,
+        }
+      ];
+      localStorage.setItem("myPostIt", JSON.stringify(newPosts));
+      addPost(newItemId, item, des, getDate);
     }
     
     titleRef.current.value = "";

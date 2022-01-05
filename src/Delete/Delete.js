@@ -4,15 +4,16 @@ import PostContext from "../shared/PostContext";
 
 export default function Delete(props) {
 
-    const { deletePost, isLoggedIn, logOut } = useContext(PostContext);
+    const { posts, deletePost, isLoggedIn, logOut } = useContext(PostContext);
+    const id = props.id;
   
     function handleDelete() {
+        //online deleting
         if (isLoggedIn) {
-            fetch("/api/posts/"+ props.id.toString(), {method:"DELETE", credentials: "include"})
+            fetch("/api/posts/"+ id.toString(), {method:"DELETE", credentials: "include"})
             .then((res) => {
                 if (res.ok) {
-                    //online deleting
-                    deletePost(props.id)
+                    deletePost(id)
                 } else if (res.status === 403) {
                     logOut();
                     throw new Error("No authentication");
@@ -22,9 +23,11 @@ export default function Delete(props) {
                 }
             })
             .catch(err => console.log(err.message));
+        //offline deleting
         } else {
-            //offline deleting
-            deletePost(props.id);
+            const newPosts = posts.filter((x) => x._id.toString() !== id.toString());
+            localStorage.setItem("myPostIt", JSON.stringify(newPosts));
+            deletePost(id);
         }
     }
 

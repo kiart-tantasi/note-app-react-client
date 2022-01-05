@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import fetchData from "./fetchData";
-import generateId from "./generateId";
 
 const PostContext = React.createContext({});
 
@@ -24,71 +23,35 @@ function PostContextProvider(props) {
   }, [isLoggedIn] );
   // -------------------- END OF useEffect --------------------//
   
-  // LOG IN
   function logIn() {
     setIsLoggedIn(true);
   }
 
-  // LOG OUT
   function logOut() {
     setIsLoggedIn(false);
   }
 
-  // ADD A POST
   function addPost(id,item,des,date) {
-    //online
-    if (isLoggedIn) {
-      setPosts(prev => {
-        return [...prev,{
-          _id: id,
-          item: item,
-          des: des,
-          date: date,
-        }]
-      })
-    //offline
-    } else {
-      const newPosts = [
-        ...posts,{
-          _id: generateId(),
-          item: item,
-          des: des,
-          date: date,
-        }
-      ];
-      setPosts(newPosts);
-      localStorage.setItem("myPostIt", JSON.stringify(newPosts));
-    }
+    setPosts(prev => {
+      return [...prev,{
+        _id: id,
+        item: item,
+        des: des,
+        date: date,
+      }]
+    })
   }
 
-  // DELETE A POST
   function deletePost(id) {
-    //online
-    if (isLoggedIn) {
-      setPosts(prev => {
-        return prev.filter((x) => x._id.toString() !== id.toString());
-      })  
-    // offline
-    } else {
-      const newPosts = posts.filter((x) => x._id.toString() !== id.toString());
-      setPosts(newPosts);
-      localStorage.setItem("myPostIt", JSON.stringify(newPosts));
-    }
+    setPosts(prev => {
+      return prev.filter((x) => x._id.toString() !== id.toString());
+    })  
   }
 
-  //EDIT A POST
   function updatePost(id, item, des) {
-    //online
-    if (isLoggedIn) {
-      setPosts(prev => {
-        return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x))
-      })
-    // offline
-    } else {
-      const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x));
-      setPosts(newPosts);
-      localStorage.setItem("myPostIt", JSON.stringify(newPosts));
-    }
+    setPosts(prev => {
+      return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x))
+    })
   }
 
   const context = {
@@ -103,7 +66,6 @@ function PostContextProvider(props) {
 
     // posts
     posts: posts,
-    setPosts: setPosts,
     addPost: addPost,
     deletePost: deletePost,
     updatePost: updatePost,
