@@ -9,26 +9,27 @@ function PostContextProvider(props) {
   const [ userName, setUserName ] = useState("");
   const [ isLoading, setIsLoading ] = useState(false);
 
-  // -------------------- USE EFFECT -------------------- //
-  useEffect(() => {
+  async function refreshData() {
     setIsLoading(true);
-    async function fetchDataFunction() {
-      const data = await fetchData();
-      setPosts(data.posts);
-      setIsLoggedIn(data.isLoggedIn);
-      setUserName(data.userName);
-    }
-    fetchDataFunction();
+    const data = await fetchData();
+    setPosts(data.posts);
+    setIsLoggedIn(data.isLoggedIn);
+    setUserName(data.userName);
     setIsLoading(false);
-  }, [isLoggedIn] );
-  // -------------------- END OF useEffect --------------------//
+  }
+
+  useEffect(() => {
+    refreshData();
+  }, [] );
   
   function logIn() {
     setIsLoggedIn(true);
+    refreshData();
   }
 
   function logOut() {
     setIsLoggedIn(false);
+    refreshData();
   }
 
   function addPost(id,item,des,date) {

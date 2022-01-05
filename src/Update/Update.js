@@ -2,7 +2,6 @@ import styles from "./Update.module.css";
 import React, {useRef, useContext, useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PostContext from "../shared/PostContext";
-import { Logout } from "@mui/icons-material";
 
 export default function Update() {
     const { postId } = useParams();
@@ -102,7 +101,7 @@ export default function Update() {
                     logOut();
                     throw new Error("No authentication")
                 } else {
-                    Logout();
+                    logOut();
                     throw new Error("updating failed.")
                 }
             })
