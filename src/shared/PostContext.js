@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import fetchData from "./fetchData";
 
 const PostContext = React.createContext({});
@@ -17,10 +17,6 @@ function PostContextProvider(props) {
     setUserName(data.userName);
     setIsLoading(false);
   }
-
-  useEffect(() => {
-    refreshData();
-  }, [] );
   
   function logIn() {
     setIsLoggedIn(true);
@@ -60,13 +56,17 @@ function PostContextProvider(props) {
     logIn: logIn,
     logOut: logOut,
     isLoggedIn: isLoggedIn,
+    setIsLoggedIn: setIsLoggedIn,
 
     //loading and username
     isLoading: isLoading,
+    setIsLoading: setIsLoading,
     userName: userName,
+    setUserName: setUserName,
 
     // posts
     posts: posts,
+    setPosts: setPosts,
     addPost: addPost,
     deletePost: deletePost,
     updatePost: updatePost,
