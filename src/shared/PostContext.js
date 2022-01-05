@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import generateId from "./generateId";
 
 const PostContext = React.createContext({});
 
 function PostContextProvider(props) {
   const [posts, setPosts] = useState([]);
-  const [ isLoading, setLoading ] = useState(false);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ userName, setUserName ] = useState("");
-  const [UseEffect, activateUseEffect] = useState(false);
-  
+  const [ isLoading, setIsLoading ] = useState(false);
+
   // -------------------- USE EFFECT -------------------- //
   useEffect(() => {
     async function loadData() {
-      setLoading(true);
+      setIsLoading(true);
       let initialPosts;
       // Trying getting data from server first if authenticated
       try {
@@ -51,66 +50,44 @@ function PostContextProvider(props) {
         setIsLoggedIn(false);
       }
       setPosts(initialPosts);
-      setLoading(false);
+      setIsLoading(false);
     }
 
     loadData();
 
-  },[UseEffect]);
+  }, [isLoggedIn] );
   // -------------------- END OF useEffect --------------------//
-
+  
   // LOG IN
   function logIn() {
     setIsLoggedIn(true);
-    activateUseEffect(!UseEffect);
   }
 
   // LOG OUT
   function logOut() {
     setIsLoggedIn(false);
-    activateUseEffect(!UseEffect);
   }
 
   // ADD A POST
-  function addPost(item, des) {
+  function addPost(id,item,des,date) {
+    //online
     if (isLoggedIn) {
-      const options = {
-        method:"POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({item:item,des:des}),
-        credentials: "include"
-      }
-      fetch("/api/posts", options)
-      .then((res) => {
-        if (res.ok) {
-          return res.json()
-        } else if (res.status === 400) {
-          throw new Error("No information sent")
-        } else if (res.status === 403) {
-          logOut();
-          throw new Error("No authentication");
-        }
+      setPosts(prev => {
+        return [...prev,{
+          _id: id,
+          item: item,
+          des: des,
+          date: date,
+        }]
       })
-      .then(data => {
-        setPosts(prev => {
-          return [...prev,{
-            _id: data.id,
-            item: item,
-            des: des,
-            date: data.date,
-          }]
-        })
-      })
-      .catch((err) => console.log(err.message))
+    //offline
     } else {
-      // offline
-      const time = new Date().getTime();
       const newPosts = [
         ...posts,{
           _id: generateId(),
           item: item,
           des: des,
-          date: time,
+          date: date,
         }
       ];
       setPosts(newPosts);
@@ -120,23 +97,13 @@ function PostContextProvider(props) {
 
   // DELETE A POST
   function deletePost(id) {
+    //online
     if (isLoggedIn) {
-      fetch("/api/posts/"+ id, {method:"DELETE", credentials: "include"})
-      .then((res) => {
-        if (res.ok) {
-          setPosts(prev => {
-            return prev.filter((x) => x._id.toString() !== id.toString());
-          })
-        } else if (res.status === 403) {
-          logOut();
-          throw new Error("No authentication");
-        } else {
-          throw new Error("deleting failed.")
-        }
-      })
-      .catch(err => console.log(err.message));
+      setPosts(prev => {
+        return prev.filter((x) => x._id.toString() !== id.toString());
+      })  
+    // offline
     } else {
-      // offline
       const newPosts = posts.filter((x) => x._id.toString() !== id.toString());
       setPosts(newPosts);
       localStorage.setItem("myPostIt", JSON.stringify(newPosts));
@@ -145,45 +112,33 @@ function PostContextProvider(props) {
 
   //EDIT A POST
   function updatePost(id, item, des) {
+    //online
     if (isLoggedIn) {
-      const options = {
-        method:"PATCH",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({item:item,des:des}),
-        credentials: "include"
-      }
-      fetch("/api/posts/"+id, options)
-      .then(res => {
-        if(res.ok) {
-          setPosts(prev => {
-            return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x))
-          })
-        } else if (res.status === 400) {
-          throw new Error("No information sent")
-        } else if (res.status === 403) {
-          logOut();
-          throw new Error("No authentication")
-        } else {
-          throw new Error("updating failed.")
-        }
+      setPosts(prev => {
+        return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x))
       })
-      .catch(err => console.log(err.message));
+    // offline
     } else {
-      // offline
       const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x));
       setPosts(newPosts);
       localStorage.setItem("myPostIt", JSON.stringify(newPosts));
     }
-    
   }
 
   const context = {
+    // authen
     logIn: logIn,
     logOut: logOut,
-    isLoading: isLoading,
     isLoggedIn: isLoggedIn,
+    // loading
+    isLoading: isLoading,
+    setIsLoading: setIsLoading,
+    // username
     userName: userName,
+    setUserName: setUserName,
+    // posts
     posts: posts,
+    setPosts: setPosts,
     addPost: addPost,
     deletePost: deletePost,
     updatePost: updatePost,

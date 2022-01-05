@@ -13,7 +13,6 @@ import EditRoute from "./Notes/EditRoute";
 export default function App() {
 
   const { isLoading } = useContext(PostContext);
-  const { posts } = useContext(PostContext);
 
   if (isLoading) {
     return <div>
@@ -26,7 +25,7 @@ export default function App() {
       <Nav />
       <div className="flex-main-body">
       <Routes>
-        <Route path="/posts/*" element={<div><AddNote /><Notes posts={posts} /><EditRoute /></div>} />
+        <Route path="/posts/*" element={<div><AddNote /><Notes /><EditRoute /></div>} />
         <Route path="/account" element={<Auth />} />
         <Route path="/*" element={<Navigate to="/posts" />} />
       </Routes>

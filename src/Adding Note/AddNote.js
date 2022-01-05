@@ -7,10 +7,10 @@ import Alert from "../Modal/Alert";
 export default function AddNote(props) {
   const titleRef = useRef();
   const desRef = useRef();
-  const { addPost } = useContext(PostContext);
   const [expanded, setExpanded] = useState(false);
   const [alertMessage,setAlertMessage] = useState("");
   const [alertOn, setAlertOn] = useState(false);
+  const { addPost, isLoggedIn, logOut } = useContext(PostContext);
 
   function handleTitleOn() {
     if (expanded === false) {
@@ -65,7 +65,35 @@ export default function AddNote(props) {
     }
 
     // SUCCESS
-    addPost(item, des);
+    if (isLoggedIn) {
+      const options = {
+        method:"POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({item:item,des:des}),
+        credentials: "include"
+      }
+      fetch("/api/posts", options)
+      .then((res) => {
+        if (res.ok) {
+          return res.json()
+        } else if (res.status === 400) {
+          throw new Error("No information sent")
+        } else {
+          logOut();
+          throw new Error("No authentication");
+        }
+      })
+      .then(data => {
+        //online adding
+        addPost(data.id,item,des,data.date);
+      })
+      .catch((err) => console.log(err.message))
+    } else {
+      //offline adding
+      const getDate = new Date().getTime();
+      addPost("", item, des, getDate);
+    }
+    
     titleRef.current.value = "";
     desRef.current.value = "";
     desRef.current.focus();

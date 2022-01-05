@@ -2,10 +2,11 @@ import styles from "./Update.module.css";
 import React, {useRef, useContext, useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PostContext from "../shared/PostContext";
+import { Logout } from "@mui/icons-material";
 
 export default function Update() {
     const { postId } = useParams();
-    const { posts, updatePost } = useContext(PostContext);
+    const { isLoggedIn, logOut, posts, updatePost } = useContext(PostContext);
     const thePost = posts.find(x => x._id.toString() === postId);
     const navigate = useNavigate();
     const titleRef = useRef();
@@ -54,33 +55,61 @@ export default function Update() {
     function handleSubmit(e) {
         e.preventDefault();
         const id = postId;
-        const title = titleRef.current.value;
-        const des = desRef.current.value;
-        if (title === thePost.item && des === thePost.des) {
+        const item = titleRef.current.value.trim();
+        const des = desRef.current.value.trim();
+        if (item === thePost.item && des === thePost.des) {
             navigate("/posts", {replace:true});
             return;
         }
-        if (title.length > 25) {
+        if (item.length > 25) {
             setBorderStyle({"border":"1px solid red"});
             setTimeout(() => {
                 setBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
             }, 3000);
             return;
         }
-        if (title.length !== 0 && des.length > 95) {
+        if (item.length !== 0 && des.length > 95) {
             setDesBorderStyle({"border":"1px solid red"});
             setTimeout(() => {
                 setDesBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
             }, 3000);
             return;
-        } else if (title.length === 0 && des.length > 120) {
+        } else if (item.length === 0 && des.length > 120) {
             setDesBorderStyle({"border":"1px solid red"});
             setTimeout(() => {
                 setDesBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
             }, 3000);
             return;
         }
-        updatePost(id,title,des);
+
+        //SUCCESS        
+        if (isLoggedIn) {
+            const options = {
+            method:"PATCH",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({item:item,des:des}),
+            credentials: "include"
+            }
+            fetch("/api/posts/"+id, options)
+            .then(res => {
+                if(res.ok) {
+                    //online updating
+                    updatePost(id,item,des);
+                } else if (res.status === 400) {
+                    throw new Error("No information sent")
+                } else if (res.status === 403) {
+                    logOut();
+                    throw new Error("No authentication")
+                } else {
+                    Logout();
+                    throw new Error("updating failed.")
+                }
+            })
+            .catch(err => console.log(err.message));
+        } else {
+            // offline updating
+            updatePost(id,item,des);
+        }
         navigate("/posts", {replace:true});
     }
 

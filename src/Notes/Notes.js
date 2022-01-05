@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import Note from "./Note";
+import PostContext from "../shared/PostContext";
 
-export default function ShowNote(props) {
-  const posts = [...props.posts];
+export default function ShowNote() {
+  const { posts } = useContext(PostContext);
+  const reversedPosts = [...posts].reverse();
+
   return (
     <div className="Show-item">      
-      {posts.reverse().map((x) => {
+      {reversedPosts.map((x) => {
         return (
           <Note
             key={x._id}
