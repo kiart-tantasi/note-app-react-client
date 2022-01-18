@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import DeleteIcon from "@mui/icons-material/Delete";
-import PostContext from "../shared/PostContext";
+import PostContext from "../context/PostContext";
 
 export default function Delete(props) {
 

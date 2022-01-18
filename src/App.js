@@ -1,15 +1,12 @@
-import "./css/App.css"
-import "./css/Media-Query.css";
 import React, { useContext, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import PostContext from "./shared/PostContext";
-import Nav from "./Nav/Nav";
-import Footer from "./Footer/Footer";
-import Notes from "./Notes/Notes";
-import AddNote from "./Adding Note/AddNote";
-import Auth from "./Auth/Auth";
-import EditRoute from "./Update/EditRoute";
-import fetchData from "./shared/fetchData";
+import PostContext from "./context/PostContext";
+import Layout from "./layout/Layout";
+import Main from "./pages/Main";
+import Auth from "./pages/Auth";
+import fetchData from "./context/fetchData";
+import "./App.css";
+import "./responsive.css";
 
 export default function App() {
   const { isLoading, setIsLoading, setPosts, setIsLoggedIn, setUserName } = useContext(PostContext);
@@ -34,15 +31,15 @@ export default function App() {
 
   return (
     <div className="flex-container">
-      <Nav />
+      <Layout>
       <div className="flex-main-body">
       <Routes>
-        <Route path="/posts/*" element={<div><AddNote /><Notes /><EditRoute /></div>} />
+        <Route path="/posts/*" element={<Main />} />
         <Route path="/account" element={<Auth />} />
         <Route path="/*" element={<Navigate to="/posts" />} />
       </Routes>
       </div>
-      <Footer />
+      </Layout>
     </div>
   );
 }

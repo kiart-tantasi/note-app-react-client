@@ -1,7 +1,7 @@
-import styles from "./Update.module.css";
+import styles from "./EditModal.module.css";
 import React, {useRef, useContext, useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import PostContext from "../shared/PostContext";
+import PostContext from "../context/PostContext";
 
 export default function Update() {
     const { postId } = useParams();
@@ -56,28 +56,51 @@ export default function Update() {
         const id = postId;
         const item = titleRef.current.value.trim();
         const des = desRef.current.value.trim();
-        if (item === thePost.item && des === thePost.des) {
-            navigate("/posts", {replace:true});
-            return;
-        }
-        if (item.length > 25) {
+
+        function setTitleRed() {
             setBorderStyle({"border":"1px solid red"});
             setTimeout(() => {
                 setBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
             }, 3000);
+        }
+
+        function setDesRed() {
+            setDesBorderStyle({"border":"1px solid red"});
+            setTimeout(() => {
+                setDesBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
+            }, 3000);
+        }
+
+        if (item === thePost.item && des === thePost.des) {
+            navigate("/posts"); //push
             return;
         }
-        if (item.length !== 0 && des.length > 95) {
-            setDesBorderStyle({"border":"1px solid red"});
-            setTimeout(() => {
-                setDesBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
-            }, 3000);
+
+        if (item.length === 0 && des.length === 0) {
+            setTitleRed();
+            setDesRed();
             return;
-        } else if (item.length === 0 && des.length > 120) {
-            setDesBorderStyle({"border":"1px solid red"});
-            setTimeout(() => {
-                setDesBorderStyle({"border":"1px solid rgba(0,0,0,0.5)"});
-            }, 3000);
+        }
+
+        if (item.length > 25 && des.length > 95) {
+            setTitleRed();
+            setDesRed();
+            return;
+        }
+
+        if (item.length > 25) {
+            setTitleRed();
+            return;
+
+        }
+
+        if (des.length > 95 && item.length !== 0) { //Description comes with title.
+            setDesRed();
+            return;
+        }
+        
+        if (des.length > 120 && item.length === 0) { // No title, only description
+            setDesRed();
             return;
         }
 

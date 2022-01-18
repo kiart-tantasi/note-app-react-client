@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import PostContext from '../shared/PostContext';
+import PostContext from '../context/PostContext';
 import styles from "./Auth.module.css";
 import { useNavigate } from "react-router-dom";
-import Alert from '../Modal/Alert';
+import Alert from '../modals/AlertModal';
 
 export default function Auth() {
     const { isLoggedIn, logIn, logOut, userName } = useContext(PostContext);

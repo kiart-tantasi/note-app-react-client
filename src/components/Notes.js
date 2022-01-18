@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Note from "./Note";
-import PostContext from "../shared/PostContext";
+import PostContext from "../context/PostContext";
 
 export default function ShowNote() {
   const { posts } = useContext(PostContext);

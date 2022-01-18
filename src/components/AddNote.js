@@ -1,9 +1,9 @@
 import styles from "./AddNote.module.css"
 import React, { useState, useRef, useContext } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import PostContext from "../shared/PostContext";
-import Alert from "../Modal/Alert";
-import generateId from "../shared/generateId";
+import PostContext from "../context/PostContext";
+import Alert from "../modals/AlertModal";
+import generateId from "../context/generateId";
 
 export default function AddNote(props) {
   const titleRef = useRef();
