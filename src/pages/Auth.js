@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import PostContext from '../context/PostContext';
 import styles from "./Auth.module.css";
 import { useNavigate } from "react-router-dom";
@@ -10,15 +10,8 @@ export default function Auth() {
     const passwordRef = useRef("");
     const navigate = useNavigate();
     const [ registering, setRegistering ] = useState(false);
-    const [ userNameState, setUserNameState ] = useState("POST IT APP");
     const [alertMessage,setAlertMessage] = useState("");
     const [alertOn, setAlertOn] = useState(false);
-
-    useEffect(() => {
-        if (isLoggedIn !== false && userName !== "") {
-            setUserNameState(userName);
-        }
-    },[isLoggedIn, userName])
 
     function handleToggle() {
         setRegistering(!registering);
@@ -147,7 +140,7 @@ export default function Auth() {
     }
     return (
         <div className={styles.mainAuth}>
-            <h1 className={styles.userName}>{userNameState}</h1>
+            <h1 className={styles.userName}>{userName || ""}</h1>
             <br/>
             <button className={styles.logoutButton} type="button" onClick={handleLogOut}>ออกจากระบบ</button>
             <br/><br/>
