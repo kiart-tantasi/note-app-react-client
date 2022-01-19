@@ -13,7 +13,7 @@
 }
 
 .mainAuth button, .mainAuth input {
-    font-family: "Zen Kurenaido", "Prompt", "sans-serif";
+    font-family: inherit;
     font-weight: bold;
     letter-spacing: 2px;
     cursor: pointer;

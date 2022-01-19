@@ -13,14 +13,36 @@ body {
   text-align: center;
 }
 
-/* install font into inputs */
-.install-font {
-  font-family: "Zen Kurenaido", "Prompt", "sans-serif";
-  font-size: 1.2rem;
+/* Main Part */
+.flex-container {
+  min-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.flex-main-body {
+  flex-grow: 1;  /* To stick footer to the bottom of the webpage and forbidding scrolling x */
+  padding-top: 80px;
 }
 
+/* Media Query */
+@media (max-width: 950px) {
+  .flex-main-body {
+    padding-top: 50px;
+  }
+}
+/* ------------------------------------------------------------------------- */
+
+
+/* install font into inputs */
+/* .install-font {
+  font-family: "Zen Kurenaido", "Prompt", "sans-serif";
+  font-size: 1.2rem;
+} */
+
 /* Main Nav */
-.main-nav {
+/* .main-nav {
   position: fixed;
   top: 0;
   width: 100vw;
@@ -49,17 +71,19 @@ body {
 
 .route:first-child, .route-active:first-child {
   padding: 2.5px 15px;
-}
+} */
 
 /* Show Notes */
-.Show-item {
+/* .Show-item {
   max-width: 1200px;
   padding-bottom: 20px;
   text-align: left;
   margin: 0 auto;
-}
+} */
 
-.Item-block {
+/* --------------------- */
+
+/* .Item-block {
   background-color: #fff;
   display: inline-block;
   margin: 10px 10px 6px;
@@ -116,7 +140,7 @@ body {
 
 /* FLEX SYSTEM IN SHOW NOTE SECTION */
 
-.item-block-flex {
+/* .item-block-flex {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -129,11 +153,11 @@ body {
 .item-block-flex-body {
   flex-grow: 1;
   padding-top: 4px;
-}
+} */
 
 /* FLEX SYSTEM for footer of notes */
 
-.item-block-footer {
+/* .item-block-footer {
   display: flex;
   flex-direction: row;
 }
@@ -144,12 +168,12 @@ body {
 
 .footer-buttons {
   flex-grow: 1;
-}
+} */
 
 
-/* Add Item and Update Item */
+/* Add Item and Update Item (Update-item is deprecated since its file was deleted. */
 
-.Add-item,
+/* .Add-item,
 .Update-item {
   display: inline-block;
   margin: 0 auto;
@@ -196,29 +220,13 @@ body {
 
 .no-posts-update {
   padding-top: 50px;
-}
+} */
 
 /* Footer */
-
-.footer {
+/* .footer {
   font-family: sans-serif;
   background-color: #2b2b2b;
   color: #fff;
   font-size: 0.5rem;
   padding: 10px;
-}
-
-/* stick footer to the bottom of the webpage and forbidding scrolling x */
-
-.flex-container {
-  min-height: 100vh;
-  max-width: 100vw;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.flex-main-body {
-  flex-grow: 1;
-  padding-top: 80px;
-}
+} */

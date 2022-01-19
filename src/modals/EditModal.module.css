@@ -36,7 +36,7 @@
 }
 
 .modalInput, .modalTextarea {
-    font-family: "Zen Kurenaido", "Prompt", "sans-serif";
+    font-family: inherit;
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
@@ -50,7 +50,7 @@
     cursor: pointer;
     background-color: #000;
     color: #fff;
-    font-family: "Zen Kurenaido", "Prompt", "sans-serif";
+    font-family: inherit;
     font-size: 1.2rem;
 }
 

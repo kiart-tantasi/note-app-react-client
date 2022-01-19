@@ -6,7 +6,6 @@ import Main from "./pages/Main";
 import Auth from "./pages/Auth";
 import fetchData from "./context/fetchData";
 import "./App.css";
-import "./responsive.css";
 
 export default function App() {
   const { isLoading, setIsLoading, setPosts, setIsLoggedIn, setUserName } = useContext(PostContext);

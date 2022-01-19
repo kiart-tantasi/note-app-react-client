@@ -5,7 +5,7 @@ import PostContext from "../context/PostContext";
 import Alert from "../modals/AlertModal";
 import generateId from "../context/generateId";
 
-export default function AddNote(props) {
+export default function AddNote() {
   const titleRef = useRef();
   const desRef = useRef();
   const [expanded, setExpanded] = useState(false);
@@ -132,20 +132,18 @@ export default function AddNote(props) {
   return (
     <>
     {alertOn && <Alert message={alertMessage} handleButton={closeModal} />}
-    <div className="Add-item">
+    <div className={styles["Add-item"]}>
       <form>
-        <div className={`Two-input ${expanded ? styles.cursorNone : styles.cursorPointer}`}>
+        <div className={` ${styles["Two-input"]} ${expanded ? styles.cursorNone : styles.cursorPointer}`}>
           {expanded && <input
-            className="install-font"
             onKeyDown={handleTitleKeyPress}
             type="text"
-            placeholder="หัวข้อ"
+            placeholder="หัวข้อ (optional)"
             autoComplete="off"
             ref={titleRef}
           ></input>}
           
           <input
-            className="install-font"
             onClick={handleTitleOn}
             onKeyDown={handleDesKeyDown}
             type="text"
