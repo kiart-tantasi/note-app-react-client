@@ -16,13 +16,18 @@
 .Add-item input {
   border-radius: 5px;
   height: 60px;
-  text-align: center;
   margin: 10px auto;
   width: 400px;
   display: block;
   border: 1px solid rgba(0, 0, 0, 0.11);
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
-  font: inherit;
+  font-family: inherit;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.title-input {
+  font-weight: bold;
 }
 
 .Add-item button {

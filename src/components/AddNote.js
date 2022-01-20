@@ -136,6 +136,7 @@ export default function AddNote() {
       <form>
         <div className={` ${styles["Two-input"]} ${expanded ? styles.cursorNone : styles.cursorPointer}`}>
           {expanded && <input
+            className={styles["title-input"]}
             onKeyDown={handleTitleKeyPress}
             type="text"
             placeholder="หัวข้อ (optional)"
@@ -144,6 +145,7 @@ export default function AddNote() {
           ></input>}
           
           <input
+            className={styles["des-input"]}
             onClick={handleTitleOn}
             onKeyDown={handleDesKeyDown}
             type="text"
