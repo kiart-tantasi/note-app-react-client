@@ -10,7 +10,7 @@ export default function Note(props) {
   return (
     <div className={styles["Item-block"]}>
 
-      <div className={styles["item-block-flex"]}>
+      <div className={styles["item-block-flex-container"]}>
         <div className={styles["item-block-flex-body"]}>
           <h3>{props.item}</h3>
           <p className={` ${styles["description-text"]} ${(props.item === "") ? styles.noTitle : styles.withTitle}`}>{props.des}</p>

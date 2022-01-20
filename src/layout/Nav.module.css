@@ -33,17 +33,12 @@
 /* Media Query */
 
 @media (max-width: 950px) {
-
-    /* main nav and padding-top on main body */
     .main-nav {
         padding: 10px 0;
     }
-
 }
 
 @media (max-width: 400px) {
-
-    /* main nav and padding-top on main body */
     .main-nav {
         width: 100%;
     }

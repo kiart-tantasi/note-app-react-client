@@ -8,7 +8,7 @@ export default function ShowNote() {
   const reversedPosts = [...posts].reverse();
 
   return (
-    <div className={styles["all-notes"]}>      
+    <div className={styles.notes}>      
       {reversedPosts.map((x) => {
         return (
           <Note

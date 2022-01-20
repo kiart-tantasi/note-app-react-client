@@ -3,16 +3,6 @@ import styles from "./AlertModal.module.css"
 
 
 export default function Alert(props) {
-    
-    // function handleButton() {
-    //     setModalOn(false);
-    // }
-
-    // window.onclick = function(event) {
-    //     if (event.target === document.querySelector(".close-modal")) {
-    //         setModalOn(false);
-    //     }
-    // }
 
     return (
         <div className={` ${styles.modalBackdrop} close-modal`}>

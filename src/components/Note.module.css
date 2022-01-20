@@ -20,9 +20,9 @@
 
 .Item-block h3 {
   font-size: 20px;
-  text-align: center;
   max-height: 40px;
   overflow: hidden;
+  text-align: center;
 }
 
 .description-text {
@@ -62,9 +62,8 @@
   padding: 3px 5px;
 }
 
-/* FLEX SYSTEM IN SHOW NOTE SECTION */
-
-.item-block-flex {
+/* FLEX SYSTEM IN A NOTE */
+.item-block-flex-container {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -79,8 +78,7 @@
   padding-top: 4px;
 }
 
-/* FLEX SYSTEM for footer of notes */
-
+/* FLEX SYSTEM FOR NOTE'S FOOTER */
 .item-block-footer {
   display: flex;
   flex-direction: row;

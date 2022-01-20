@@ -1,32 +1,32 @@
-.all-notes {
+.notes {
   max-width: 1200px;
   padding-bottom: 20px;
-  text-align: left;
   margin: 0 auto;
+  text-align: left;
 }
 
 /* Media Query */
 
 @media (max-width: 1300px) {
-  .all-notes {
+  .notes {
     max-width: 900px;
   }
 }
 
 @media (max-width: 950px) {
-  .all-notes {
+  .notes {
     max-width: 600px;
   }
 }
 
 @media (max-width: 670px) {
-  .all-notes {
+  .notes {
     width: 350px;
   }
 }
 
 @media (max-width: 400px) {
-  .all-notes {
+  .notes {
     width: 90%;
     min-width: 300px;
   }

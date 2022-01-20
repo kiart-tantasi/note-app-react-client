@@ -54,8 +54,6 @@
     font-size: 1.2rem;
 }
 
-/* RESPONSIVE */
-
 @media (max-width: 950px) {
 
     .modalBackdrop {
