@@ -4,23 +4,14 @@ import PostContext from "./context/PostContext";
 import Layout from "./layout/Layout";
 import Main from "./pages/Main";
 import Auth from "./pages/Auth";
-import fetchData from "./context/fetchData";
 import "./App.css";
 
 export default function App() {
-  const { isLoading, setIsLoading, setPosts, setIsLoggedIn, setUserName } = useContext(PostContext);
+  const { getData, isLoading} = useContext(PostContext);
 
   useEffect(() => {
-    async function refreshData() {
-      setIsLoading(true);
-      const data = await fetchData();
-      setPosts(data.posts);
-      setIsLoggedIn(data.isLoggedIn);
-      setUserName(data.userName);
-      setIsLoading(false);
-    }
-    refreshData();
-  }, [setIsLoading, setIsLoggedIn, setPosts, setUserName]);
+    getData();
+  }, [getData]);
 
   if (isLoading) {
     return <div>

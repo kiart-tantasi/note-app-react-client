@@ -4,6 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import PostContext from "../context/PostContext";
 import Alert from "../modals/AlertModal";
 import generateId from "../context/generateId";
+import useRequest from "../hooks/useRequest";
 
 export default function AddNote() {
   const titleRef = useRef();
@@ -11,7 +12,9 @@ export default function AddNote() {
   const [expanded, setExpanded] = useState(false);
   const [alertMessage,setAlertMessage] = useState("");
   const [alertOn, setAlertOn] = useState(false);
-  const { posts, addPost, isLoggedIn, logOut } = useContext(PostContext);
+  const { posts, addPost, isLoggedIn} = useContext(PostContext);
+  const { addPost: addPostRequest } = useRequest();
+  const [pending, setPending] = useState(false);
 
   function handleTitleOn() {
     if (expanded === false) {
@@ -42,7 +45,6 @@ export default function AddNote() {
       setAlertOn(true);
       return;
     }
-    
     const item = titleRef.current.value.trim() || "";
     const des = desRef.current.value.trim() || "";
     if (!item && !des) {
@@ -68,27 +70,20 @@ export default function AddNote() {
     // SUCCESS
     //online adding
     if (isLoggedIn) {
-      const options = {
-        method:"POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({item:item,des:des}),
-        credentials: "include"
-      }
-      fetch("/api/posts", options)
-      .then((res) => {
-        if (res.ok) {
-          return res.json()
-        } else if (res.status === 400) {
-          throw new Error("No information sent")
-        } else {
-          logOut();
-          throw new Error("No authentication");
+      setPending(true);
+      async function requestToAddPost() {
+        try {
+          const addRequestResponse = await addPostRequest({item:item,des:des});
+          addPost(addRequestResponse.id,item,des,addRequestResponse.date);
+          setPending(false);
+        } catch (err) {
+          console.log(err.message);
+          if (err.message === "No information sent") {
+            setPending(false);
+          }
         }
-      })
-      .then(data => {
-        addPost(data.id,item,des,data.date);
-      })
-      .catch((err) => console.log(err.message))
+      }
+      requestToAddPost();
     //offline adding
     } else {
       const newItemId = generateId();
@@ -162,6 +157,7 @@ export default function AddNote() {
           <AddIcon />
         </button>
       </form>
+      {pending && <><br/><h6> adding... </h6><br/></>}
     </div>
     </>
   );

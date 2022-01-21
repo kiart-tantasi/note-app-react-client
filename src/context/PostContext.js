@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import fetchData from "./fetchData";
+import React, { useCallback, useState } from "react";
+import useRequest from "../hooks/useRequest";
 
 const PostContext = React.createContext({});
 
@@ -8,24 +8,25 @@ function PostContextProvider(props) {
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ userName, setUserName ] = useState("");
   const [ isLoading, setIsLoading ] = useState(false);
-
-  async function refreshData() {
+  const { getPostsAndUserName } = useRequest();
+  
+  const getData = useCallback( async() => {
     setIsLoading(true);
-    const data = await fetchData();
+    const data = await getPostsAndUserName();
     setPosts(data.posts);
     setIsLoggedIn(data.isLoggedIn);
     setUserName(data.userName);
     setIsLoading(false);
-  }
+  }, [getPostsAndUserName]);
   
   function logIn() {
     setIsLoggedIn(true);
-    refreshData();
+    getData();
   }
 
   function logOut() {
     setIsLoggedIn(false);
-    refreshData();
+    getData();
   }
 
   function addPost(id,item,des,date) {
@@ -45,7 +46,7 @@ function PostContextProvider(props) {
     })  
   }
 
-  function updatePost(id, item, des) {
+  function editPost(id, item, des) {
     setPosts(prev => {
       return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x))
     })
@@ -56,20 +57,17 @@ function PostContextProvider(props) {
     logIn: logIn,
     logOut: logOut,
     isLoggedIn: isLoggedIn,
-    setIsLoggedIn: setIsLoggedIn,
 
     //loading and username
     isLoading: isLoading,
-    setIsLoading: setIsLoading,
     userName: userName,
-    setUserName: setUserName,
 
     // posts
+    getData: getData,
     posts: posts,
-    setPosts: setPosts,
     addPost: addPost,
     deletePost: deletePost,
-    updatePost: updatePost,
+    editPost: editPost,
   };
 
   return (

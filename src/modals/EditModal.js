@@ -2,14 +2,19 @@ import styles from "./EditModal.module.css";
 import React, {useRef, useContext, useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PostContext from "../context/PostContext";
+import useRequest from "../hooks/useRequest";
 
 export default function Update() {
     const { postId } = useParams();
-    const { isLoggedIn, logOut, posts, updatePost } = useContext(PostContext);
+    const { isLoggedIn, posts, editPost } = useContext(PostContext);
     const thePost = posts.find(x => x._id.toString() === postId);
+    const { editPost: editPostRequest } = useRequest();
+
     const navigate = useNavigate();
     const titleRef = useRef();
     const desRef = useRef();
+
+
     const [ borderStyle, setBorderStyle ] = useState({"border":"1px solid rgba(0,0,0,0.5)"});
     const [ desBorderStyle, setDesBorderStyle ] = useState({"border":"1px solid rgba(0,0,0,0.5)"});
 
@@ -107,34 +112,20 @@ export default function Update() {
         // SUCCESS
         //online updating      
         if (isLoggedIn) {
-            const options = {
-            method:"PATCH",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({item:item,des:des}),
-            credentials: "include"
-            }
-            fetch("/api/posts/"+id, options)
-            .then(res => {
-                if(res.ok) {
-                    //online updating
-                    updatePost(id,item,des);
-                } else if (res.status === 400) {
-                    throw new Error("No information sent")
-                } else if (res.status === 403) {
-                    logOut();
-                    throw new Error("No authentication")
-                } else {
-                    logOut();
-                    throw new Error("updating failed.")
+            async function requestToEdit() {
+                try {
+                    await editPostRequest({item:item,des:des,id:id});
+                    editPost(id,item,des);
+                } catch(err) {
+                    console.log(err);
                 }
-            })
-            .catch(err => console.log(err.message));
+            }
+            requestToEdit();
         //offline updating
         } else {
-            
             const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x));
             localStorage.setItem("myPostIt", JSON.stringify(newPosts));
-            updatePost(id,item,des);
+            editPost(id,item,des);
         }
         navigate("/posts", {replace:true});
     }

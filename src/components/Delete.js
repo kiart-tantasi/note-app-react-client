@@ -1,28 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import DeleteIcon from "@mui/icons-material/Delete";
 import PostContext from "../context/PostContext";
+import useRequest from "../hooks/useRequest";
 
 export default function Delete(props) {
 
-    const { posts, deletePost, isLoggedIn, logOut } = useContext(PostContext);
+    const { posts, deletePost, isLoggedIn } = useContext(PostContext);
+    const [pending, setPending] = useState(false);
+    const { deletePost: deletePostRequest } = useRequest();
     const id = props.id;
   
     function handleDelete() {
         //online deleting
         if (isLoggedIn) {
-            fetch("/api/posts/"+ id.toString(), {method:"DELETE", credentials: "include"})
-            .then((res) => {
-                if (res.ok) {
-                    deletePost(id)
-                } else if (res.status === 403) {
-                    logOut();
-                    throw new Error("No authentication");
-                } else {
-                    logOut();
-                    throw new Error("deleting failed.")
+            setPending(true);
+            async function requestToDelete() {
+                try {
+                    await deletePostRequest({id: id.toString()});
+                    deletePost(id);
+                } catch(err) {
+                    console.log(err.message || "delete request failed.");
                 }
-            })
-            .catch(err => console.log(err.message));
+            }
+            requestToDelete();
+            
         //offline deleting
         } else {
             const newPosts = posts.filter((x) => x._id.toString() !== id.toString());
@@ -34,7 +35,8 @@ export default function Delete(props) {
     return (
         <>
         <button className="delete-button" onClick={handleDelete}>
-            <DeleteIcon />
+            {!pending && <DeleteIcon />}
+            {pending && <h6>deleting..</h6>}
         </button>
         </>
     )
