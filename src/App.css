@@ -27,6 +27,10 @@ body {
   padding-top: 80px;
 }
 
+.loading-text {
+  margin-top: 10vh;
+}
+
 /* Media Query */
 @media (max-width: 950px) {
   .flex-main-body {
