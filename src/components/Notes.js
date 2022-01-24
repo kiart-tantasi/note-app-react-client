@@ -17,6 +17,7 @@ export default function ShowNote() {
             item={x.item}
             des={x.des}
             date={x.date}
+            pending={x.pending}
           />
         );
       })}

@@ -1,11 +1,14 @@
 import React from "react";
 import Delete from "../components/Delete";
 import EditIcon from '@mui/icons-material/Edit';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Link } from "react-router-dom";
 import styles from "./Note.module.css";
 
+
 export default function Note(props) {
   const date = new Date(props.date).getDate().toString() + "/" + ( new Date(props.date).getMonth() + 1 ).toString() + "/" + new Date(props.date).getFullYear().toString() || "no date described.";
+  const pending = props.pending;
 
   return (
     <div className={styles["Item-block"]}>
@@ -21,8 +24,9 @@ export default function Note(props) {
             <p className={styles["date-text"]}>{date}</p>
           </div>
           <div className={styles["footer-buttons"]}>
-            <Link to={`/posts/edit/${props.id}`}><button><EditIcon className="edit-icon" /></button></Link>
-            <Delete id={props.id} />
+            {pending && <CircularProgress size={20} color="inherit" className={styles["spinner-ui"]} />}
+            {!pending && <Link to={`/posts/edit/${props.id}`}><button><EditIcon className="edit-icon" /></button></Link>}
+            <Delete id={props.id} classProp={styles["spinner-ui"]} />
           </div>
         </div>
 

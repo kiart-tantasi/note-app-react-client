@@ -13,7 +13,10 @@ function PostContextProvider(props) {
   const getData = useCallback( async() => {
     setIsLoading(true);
     const data = await getPostsAndUserName();
-    setPosts(data.posts);
+    const transformedPosts = data.posts.map(x => {
+      return{...x, pending: false}
+    });
+    setPosts(transformedPosts);
     setIsLoggedIn(data.isLoggedIn);
     setUserName(data.userName);
     setIsLoading(false);
@@ -47,27 +50,42 @@ function PostContextProvider(props) {
   }
 
   function editPost(id, item, des) {
+    if (isLoggedIn) {
+      setPosts(prev => {
+        return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des, pending: false } : x))
+      })
+    } else if (!isLoggedIn) {
+      setPosts(prev => {
+        return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des} : x))
+      })
+    }
+  }
+
+  function turnPendingOn(id) {
     setPosts(prev => {
-      return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x))
-    })
+      return prev.map(x => x._id.toString() === id.toString() ? {...x, pending: true} : x)
+    });
   }
 
   const context = {
     // authen
-    logIn: logIn,
-    logOut: logOut,
-    isLoggedIn: isLoggedIn,
+    logIn,
+    logOut,
+    isLoggedIn,
 
     //loading and username
-    isLoading: isLoading,
-    userName: userName,
+    isLoading,
+    userName,
 
     // posts
-    getData: getData,
-    posts: posts,
-    addPost: addPost,
-    deletePost: deletePost,
-    editPost: editPost,
+    getData,
+    posts,
+    addPost,
+    deletePost,
+    editPost,
+
+    //pending for editting
+    turnPendingOn
   };
 
   return (

@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
-import DeleteIcon from "@mui/icons-material/Delete";
 import PostContext from "../context/PostContext";
 import useRequest from "../hooks/useRequest";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Delete(props) {
 
@@ -36,7 +37,7 @@ export default function Delete(props) {
         <>
         <button className="delete-button" onClick={handleDelete}>
             {!pending && <DeleteIcon />}
-            {pending && <h6>deleting..</h6>}
+            {pending && <CircularProgress size={20} color="inherit" className={props.classProp} />}
         </button>
         </>
     )

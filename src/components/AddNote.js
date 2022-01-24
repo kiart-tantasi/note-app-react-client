@@ -1,10 +1,11 @@
 import styles from "./AddNote.module.css"
 import React, { useState, useRef, useContext } from "react";
-import AddIcon from "@mui/icons-material/Add";
 import PostContext from "../context/PostContext";
 import Alert from "../modals/AlertModal";
 import generateId from "../context/generateId";
 import useRequest from "../hooks/useRequest";
+import AddIcon from "@mui/icons-material/Add";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function AddNote() {
   const titleRef = useRef();
@@ -150,14 +151,14 @@ export default function AddNote() {
           ></input>
 
         </div>
-        <button
+        {!pending && <button
           type="submit"
           onClick={handleSubmit}
         >
           <AddIcon />
-        </button>
+        </button>}
       </form>
-      {pending && <><br/><h6> adding... </h6><br/></>}
+      {pending && <CircularProgress color="inherit" className={styles["spinner-ui"]} />}
     </div>
     </>
   );

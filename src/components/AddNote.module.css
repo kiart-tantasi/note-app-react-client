@@ -44,6 +44,11 @@
   height: 30px;
 }
 
+.spinner-ui {
+  color: rgba(0, 0, 0, 0.8);
+  margin: 10px 0;
+}
+
 /* Media Query */
 
 @media (max-width: 950px) {
