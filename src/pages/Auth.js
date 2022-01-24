@@ -132,7 +132,7 @@ export default function Auth() {
             {alertOn && <Alert message={alertMessage} handleButton={closeModal} />}
             {!initiated && <Popup onClick={init}>ทดลองใช้งาน username = admin และ password = password</Popup>}
             <div className={styles.mainAuth}>
-                <button className={styles.toggleAuth} onClick={handleToggle}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>
+                <button className={`${styles.toggleAuth} ${styles["two-buttons"]} `} onClick={handleToggle}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>
                 <br/><br/>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="username" className={styles.labelUsernamePassword}>username</label>
@@ -143,7 +143,7 @@ export default function Auth() {
                     <br/>
                     <input type="password" ref={passwordRef} name="password" autoComplete="off" />
                     <br/><br/>
-                    {!pendingLogin && <button className={styles.submitAuth} type="submit">{(registering) ? "ลงทะเบียน" : "เข้าสู่ระบบ"}</button>}
+                    {!pendingLogin && <button className={`${styles.submitAuth} ${styles["two-buttons"]}`} type="submit">{(registering) ? "ลงทะเบียน" : "เข้าสู่ระบบ"}</button>}
                     {pendingLogin && <CircularProgress size={25} color="inherit" className={styles["spinner-ui"]} />}
                     <br/><br/>
                     {/* <button type="button" className={styles.googleAuth}><a className={styles.googleA} href="/api/auth/google">เข้าสู่ระบบ/สมัครด้วย GOOGLE ACCOUNT</a></button> */}
