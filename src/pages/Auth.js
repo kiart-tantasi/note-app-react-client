@@ -146,9 +146,9 @@ export default function Auth() {
                     {!pendingLogin && <button className={styles.submitAuth} type="submit">{(registering) ? "ลงทะเบียน" : "เข้าสู่ระบบ"}</button>}
                     {pendingLogin && <CircularProgress size={25} color="inherit" className={styles["spinner-ui"]} />}
                     <br/><br/>
-                    {/* <button className={styles.googleAuth}><a className={styles.googleA} href="/api/auth/google">เข้าสู่ระบบ/สมัครด้วย GOOGLE ACCOUNT</a></button> */}
+                    {/* <button type="button" className={styles.googleAuth}><a className={styles.googleA} href="/api/auth/google">เข้าสู่ระบบ/สมัครด้วย GOOGLE ACCOUNT</a></button> */}
                     {/* when testing on 3000, use below */}
-                    <button className={styles.googleAuth}><a className={styles.googleA} href="http://localhost:4000/api/auth/google">เข้าสู่ระบบ/สมัครโดย GOOGLE (3000)</a></button>
+                    <button type="button" className={styles.googleAuth}><a className={styles.googleA} href="http://localhost:4000/api/auth/google">เข้าสู่ระบบ/สมัครโดย GOOGLE (3000)</a></button>
                 </form>
             </div>
             </>
