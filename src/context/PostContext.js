@@ -9,6 +9,8 @@ function PostContextProvider(props) {
   const [ userName, setUserName ] = useState("");
   const [ isLoading, setIsLoading ] = useState(false);
   const { getPostsAndUserName } = useRequest();
+
+  const [initiated, setInitiated] = useState(false);
   
   const getData = useCallback( async() => {
     setIsLoading(true);
@@ -67,6 +69,10 @@ function PostContextProvider(props) {
     });
   }
 
+  function init() {
+    setInitiated(true);
+  }
+
   const context = {
     // authen
     logIn,
@@ -85,7 +91,11 @@ function PostContextProvider(props) {
     editPost,
 
     //pending for editting
-    turnPendingOn
+    turnPendingOn,
+
+    // initiated
+    initiated,
+    init
   };
 
   return (

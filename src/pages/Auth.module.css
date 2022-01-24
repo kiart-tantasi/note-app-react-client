@@ -50,6 +50,10 @@
     width: 200px;
 }
 
+.spinner-ui {
+    color: #fff;
+}
+
 /* HOVER */
 @media (min-width: 950px) {
 
