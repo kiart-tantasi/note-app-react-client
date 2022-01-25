@@ -57,6 +57,12 @@
     width: 200px;
 }
 
+.logoutButton {
+    padding: 3px 5px;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+}
+
 .spinner-ui {
     color: #fff;
 }
