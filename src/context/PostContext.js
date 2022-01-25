@@ -1,7 +1,23 @@
 import React, { useCallback, useState } from "react";
 import useRequest from "../hooks/useRequest";
 
-const PostContext = React.createContext({});
+const PostContext = React.createContext(
+  {
+    logIn: () => {},
+    logOut: () => {},
+    isLoggedIn: null,
+    isLoading: null,
+    userName: null,
+    getData: () => {},
+    posts: [],
+    addPost: (id,item,des,date) => {},
+    deletePost:(id) => {},
+    editPost: (id, item, des) => {},
+    turnPendingOn: (id) => {},
+    initiated: null,
+    init: () => {}
+  }
+);
 
 function PostContextProvider(props) {
   const [posts, setPosts] = useState([]);
