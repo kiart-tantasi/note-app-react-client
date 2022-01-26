@@ -6,10 +6,10 @@ import styles from "./AlertModal.module.css";
 const ModalOverlay =(props) => {
     return (
         <div>
-            <div className={` ${styles.modalBackdrop} close-modal`}></div>
+            <div onClick={props.onClose} className={` ${styles.modalBackdrop} close-modal`}></div>
             <div className={`${styles.modalBox} ${styles.modalContent}`}>
                 <h1>{props.message}</h1>
-                <button onClick={props.handleButton}>ปิด</button>
+                <button onClick={props.onClose}>ปิด</button>
             </div>
         </div>
     )
@@ -19,7 +19,7 @@ export default function Alert(props) {
 
     return (
         <>
-        {ReactDOM.createPortal(<ModalOverlay message={props.message} handleButton={props.handleButton} />,document.querySelector("#modals"))}
+        {ReactDOM.createPortal(<ModalOverlay message={props.message} onClose={props.onClose} />,document.querySelector("#modals"))}
         </>
     )
 }

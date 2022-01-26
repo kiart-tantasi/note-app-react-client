@@ -104,9 +104,10 @@ export default function Auth() {
         setAlertOn(false);
     }
 
-    window.onclick = function(event) {
-        if (event.target === document.querySelector(".close-modal")) {
-            closeModal();
+    function handleEnterFlow(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            passwordRef.current.focus();
         }
     }
 
@@ -119,17 +120,10 @@ export default function Auth() {
         }
     }
 
-    function handleEnterFlow(e) {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            passwordRef.current.focus();
-        }
-    }
-
     if (!isLoggedIn) {
         return (
             <>
-            {alertOn && <Alert message={alertMessage} handleButton={closeModal} />}
+            {alertOn && <Alert message={alertMessage} onClose={closeModal} />}
             {!trialInitiated && <Popup onClick={initTrial}>ทดลองใช้งาน username = admin และ password = password</Popup>}
             <div className={styles.mainAuth}>
                 <button className={`${styles.toggleAuth} ${styles["two-buttons"]} `} onClick={handleToggle}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>

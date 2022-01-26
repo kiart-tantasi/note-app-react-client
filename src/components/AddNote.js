@@ -24,7 +24,7 @@ export default function AddNote() {
   }
 
   function handleTitleKeyPress(e) {
-    if (e.key === "Enter" || e.key === "ArrowDown") {
+    if (e.key === "ArrowDown") {
       e.preventDefault();
       desRef.current.focus();
     }
@@ -110,12 +110,6 @@ export default function AddNote() {
     setAlertOn(false);
   }
 
-  window.onclick = function(event) {
-      if (event.target === document.querySelector(".close-modal")) {
-          closeModal();
-      }
-  }
-
   window.onkeydown = (e) => {
     if (alertOn) {
       if (e.key === "Enter" || e.key === "Escape") {
@@ -127,7 +121,7 @@ export default function AddNote() {
 
   return (
     <>
-    {alertOn && <Alert message={alertMessage} handleButton={closeModal} />}
+    {alertOn && <Alert message={alertMessage} onClose={closeModal} />}
     <div className={styles["Add-item"]}>
       <form>
         <div className={` ${styles["Two-input"]} ${expanded ? styles.cursorNone : styles.cursorPointer}`}>

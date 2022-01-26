@@ -39,10 +39,6 @@ function ModalOverlay() {
         }
     }
 
-    function handleCancel() {
-        navigate("/posts",{ replace: true });        
-    }
-
     function handleSubmit(e) {
         e.preventDefault();
         
@@ -113,6 +109,17 @@ function ModalOverlay() {
         }
         navigate("/posts", {replace:true});
     }
+
+    function handleCancel() {
+        navigate("/posts",{ replace: true });        
+    }
+
+    window.onkeydown = (e) => {
+        if (e.key === "Escape") {
+            e.preventDefault();
+            handleCancel();
+        }
+      }
 
     return (
         <div>
