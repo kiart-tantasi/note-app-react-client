@@ -39,19 +39,18 @@ function PostContextProvider(props) {
     });
     setPosts(transformedPosts);
     setIsLoggedIn(data.isLoggedIn);
+    setOfflineInitiated(data.isLoggedIn);
     setUserName(data.userName);
     setIsLoading(false);
   }, [getPostsAndUserName]);
   
   function logIn() {
     setIsLoggedIn(true);
-    setOfflineInitiated(true);
     getData();
   }
 
   function logOut() {
     setIsLoggedIn(false);
-    setOfflineInitiated(false);
     getData();
   }
 
