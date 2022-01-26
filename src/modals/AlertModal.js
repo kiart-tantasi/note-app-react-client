@@ -1,9 +1,9 @@
-import React from 'react'
-import styles from "./AlertModal.module.css"
+import React from 'react';
+import ReactDOM from "react-dom";
+import styles from "./AlertModal.module.css";
 
 
-export default function Alert(props) {
-
+const ModalOverlay =(props) => {
     return (
         <div>
             <div className={` ${styles.modalBackdrop} close-modal`}></div>
@@ -12,5 +12,14 @@ export default function Alert(props) {
                 <button onClick={props.handleButton}>ปิด</button>
             </div>
         </div>
+    )
+}
+
+export default function Alert(props) {
+
+    return (
+        <>
+        {ReactDOM.createPortal(<ModalOverlay message={props.message} handleButton={props.handleButton} />,document.querySelector("#modals"))}
+        </>
     )
 }

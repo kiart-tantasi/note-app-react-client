@@ -14,8 +14,10 @@ const PostContext = React.createContext(
     deletePost:(id) => {},
     editPost: (id, item, des) => {},
     turnPendingOn: (id) => {},
-    initiated: null,
-    init: () => {}
+    offlineInitiated: null,
+    initOffline: () => {},
+    trialInitiated: null,
+    initTrial: () => {}
   }
 );
 
@@ -26,7 +28,8 @@ function PostContextProvider(props) {
   const [ isLoading, setIsLoading ] = useState(false);
   const { getPostsAndUserName } = useRequest();
 
-  const [initiated, setInitiated] = useState(false);
+  const [offlineInitiated, setOfflineInitiated] = useState(false);
+  const [trialInitiated, setTrialInitiated] = useState(false);
   
   const getData = useCallback( async() => {
     setIsLoading(true);
@@ -42,11 +45,13 @@ function PostContextProvider(props) {
   
   function logIn() {
     setIsLoggedIn(true);
+    setOfflineInitiated(true);
     getData();
   }
 
   function logOut() {
     setIsLoggedIn(false);
+    setOfflineInitiated(false);
     getData();
   }
 
@@ -85,8 +90,12 @@ function PostContextProvider(props) {
     });
   }
 
-  function init() {
-    setInitiated(true);
+  function initTrial() {
+    setTrialInitiated(true);
+  }
+
+  function initOffline() {
+    setOfflineInitiated(true);
   }
 
   const context = {
@@ -109,9 +118,11 @@ function PostContextProvider(props) {
     //pending for editting
     turnPendingOn,
 
-    // initiated
-    initiated,
-    init
+    // trialInitiated
+    offlineInitiated,
+    initOffline,
+    trialInitiated,
+    initTrial
   };
 
   return (

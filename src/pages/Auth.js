@@ -7,7 +7,7 @@ import Popup from "../components/Popup";
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Auth() {
-    const { isLoggedIn, logIn, logOut, userName, initiated, init } = useContext(PostContext);
+    const { isLoggedIn, logIn, logOut, userName, trialInitiated, initTrial } = useContext(PostContext);
     const usernameRef = useRef("");
     const passwordRef = useRef("");
     const navigate = useNavigate();
@@ -130,7 +130,7 @@ export default function Auth() {
         return (
             <>
             {alertOn && <Alert message={alertMessage} handleButton={closeModal} />}
-            {!initiated && <Popup onClick={init}>ทดลองใช้งาน username = admin และ password = password</Popup>}
+            {!trialInitiated && <Popup onClick={initTrial}>ทดลองใช้งาน username = admin และ password = password</Popup>}
             <div className={styles.mainAuth}>
                 <button className={`${styles.toggleAuth} ${styles["two-buttons"]} `} onClick={handleToggle}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>
                 <br/><br/>

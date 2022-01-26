@@ -1,10 +1,11 @@
-import styles from "./EditModal.module.css";
 import React, {useRef, useContext, useEffect, useState} from 'react';
+import ReactDOM from "react-dom";
 import { useNavigate, useParams } from 'react-router-dom';
 import PostContext from "../context/PostContext";
 import useRequest from "../hooks/useRequest";
+import styles from "./EditModal.module.css";
 
-export default function Update() {
+function ModalOverlay() {
     const { postId } = useParams();
     const { isLoggedIn, posts, editPost, turnPendingOn } = useContext(PostContext);
     const thePost = posts.find(x => x._id.toString() === postId);
@@ -128,5 +129,13 @@ export default function Update() {
                 </form>
             </div>
         </div>
+    )
+}
+
+export default function EditModal () {
+    return (
+        <>
+        {ReactDOM.createPortal(<ModalOverlay />, document.querySelector("#edit-modal"))}
+        </>
     )
 }
