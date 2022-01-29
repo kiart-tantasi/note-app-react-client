@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import Note from "./Note";
 import PostContext from "../context/PostContext";
 import styles from "./Notes.module.css";

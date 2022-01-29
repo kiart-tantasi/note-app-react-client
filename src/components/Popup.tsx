@@ -1,8 +1,7 @@
+import React from "react";
 import styles from "./Popup.module.css";
 
-import React from 'react';
-
-export default function Popup(props) {
+export default function Popup(props:{children:React.ReactNode; onClick:()=> void;extraText?:string}) {
   return (
     <div className={styles["pop-up"]}>
         <p>{props.children}</p>

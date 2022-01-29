@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-export default function useInput(validatingFunction) {
+export default function useInput(validatingFunction: (input:string) => boolean) {
 
     const [ inputValue, setInputValue ] = useState("");
     const [ initialized, setInitialized ] = useState(false);
@@ -9,7 +9,7 @@ export default function useInput(validatingFunction) {
     
     const error = initialized && !validatingFunction(inputValue);
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
     }
 

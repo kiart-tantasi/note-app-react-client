@@ -1,45 +1,30 @@
 import React, { useCallback, useState } from "react";
 import useRequest from "../hooks/useRequest";
 
-const PostContext = React.createContext(
-  {
-    logIn: () => {},
-    logOut: () => {},
-    isLoggedIn: null,
-    isLoading: null,
-    userName: null,
-    getData: () => {},
-    posts: [],
-    addPost: (id,item,des,date) => {},
-    deletePost:(id) => {},
-    editPost: (id, item, des) => {},
-    turnPendingOn: (id) => {},
-    offlineInitiated: null,
-    initOffline: () => {},
-    trialInitiated: null,
-    initTrial: () => {}
-  }
-);
+import { PostModel } from "../models/types"
+import { PostContextModel } from "../models/types";
+import { initialContext } from "../models/types";
 
-function PostContextProvider(props) {
-  const [posts, setPosts] = useState([]);
+const PostContext = React.createContext<PostContextModel>(initialContext);
+
+const PostContextProvider: React.FC = (props) => {
+  const { getPostsAndUserName } = useRequest();
+  const [posts, setPosts] = useState<PostModel[]>([]);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ userName, setUserName ] = useState("");
   const [ isLoading, setIsLoading ] = useState(false);
-  const { getPostsAndUserName } = useRequest();
+  const [offlineIsClosed, setOfflineIsClosed] = useState(false);
+  const [trialIsClosed, setTrialIsClosed] = useState(false);
 
-  const [offlineInitiated, setOfflineInitiated] = useState(false);
-  const [trialInitiated, setTrialInitiated] = useState(false);
-  
   const getData = useCallback( async() => {
     setIsLoading(true);
-    const data = await getPostsAndUserName();
+    const data: {posts: PostModel[];isLoggedIn: boolean; userName:string} = await getPostsAndUserName();
     const transformedPosts = data.posts.map(x => {
       return{...x, pending: false}
     });
     setPosts(transformedPosts);
     setIsLoggedIn(data.isLoggedIn);
-    setOfflineInitiated(data.isLoggedIn);
+    setOfflineIsClosed(data.isLoggedIn);
     setUserName(data.userName);
     setIsLoading(false);
   }, [getPostsAndUserName]);
@@ -54,24 +39,25 @@ function PostContextProvider(props) {
     getData();
   }
 
-  function addPost(id,item,des,date) {
+  function addPost(id: string, item: string, des: string ,date: number) {
     setPosts(prev => {
       return [...prev,{
         _id: id,
         item: item,
         des: des,
         date: date,
+        pending: false
       }]
     })
   }
 
-  function deletePost(id) {
+  function deletePost(id: string) {
     setPosts(prev => {
       return prev.filter((x) => x._id.toString() !== id.toString());
     })  
   }
 
-  function editPost(id, item, des) {
+  function editPost(id: string, item: string, des: string) {
     if (isLoggedIn) {
       setPosts(prev => {
         return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des, pending: false } : x))
@@ -83,45 +69,42 @@ function PostContextProvider(props) {
     }
   }
 
-  function turnPendingOn(id) {
+  function turnPendingOn(id: string) {
     setPosts(prev => {
       return prev.map(x => x._id.toString() === id.toString() ? {...x, pending: true} : x)
     });
   }
 
-  function initTrial() {
-    setTrialInitiated(true);
+  function closeOffline() {
+    setOfflineIsClosed(true);
   }
 
-  function initOffline() {
-    setOfflineInitiated(true);
+  function closeTrial() {
+    setTrialIsClosed(true);
   }
+
 
   const context = {
     // authen
     logIn,
     logOut,
     isLoggedIn,
-
     //loading and username
     isLoading,
     userName,
-
     // posts
     getData,
     posts,
     addPost,
     deletePost,
     editPost,
-
     //pending for editting
     turnPendingOn,
-
-    // trialInitiated
-    offlineInitiated,
-    initOffline,
-    trialInitiated,
-    initTrial
+    // initiated
+    offlineIsClosed,
+    closeOffline,
+    trialIsClosed,
+    closeTrial
   };
 
   return (

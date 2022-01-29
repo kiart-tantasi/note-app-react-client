@@ -11,40 +11,42 @@ function ModalOverlay() {
     const thePost = posts.find(x => x._id.toString() === postId);
     const { editPost: editPostRequest } = useRequest();
     const navigate = useNavigate();
-    const titleRef = useRef();
-    const desRef = useRef();
+    const titleRef = useRef<HTMLInputElement>(null);
+    const desRef = useRef<HTMLTextAreaElement>(null);
     const [ borderStyle, setBorderStyle ] = useState({"border":"1px solid rgba(0,0,0,0.5)"});
     const [ desBorderStyle, setDesBorderStyle ] = useState({"border":"1px solid rgba(0,0,0,0.5)"});
 
     useEffect(() => {
         if (thePost) {
-            titleRef.current.value = thePost.item || "";
-            desRef.current.value = thePost.des || "";
-            desRef.current.focus();
+            titleRef.current!.value = thePost.item || "";
+            desRef.current!.value = thePost.des || "";
+            desRef.current!.focus();
         } else {
             console.log("loading data for editing...")
         }
     }, [thePost])
 
-    function handleTitleKeyDown(e) {
+    function handleTitleKeyDown(e: React.KeyboardEvent) {
         if (e.key === "ArrowDown") {
             e.preventDefault();
-            desRef.current.focus();
+            desRef.current!.focus();
         }
     }
-    function handleDesKeyDown(e) {
+    function handleDesKeyDown(e: React.KeyboardEvent) {
         if (e.key === "Enter") {
             e.preventDefault();
-            handleSubmit(e);
+            handleSubmit();
         }
     }
-
-    function handleSubmit(e) {
-        e.preventDefault();
+    function handleSubmit(e?: React.FormEvent) {
+        if (e) e.preventDefault();
         
-        const id = postId;
-        const item = titleRef.current.value.trim();
-        const des = desRef.current.value.trim();
+        const id: string | undefined = postId;
+        // if (id === undefined) {
+        //     throw new Error("cannot get ID of the post.")
+        // }
+        const item = titleRef.current!.value.trim();
+        const des = desRef.current!.value.trim();
 
         // functions to red the input and textarea
         function setTitleRed() {
@@ -60,7 +62,7 @@ function ModalOverlay() {
             }, 3000);
         }
 
-        if (item === thePost.item && des === thePost.des) { // no changes
+        if (item === thePost!.item && des === thePost!.des) { // no changes
             console.log("no changes found.");
             navigate("/posts");
             return;
@@ -91,11 +93,11 @@ function ModalOverlay() {
         // SUCCESS
         //online updating      
         if (isLoggedIn) {
-            turnPendingOn(id);
-            async function requestToEdit() {
+            turnPendingOn(id!);
+            const requestToEdit = async() => {
                 try {
-                    await editPostRequest({item:item,des:des,id:id});
-                    editPost(id,item,des);
+                    await editPostRequest({item:item,des:des,id:id!});
+                    editPost(id!, item, des);
                 } catch(err) {
                     console.log(err);
                 }
@@ -103,9 +105,9 @@ function ModalOverlay() {
             requestToEdit();
         //offline updating
         } else {
-            const newPosts = posts.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des } : x));
+            const newPosts = posts.map((x) => (x._id.toString() === id!.toString() ? { ...x, item: item, des: des } : x));
             localStorage.setItem("myPostIt", JSON.stringify(newPosts));
-            editPost(id,item,des);
+            editPost(id! ,item,des);
         }
         navigate("/posts", {replace:true});
     }
@@ -128,10 +130,10 @@ function ModalOverlay() {
                 <form onSubmit={handleSubmit}>
                     <input type="text" ref={titleRef} className={styles.modalInput} style={borderStyle} onKeyDown={handleTitleKeyDown} />
                     <br/><br/>
-                    <textarea onKeyDown={handleDesKeyDown} type="text" ref={desRef} className={styles.modalTextarea} style={desBorderStyle} />
+                    <textarea onKeyDown={handleDesKeyDown} ref={desRef} className={styles.modalTextarea} style={desBorderStyle} />
                     <div className={styles.modalButtons}>
                         <button type="button" onClick={handleCancel}>ยกเลิก</button>
-                        <button type="submit">อัปเดต</button>
+                        <button type="submit" className={styles["submit-button"]}>แก้ไข</button>
                     </div>
                 </form>
             </div>
@@ -142,7 +144,10 @@ function ModalOverlay() {
 export default function EditModal () {
     return (
         <>
-        {ReactDOM.createPortal(<ModalOverlay />, document.querySelector("#edit-modal"))}
+        {ReactDOM.createPortal(
+            <ModalOverlay />,
+            document.querySelector("#edit-modal") as HTMLElement
+        )}
         </>
     )
 }

@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import Alert from '../modals/AlertModal';
 import Popup from "../components/Popup";
 import CircularProgress from '@mui/material/CircularProgress';
+import { FetchOptionsModel } from '../models/types';
 
 export default function Auth() {
-    const { isLoggedIn, logIn, logOut, userName, trialInitiated, initTrial } = useContext(PostContext);
-    const usernameRef = useRef("");
-    const passwordRef = useRef("");
+    const { isLoggedIn, logIn, logOut, userName, trialIsClosed, closeTrial } = useContext(PostContext);
     const navigate = useNavigate();
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
     const [ registering, setRegistering ] = useState(false);
     const [alertMessage,setAlertMessage] = useState("");
     const [alertOn, setAlertOn] = useState(false);
@@ -21,16 +22,16 @@ export default function Auth() {
         setRegistering(!registering);
     }
 
-    function handleSubmit(e) {
+    function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        const username = usernameRef.current.value;
-        const password = passwordRef.current.value;
+        const username = usernameRef.current!.value;
+        const password = passwordRef.current!.value;
         if (!username || !password) {
             setAlertMessage("โปรดระบุ username และ password");
             setAlertOn(true);
             return;
         }
-        const options = {
+        const options: FetchOptionsModel = {
             method:"POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({username:username, password:password}),
@@ -43,8 +44,8 @@ export default function Auth() {
             .then(res => {
                 if (res.ok) {
                     console.log("registered successfully");
-                    usernameRef.current.value = "";
-                    passwordRef.current.value = "";
+                    usernameRef.current!.value = "";
+                    passwordRef.current!.value = "";
                     setPendingLogin(false);
                     setAlertMessage("ลงทะเบียนสำเร็จ");
                     setAlertOn(true);
@@ -104,10 +105,10 @@ export default function Auth() {
         setAlertOn(false);
     }
 
-    function handleEnterFlow(e) {
+    function handleUsernameKeyDown(e: React.KeyboardEvent) {
         if (e.key === "Enter") {
             e.preventDefault();
-            passwordRef.current.focus();
+            passwordRef.current!.focus();
         }
     }
 
@@ -124,14 +125,14 @@ export default function Auth() {
         return (
             <>
             {alertOn && <Alert message={alertMessage} onClose={closeModal} />}
-            {!trialInitiated && <Popup onClick={initTrial} extraText="password = my_password_123">ทดลองใช้งาน username = admin</Popup>}
+            {!trialIsClosed && <Popup onClick={closeTrial} extraText="password = my_password_123">ทดลองใช้งาน username = admin</Popup>}
             <div className={styles.mainAuth}>
                 <button className={`${styles.toggleAuth} ${styles["two-buttons"]} `} onClick={handleToggle}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>
                 <br/><br/>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="username" className={styles.labelUsernamePassword}>username</label>
                     <br/>
-                    <input type="text" ref={usernameRef} name="username" autoComplete="off" onKeyDown={handleEnterFlow} />
+                    <input type="text" ref={usernameRef} name="username" autoComplete="off" onKeyDown={handleUsernameKeyDown} />
                     <br/><br/>
                     <label htmlFor="password" className={styles.labelUsernamePassword}>password</label>
                     <br/>

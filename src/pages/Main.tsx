@@ -8,11 +8,11 @@ import Popup from '../components/Popup';
 
 export default function Main() {
 
-    const {offlineInitiated, initOffline} = useContext(PostContext);
+    const {offlineIsClosed, closeOffline} = useContext(PostContext);
 
     return (
         <React.Fragment>
-            {!offlineInitiated && <Popup onClick={initOffline}>คุณกำลังใช้งานโหมดออฟไลน์</Popup>}
+            {!offlineIsClosed && <Popup onClick={closeOffline}>คุณกำลังใช้งานโหมดออฟไลน์</Popup>}
             <AddNote />
             <Notes />
             <Edit />

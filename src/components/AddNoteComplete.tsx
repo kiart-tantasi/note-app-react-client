@@ -8,8 +8,8 @@ import AddIcon from "@mui/icons-material/Add";
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function AddNote() {
-  const titleRef = useRef();
-  const desRef = useRef();
+  const titleRef = useRef<HTMLInputElement>(null);
+  const desRef = useRef<HTMLInputElement>(null);
   const [expanded, setExpanded] = useState(false);
   const [alertMessage,setAlertMessage] = useState("");
   const [alertOn, setAlertOn] = useState(false);
@@ -23,21 +23,21 @@ export default function AddNote() {
     }
   }
 
-  function handleTitleKeyPress(e) {
+  function handleTitleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      desRef.current.focus();
+      desRef.current!.focus();
     }
   }
 
-  function handleDesKeyDown(e) {
+  function handleDesKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "ArrowUp") {
       e.preventDefault();
-      titleRef.current.focus();
+      titleRef.current!.focus();
     }
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     // FAILED
@@ -46,8 +46,8 @@ export default function AddNote() {
       setAlertOn(true);
       return;
     }
-    const item = titleRef.current.value.trim() || "";
-    const des = desRef.current.value.trim() || "";
+    const item = titleRef.current!.value.trim() || "";
+    const des = desRef.current!.value.trim() || "";
     if (!item && !des) {
       setAlertMessage("โปรดระบุข้อความ");
       setAlertOn(true);
@@ -69,21 +69,22 @@ export default function AddNote() {
     }
 
     // SUCCESS
+    async function requestToAddPost() {
+      try {
+        const addRequestResponse = await addPostRequest({item:item,des:des});
+        addPost(addRequestResponse.id,item,des,addRequestResponse.date);
+        setPending(false);
+      } catch (error) {
+        const err = error as Error;
+        console.log(err.message);
+        if (err.message === "No information sent") {
+          setPending(false);
+        }
+      }
+    }
     //online adding
     if (isLoggedIn) {
       setPending(true);
-      async function requestToAddPost() {
-        try {
-          const addRequestResponse = await addPostRequest({item:item,des:des});
-          addPost(addRequestResponse.id,item,des,addRequestResponse.date);
-          setPending(false);
-        } catch (err) {
-          console.log(err.message);
-          if (err.message === "No information sent") {
-            setPending(false);
-          }
-        }
-      }
       requestToAddPost();
     //offline adding
     } else {
@@ -101,9 +102,9 @@ export default function AddNote() {
       addPost(newItemId, item, des, getDate);
     }
     
-    titleRef.current.value = "";
-    desRef.current.value = "";
-    desRef.current.focus();
+    titleRef.current!.value = "";
+    desRef.current!.value = "";
+    desRef.current!.focus();
   }
 
   function closeModal() {
@@ -123,7 +124,7 @@ export default function AddNote() {
     <>
     {alertOn && <Alert message={alertMessage} onClose={closeModal} />}
     <div className={styles["Add-item"]}>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className={` ${styles["Two-input"]} ${expanded ? styles.cursorNone : styles.cursorPointer}`}>
           {expanded && <input
             className={styles["title-input"]}
@@ -147,7 +148,6 @@ export default function AddNote() {
         </div>
         {!pending && <button
           type="submit"
-          onClick={handleSubmit}
         >
           <AddIcon />
         </button>}

@@ -4,7 +4,7 @@ import useRequest from "../hooks/useRequest";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CircularProgress from '@mui/material/CircularProgress';
 
-export default function Delete(props) {
+export default function Delete(props:{id:string;classProp:string}) {
 
     const { posts, deletePost, isLoggedIn } = useContext(PostContext);
     const [pending, setPending] = useState(false);
@@ -15,11 +15,12 @@ export default function Delete(props) {
         //online deleting
         if (isLoggedIn) {
             setPending(true);
-            async function requestToDelete() {
+            const requestToDelete = async() => {
                 try {
                     await deletePostRequest({id: id.toString()});
                     deletePost(id);
-                } catch(err) {
+                } catch(error) {
+                    const err = error as Error;
                     console.log(err.message || "delete request failed.");
                 }
             }

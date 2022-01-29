@@ -54,6 +54,10 @@
     font-size: 1.2rem;
 }
 
+.submit-button {
+    letter-spacing: 2px;
+}
+
 /* Media Query */
 
 @media (max-width: 950px) {

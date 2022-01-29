@@ -2,17 +2,17 @@ import { useCallback, useContext } from "react";
 import getLocalStoragePosts from "../context/getLocalStoragePosts";
 import PostContext from "../context/PostContext";
 
-export default function useRequest() {
+import { FetchOptionsModel } from "../models/types";
 
-    const {logOut} = useContext(PostContext);
+export default function useRequest() {
+    const { logOut } = useContext(PostContext);
     
     const getPostsAndUserName = useCallback( async() => {
         let initialPosts;
         let userName;
         let isLoggedIn;
-
         try {
-          const response = await fetch("/api/user",{credentials:"include"});
+          const response = await fetch("/api/user", {credentials:"include"});
           if (!response.ok) throw new Error("offline mode activated");
           const userData = await response.json();
           initialPosts = userData.posts;
@@ -20,11 +20,12 @@ export default function useRequest() {
           isLoggedIn = true;
         }
         
-        catch (err) {
+        catch (error) {
           const localStoragePosts = getLocalStoragePosts();
           initialPosts = localStoragePosts;
           userName = null;
           isLoggedIn = false;
+          const err = (error as Error);
           console.log(err.message || "getting posts failed.");
         }
         
@@ -35,8 +36,8 @@ export default function useRequest() {
         } 
     }, []);
     
-    async function addPost(requestData) {
-        const options = {
+    async function addPost(requestData: {item:string;des:string}) {
+        const options: FetchOptionsModel = {
             method:"POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ item: requestData.item, des: requestData.des }),
@@ -62,7 +63,7 @@ export default function useRequest() {
         })
     }
 
-    async function deletePost(requestData) {
+    async function deletePost(requestData:{id:string}) {
         return fetch("/api/posts/"+ requestData.id.toString(), {method:"DELETE", credentials: "include"})
         .then((res) => {
             if (res.ok) {
@@ -77,8 +78,8 @@ export default function useRequest() {
         })
     }
 
-    async function editPost(requestData) {
-        const options = {
+    async function editPost(requestData:{item:string;des:string;id:string}) {
+        const options: FetchOptionsModel = {
             method:"PATCH",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({item: requestData.item, des:requestData.des}),

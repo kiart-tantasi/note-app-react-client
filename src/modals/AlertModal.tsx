@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import styles from "./AlertModal.module.css";
 
 
-const ModalOverlay =(props) => {
+const ModalOverlay =(props:{message:string; onClose: () => void;}) => {
     return (
         <div>
             <div onClick={props.onClose} className={` ${styles.modalBackdrop} close-modal`}></div>
@@ -15,11 +15,14 @@ const ModalOverlay =(props) => {
     )
 }
 
-export default function Alert(props) {
+export default function Alert(props: {message:string; onClose: () => void}) {
 
     return (
         <>
-        {ReactDOM.createPortal(<ModalOverlay message={props.message} onClose={props.onClose} />,document.querySelector("#modals"))}
+        {ReactDOM.createPortal(
+            <ModalOverlay message={props.message} onClose={props.onClose} />,
+            document.getElementById("modals") as HTMLElement
+        )}
         </>
     )
 }
