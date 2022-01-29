@@ -6,6 +6,7 @@ export default function Popup(props) {
   return (
     <div className={styles["pop-up"]}>
         <p>{props.children}</p>
+        {props.extraText && <p>{props.extraText}</p>}
         <div className={styles["button-container"]}>
             <button className={styles.button} onClick={props.onClick}>ปิด</button>
         </div>

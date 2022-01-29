@@ -124,7 +124,7 @@ export default function Auth() {
         return (
             <>
             {alertOn && <Alert message={alertMessage} onClose={closeModal} />}
-            {!trialInitiated && <Popup onClick={initTrial}>ทดลองใช้งาน username = admin และ password = password</Popup>}
+            {!trialInitiated && <Popup onClick={initTrial} extraText="password = my_password_123">ทดลองใช้งาน username = admin</Popup>}
             <div className={styles.mainAuth}>
                 <button className={`${styles.toggleAuth} ${styles["two-buttons"]} `} onClick={handleToggle}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>
                 <br/><br/>
