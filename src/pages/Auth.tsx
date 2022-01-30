@@ -1,14 +1,15 @@
-import React, { useContext, useRef, useState } from 'react'
-import PostContext from '../context/PostContext';
+import React, { useRef, useState } from 'react'
 import styles from "./Auth.module.css";
 import { useNavigate } from "react-router-dom";
 import Alert from '../modals/AlertModal';
 import Popup from "../components/Popup";
 import CircularProgress from '@mui/material/CircularProgress';
 import { FetchOptionsModel } from '../models/types';
+import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
+import { notificationActions } from '../redux-store/notificationSlice';
 
-export default function Auth() {
-    const { isLoggedIn, logIn, logOut, userName, trialIsClosed, closeTrial } = useContext(PostContext);
+export default function Auth(props:{onRefreshData: () => void}) {
+
     const navigate = useNavigate();
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -18,10 +19,10 @@ export default function Auth() {
     const [pendingLogin, setPendingLogin] = useState(false);
     const [pendingLogout, setPendingLogout] = useState(false);
 
-    function handleToggle() {
-        setRegistering(!registering);
-    }
-
+    const dispatch = useAppDispatch();
+    const trialNotificationIsClosed = useAppSelector(state => state.notification.trialNotificationIsClosed);
+    const { isLoggedIn, userName } = useAppSelector(state => state.auth);
+    
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         const username = usernameRef.current!.value;
@@ -67,7 +68,7 @@ export default function Auth() {
             .then(res => {
                 if (res.ok) {
                     console.log("logged in successfully");
-                    logIn();
+                    props.onRefreshData();
                     navigate("/posts",{ replace: true });
                 } else if (res.status === 401) {
                     setPendingLogin(false);
@@ -92,9 +93,9 @@ export default function Auth() {
         .then(res => {
           if (res.ok) {
             console.log("logged out successfully");
-            logOut();
+            props.onRefreshData();
           } else {
-              logOut();
+            props.onRefreshData();
               throw new Error("failed logging out.")
           }
         })
@@ -111,9 +112,9 @@ export default function Auth() {
             passwordRef.current!.focus();
         }
     }
-
-    window.onkeydown = (e) => {
-        if (alertOn) {
+    
+    if (alertOn) {
+        window.onkeydown = (e) => {
           if (e.key === "Enter" || e.key === "Escape") {
             e.preventDefault();
             closeModal();
@@ -125,9 +126,9 @@ export default function Auth() {
         return (
             <>
             {alertOn && <Alert message={alertMessage} onClose={closeModal} />}
-            {!trialIsClosed && <Popup onClick={closeTrial} extraText="password = my_password_123">ทดลองใช้งาน username = admin</Popup>}
+            {!trialNotificationIsClosed && <Popup onClick={() => dispatch(notificationActions.closeTrialNotification())} extraText="password = my_password_123">ทดลองใช้งาน username = admin</Popup>}
             <div className={styles.mainAuth}>
-                <button className={`${styles.toggleAuth} ${styles["two-buttons"]} `} onClick={handleToggle}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>
+                <button className={`${styles.toggleAuth} ${styles["two-buttons"]} `} onClick={() => setRegistering(!registering)}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>
                 <br/><br/>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="username" className={styles.labelUsernamePassword}>username</label>

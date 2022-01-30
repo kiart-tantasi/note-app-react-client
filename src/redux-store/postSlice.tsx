@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PostModel } from "../models/types";
 
-const initialState:{posts:PostModel[]} = {
+const initialState:{posts:PostModel[];} = {
     posts: []
 }
 
@@ -21,8 +21,8 @@ const postSlice = createSlice({
                 pending: false
               }];
         },
-        deletePost(state, action:PayloadAction<{id:string}>) {
-            state.posts = state.posts.filter(x => x._id !== action.payload.id);
+        deletePost(state, action:PayloadAction<string>) {
+            state.posts = state.posts.filter(x => x._id !== action.payload);
         },
         editPost(state, action:PayloadAction<{id:string;item:string;des:string}>) {
             state.posts = state.posts.map(x => {
@@ -32,9 +32,9 @@ const postSlice = createSlice({
                 return x;
             });
         },
-        turnPendingOn(state,action:PayloadAction<{id:string}>) {
+        turnPendingOn(state, action: PayloadAction<string>) {
             state.posts = state.posts.map(x => {
-                if (x._id === action.payload.id) {
+                if (x._id === action.payload) {
                     return {...x, pending: true};
                 }
                 return x;

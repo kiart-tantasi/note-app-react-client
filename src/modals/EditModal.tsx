@@ -1,15 +1,20 @@
-import React, {useRef, useContext, useEffect, useState} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import ReactDOM from "react-dom";
 import { useNavigate, useParams } from 'react-router-dom';
-import PostContext from "../context/PostContext";
 import useRequest from "../hooks/useRequest";
 
 import styles from "./EditModal.module.css";
 import CircularProgress from '@mui/material/CircularProgress';
+import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
+import { postActions } from '../redux-store/postSlice';
 
 function ModalOverlay() {
+
+    const dispatch = useAppDispatch();
+    const { posts} = useAppSelector(state => state.post);
+    const { isLoggedIn } = useAppSelector(state => state.auth);
+
     const { postId } = useParams();
-    const { isLoggedIn, posts, editPost, turnPendingOn } = useContext(PostContext);
     const thePost = posts.find(x => x._id.toString() === postId);
     const { editPost: editPostRequest } = useRequest();
     const navigate = useNavigate();
@@ -23,8 +28,8 @@ function ModalOverlay() {
             titleRef.current!.value = thePost.item || "";
             desRef.current!.value = thePost.des || "";
             desRef.current!.focus();
-        } else {
-            console.log("loading data for editing...")
+        } else if (!thePost && !thePost!.pending) {
+            console.log("loading data for editing...");
         }
     }, [thePost])
 
@@ -95,11 +100,11 @@ function ModalOverlay() {
         // SUCCESS
         //online updating      
         if (isLoggedIn) {
-            turnPendingOn(id!);
+            dispatch(postActions.turnPendingOn(id!));
             const requestToEdit = async() => {
                 try {
                     await editPostRequest({item:item,des:des,id:id!});
-                    editPost(id!, item, des);
+                    dispatch(postActions.editPost({id:id!, item, des}));
                     navigate("/posts", {replace:true});
                 } catch(err) {
                     console.log(err);
@@ -111,7 +116,7 @@ function ModalOverlay() {
         } else {
             const newPosts = posts.map((x) => (x._id.toString() === id!.toString() ? { ...x, item: item, des: des } : x));
             localStorage.setItem("myPostIt", JSON.stringify(newPosts));
-            editPost(id! ,item,des);
+            dispatch(postActions.editPost({id:id!, item, des}));
             navigate("/posts", {replace:true});
         }
     }

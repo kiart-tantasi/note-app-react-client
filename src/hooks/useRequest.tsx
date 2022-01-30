@@ -1,12 +1,18 @@
-import { useCallback, useContext, useState } from "react";
-import getLocalStoragePosts from "../context/getLocalStoragePosts";
-import PostContext from "../context/PostContext";
+import { useCallback, useState } from "react";
+import { useAppDispatch } from "./useRedux";
+import { refreshData } from "../redux-store/actionsHelper";
+import getLocalStoragePosts from "../utilities/getLocalStoragePosts";
 
 import { AddPostReturn, FetchOptionsModel, PostModel } from "../models/types";
 import { FetchDataReturn } from "../models/types";
 
 export default function useRequest() {
-    const { logOut } = useContext(PostContext);
+
+    const dispatch = useAppDispatch();
+    const refreshDataHandler = () => {
+        dispatch(refreshData());
+    }
+
     const [isLoading , setIsLoading] = useState(false);
     const [data, setData] = useState<FetchDataReturn | AddPostReturn>();
     const [success, setSuccess] = useState(false);
@@ -64,7 +70,7 @@ export default function useRequest() {
               setIsLoading(false);
               throw new Error("No information sent");
             } else {
-              logOut();
+              refreshDataHandler();
               setIsLoading(false);
               throw new Error("No authentication");
             }
@@ -92,12 +98,12 @@ export default function useRequest() {
                 setSuccess(true);
                 return "success";
             } else if (res.status === 403) {
-                logOut();
+                refreshDataHandler();
                 setIsLoading(false);
                 setSuccess(false);
                 throw new Error("No authentication");
             } else {
-                logOut();
+                refreshDataHandler();
                 setIsLoading(false);
                 setSuccess(false);
                 throw new Error("deleting failed.")
@@ -128,12 +134,12 @@ export default function useRequest() {
             } else if (response.status === 403) {
                 setIsLoading(false);
                 setSuccess(false);
-                logOut();
+                refreshDataHandler();
                 throw new Error("No authentication")
             } else {
                 setIsLoading(false);
                 setSuccess(false);
-                logOut();
+                refreshDataHandler();
                 throw new Error("updating failed.")
             }
         })

@@ -1,19 +1,23 @@
-import styles from "./AddNote.module.css"
-import React, { useState, useRef, useContext } from "react";
-import PostContext from "../context/PostContext";
+import React, { useState, useRef } from "react";
 import Alert from "../modals/AlertModal";
-import generateId from "../context/generateId";
 import useRequest from "../hooks/useRequest";
+import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
+import { postActions } from "../redux-store/postSlice";
+import generateId from "../utilities/generateId";
 import AddIcon from "@mui/icons-material/Add";
 import CircularProgress from '@mui/material/CircularProgress';
+import styles from "./AddNote.module.css"
 
 export default function AddNote() {
+  const dispatch = useAppDispatch();
+  const posts = useAppSelector(state => state.post.posts);
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
+
   const titleRef = useRef<HTMLInputElement>(null);
   const desRef = useRef<HTMLInputElement>(null);
   const [expanded, setExpanded] = useState(false);
   const [alertMessage,setAlertMessage] = useState("");
   const [alertOn, setAlertOn] = useState(false);
-  const { posts, addPost, isLoggedIn} = useContext(PostContext);
   const { addPost: addPostRequest } = useRequest();
   const [pending, setPending] = useState(false);
 
@@ -74,7 +78,7 @@ export default function AddNote() {
       const requestToAddPost = async() => {
         try {
           const addRequestResponse = await addPostRequest({item:item,des:des});
-          addPost(addRequestResponse.id, item, des, addRequestResponse.date);
+          dispatch(postActions.addPost({id: addRequestResponse.id, item, des, date: addRequestResponse.date}));
           setPending(false);
         } catch (error) {
           const err = error as Error;
@@ -99,7 +103,7 @@ export default function AddNote() {
         }
       ];
       localStorage.setItem("myPostIt", JSON.stringify(newPosts));
-      addPost(newItemId, item, des, getDate);
+      dispatch(postActions.addPost({id: newItemId, item, des, date: getDate}))
     }
     
     titleRef.current!.value = "";
