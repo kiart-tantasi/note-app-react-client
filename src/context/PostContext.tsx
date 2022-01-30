@@ -4,30 +4,34 @@ import useRequest from "../hooks/useRequest";
 import { PostModel } from "../models/types"
 import { PostContextModel } from "../models/types";
 import { initialContext } from "../models/types";
+import { postActions } from "../redux-store/postSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 
 const PostContext = React.createContext<PostContextModel>(initialContext);
 
 const PostContextProvider: React.FC = (props) => {
-  const { getPostsAndUserName } = useRequest();
-  const [posts, setPosts] = useState<PostModel[]>([]);
+  const { getPostsAndUserName, isLoading } = useRequest();
+  //
+  const dispatch = useAppDispatch();
+  const reduxPosts = useAppSelector(state => state.post.posts);
+  //
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ userName, setUserName ] = useState("");
-  const [ isLoading, setIsLoading ] = useState(false);
   const [offlineIsClosed, setOfflineIsClosed] = useState(false);
   const [trialIsClosed, setTrialIsClosed] = useState(false);
 
   const getData = useCallback( async() => {
-    setIsLoading(true);
     const data: {posts: PostModel[];isLoggedIn: boolean; userName:string} = await getPostsAndUserName();
     const transformedPosts = data.posts.map(x => {
       return{...x, pending: false}
     });
-    setPosts(transformedPosts);
+    //  
+    dispatch(postActions.setPosts(transformedPosts));
+    //
     setIsLoggedIn(data.isLoggedIn);
     setOfflineIsClosed(data.isLoggedIn);
     setUserName(data.userName);
-    setIsLoading(false);
-  }, [getPostsAndUserName]);
+  }, [getPostsAndUserName, dispatch]);
   
   function logIn() {
     setIsLoggedIn(true);
@@ -40,39 +44,27 @@ const PostContextProvider: React.FC = (props) => {
   }
 
   function addPost(id: string, item: string, des: string ,date: number) {
-    setPosts(prev => {
-      return [...prev,{
-        _id: id,
-        item: item,
-        des: des,
-        date: date,
-        pending: false
-      }]
-    })
+    //
+    dispatch(postActions.addPost({id, item, des, date}));
+    //
   }
 
   function deletePost(id: string) {
-    setPosts(prev => {
-      return prev.filter((x) => x._id.toString() !== id.toString());
-    })  
+    //
+    dispatch(postActions.deletePost({id}));
+    //
   }
 
   function editPost(id: string, item: string, des: string) {
-    if (isLoggedIn) {
-      setPosts(prev => {
-        return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des, pending: false } : x))
-      })
-    } else if (!isLoggedIn) {
-      setPosts(prev => {
-        return prev.map((x) => (x._id.toString() === id.toString() ? { ...x, item: item, des: des} : x))
-      })
-    }
+    //
+    dispatch(postActions.editPost({id, item, des}));
+    //
   }
 
   function turnPendingOn(id: string) {
-    setPosts(prev => {
-      return prev.map(x => x._id.toString() === id.toString() ? {...x, pending: true} : x)
-    });
+    //
+    dispatch(postActions.turnPendingOn({id}));
+    //
   }
 
   function closeOffline() {
@@ -89,22 +81,21 @@ const PostContextProvider: React.FC = (props) => {
     logIn,
     logOut,
     isLoggedIn,
-    //loading and username
-    isLoading,
     userName,
     // posts
     getData,
-    posts,
+    posts: reduxPosts,
     addPost,
     deletePost,
     editPost,
-    //pending for editting
     turnPendingOn,
     // initiated
     offlineIsClosed,
     closeOffline,
     trialIsClosed,
-    closeTrial
+    closeTrial,
+    // etc
+    isLoading
   };
 
   return (

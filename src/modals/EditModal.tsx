@@ -3,7 +3,9 @@ import ReactDOM from "react-dom";
 import { useNavigate, useParams } from 'react-router-dom';
 import PostContext from "../context/PostContext";
 import useRequest from "../hooks/useRequest";
+
 import styles from "./EditModal.module.css";
+import CircularProgress from '@mui/material/CircularProgress';
 
 function ModalOverlay() {
     const { postId } = useParams();
@@ -17,7 +19,7 @@ function ModalOverlay() {
     const [ desBorderStyle, setDesBorderStyle ] = useState({"border":"1px solid rgba(0,0,0,0.5)"});
 
     useEffect(() => {
-        if (thePost) {
+        if (thePost && !thePost.pending) {
             titleRef.current!.value = thePost.item || "";
             desRef.current!.value = thePost.des || "";
             desRef.current!.focus();
@@ -98,8 +100,10 @@ function ModalOverlay() {
                 try {
                     await editPostRequest({item:item,des:des,id:id!});
                     editPost(id!, item, des);
+                    navigate("/posts", {replace:true});
                 } catch(err) {
                     console.log(err);
+                    navigate("/posts", {replace:true});
                 }
             }
             requestToEdit();
@@ -108,8 +112,8 @@ function ModalOverlay() {
             const newPosts = posts.map((x) => (x._id.toString() === id!.toString() ? { ...x, item: item, des: des } : x));
             localStorage.setItem("myPostIt", JSON.stringify(newPosts));
             editPost(id! ,item,des);
+            navigate("/posts", {replace:true});
         }
-        navigate("/posts", {replace:true});
     }
 
     function handleCancel() {
@@ -131,10 +135,11 @@ function ModalOverlay() {
                     <input type="text" ref={titleRef} className={styles.modalInput} style={borderStyle} onKeyDown={handleTitleKeyDown} />
                     <br/><br/>
                     <textarea onKeyDown={handleDesKeyDown} ref={desRef} className={styles.modalTextarea} style={desBorderStyle} />
-                    <div className={styles.modalButtons}>
+                    {thePost!.pending ?  <div className={styles["spinnng-div"]}><CircularProgress size={35} color="inherit" /></div> 
+                    : <div className={styles.modalButtons}>
                         <button type="button" onClick={handleCancel}>ยกเลิก</button>
                         <button type="submit" className={styles["submit-button"]}>แก้ไข</button>
-                    </div>
+                    </div>}
                 </form>
             </div>
         </div>

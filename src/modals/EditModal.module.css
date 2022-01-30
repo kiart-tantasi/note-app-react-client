@@ -58,6 +58,11 @@
     letter-spacing: 2px;
 }
 
+.spinnng-div {
+    margin: 10px 0;
+    color: rgba(0, 0, 0);
+}
+
 /* Media Query */
 
 @media (max-width: 950px) {

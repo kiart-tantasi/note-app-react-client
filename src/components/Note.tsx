@@ -2,12 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Delete from "../components/Delete";
 import EditIcon from '@mui/icons-material/Edit';
-import CircularProgress from '@mui/material/CircularProgress';
 import styles from "./Note.module.css";
 
-const Note: React.FC<{ date:number, pending: boolean, item: string, des: string, id: string }> = (props) => {
+const Note: React.FC<{ date:number; item: string; des: string; id: string; }> = (props) => {
     const date = new Date(props.date).getDate().toString() + "/" + ( new Date(props.date).getMonth() + 1 ).toString() + "/" + new Date(props.date).getFullYear().toString() || "no date described.";
-    const pending = props.pending;
   
     return (
       <div className={styles["Item-block"]}>
@@ -23,8 +21,8 @@ const Note: React.FC<{ date:number, pending: boolean, item: string, des: string,
               <p className={styles["date-text"]}>{date}</p>
             </div>
             <div className={styles["footer-buttons"]}>
-              {pending && <CircularProgress size={20} color="inherit" className={styles["spinner-ui"]} />}
-              {!pending && <button><Link className={styles["edit-link"]} to={`/posts/edit/${props.id}`}><EditIcon className="edit-icon" /></Link></button>}
+              {/* {pending && <CircularProgress size={20} color="inherit" className={styles["spinner-ui"]} />} */}
+              <button><Link className={styles["edit-link"]} to={`/posts/edit/${props.id}`}><EditIcon className="edit-icon" /></Link></button>
               <Delete id={props.id} classProp={styles["spinner-ui"]} />
             </div>
           </div>

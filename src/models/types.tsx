@@ -37,3 +37,14 @@ export const initialContext = {
   }
 
 export type FetchOptionsModel = {method:string; headers: {}; body: string; credentials: RequestCredentials;}
+
+//useRequest
+export type FetchDataReturn = {
+  posts: PostModel[];
+  isLoggedIn: boolean;
+  userName: string;
+}
+export type AddPostReturn = {
+  id: string;
+  date: number;
+}

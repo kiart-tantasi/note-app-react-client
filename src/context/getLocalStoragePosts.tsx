@@ -1,13 +1,14 @@
 import generateId from "./generateId";
+import { PostModel } from "../models/types";
 
 const DEFAULT_POSTS = [
-    {_id: generateId(), item: "โพสต์แรกของฉัน", des:"ดูแลสุขภาพด้วยงับ", date: new Date().getTime()},
-    {_id: generateId(), item: "ประชุมเช้า", des:"วันพุธ เข้าzoomก่อน 10 โมง", date: new Date().getTime()},
-    {_id: generateId(), item: "จันทร์หน้า", des:"ทำ OT ...", date: new Date().getTime()},
-    {_id: generateId(), item: "หยุดปีใหม่", des:"วันศุกร์หน้าแล้ว!", date: new Date().getTime()}
+    {_id: generateId(), item: "โพสต์แรกของฉัน", des:"ดูแลสุขภาพด้วยงับ", date: new Date().getTime(), pending: false},
+    {_id: generateId(), item: "ประชุมเช้า", des:"วันพุธ เข้าzoomก่อน 10 โมง", date: new Date().getTime(), pending: false},
+    {_id: generateId(), item: "จันทร์หน้า", des:"ทำ OT ...", date: new Date().getTime(), pending: false},
+    {_id: generateId(), item: "หยุดปีใหม่", des:"วันศุกร์หน้าแล้ว!", date: new Date().getTime(), pending: false}
 ];
 
-export default function getLocalStoragePosts() {
+export default function getLocalStoragePosts():PostModel[] {
 
     const localStoragePosts = localStorage.getItem("myPostIt");
     const updated = localStorage.getItem("myPostItUpdate");
@@ -35,6 +36,6 @@ export default function getLocalStoragePosts() {
     }
 
     else {
-        return [];
+        throw new Error("getting posts error."); // should never happen.
     }
 }

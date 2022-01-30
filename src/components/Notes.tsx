@@ -1,15 +1,15 @@
-import { useContext } from "react";
 import Note from "./Note";
-import PostContext from "../context/PostContext";
 import styles from "./Notes.module.css";
+import { useAppSelector } from "../hooks/useRedux";
 
-export default function ShowNote() {
-  const { posts } = useContext(PostContext);
-  const reversedPosts = [...posts].reverse();
+export default function Notes() {
+
+  const myPosts = useAppSelector(state => state.post.posts); // can also use it from useContext(PostContext);
+  const reversedMyPosts = [...myPosts].reverse();
 
   return (
     <div className={styles.notes}>      
-      {reversedPosts.map((x) => {
+      {reversedMyPosts.map((x) => {
         return (
           <Note
             key={x._id}
@@ -17,7 +17,6 @@ export default function ShowNote() {
             item={x.item}
             des={x.des}
             date={x.date}
-            pending={x.pending}
           />
         );
       })}
