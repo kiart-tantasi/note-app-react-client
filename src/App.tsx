@@ -13,7 +13,7 @@ export default function App() {
   const isLoading = useAppSelector(state => state.loading.main);
   
   const refreshDataHandler = useCallback(() => {
-    dispatch(refreshData())
+    dispatch(refreshData());
   }, [dispatch]);
 
   useEffect(() => {

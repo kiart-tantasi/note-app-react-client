@@ -1,9 +1,26 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PostModel } from "../models/types";
 
 const initialState:{posts:PostModel[];} = {
     posts: []
 }
+
+const fetchPosts = createAsyncThunk(
+    "posts/fetchPosts",
+    async() => {
+        try {
+            const response: Response = await fetch("/api/posts");
+            if (!response.ok) {
+                throw new Error("cannot fetch posts");
+            }
+            const posts = await response.json();
+            return posts;
+        } catch (error) {
+            const err = error as Error;
+            console.log(err.message);
+        }
+    }
+)
 
 const postSlice = createSlice({
     name: "post",
@@ -40,8 +57,17 @@ const postSlice = createSlice({
                 return x;
             });
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchPosts.fulfilled, (state, action) => {
+                console.log(action.payload);
+                // state.posts = action.payload;
+            })
     }
 })
+
+export {fetchPosts};
 
 export const postActions = postSlice.actions;
 const postReducer = postSlice.reducer;
