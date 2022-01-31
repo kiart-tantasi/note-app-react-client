@@ -7,8 +7,6 @@ import styles from "./Note.module.css";
 const Note: React.FC<{ date:number; item: string; des: string; id: string; }> = (props) => {
     const date = new Date(props.date).getDate().toString() + "/" + ( new Date(props.date).getMonth() + 1 ).toString() + "/" + new Date(props.date).getFullYear().toString() || "no date described.";
   
-    console.log("A Note is rendered.");
-
     return (
       <div className={styles["Item-block"]}>
   

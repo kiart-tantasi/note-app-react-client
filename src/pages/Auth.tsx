@@ -113,12 +113,12 @@ export default function Auth(props:{onRefreshData: () => void}) {
         }
     }
     
-    if (alertOn) {
-        window.onkeydown = (e) => {
-          if (e.key === "Enter" || e.key === "Escape") {
+    window.onkeydown = (e) => {
+        if (alertOn === true) {
+            if (e.key === "Enter" || e.key === "Escape") {
             e.preventDefault();
             closeModal();
-          }
+            }
         }
     }
 
