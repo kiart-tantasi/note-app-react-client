@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import styles from "./Auth.module.css";
 import { useNavigate } from "react-router-dom";
 import Alert from '../modals/AlertModal';
-import Popup from "../components/Popup";
+import Popup from "../modals/Popup";
 import CircularProgress from '@mui/material/CircularProgress';
 import { FetchOptionsModel } from '../models/types';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
