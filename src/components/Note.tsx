@@ -22,7 +22,7 @@ const Note: React.FC<{ date:number; item: string; des: string; id: string; }> = 
             </div>
             <div className={styles["footer-buttons"]}>
               {/* {pending && <CircularProgress size={20} color="inherit" className={styles["spinner-ui"]} />} */}
-              <button><Link className={styles["edit-link"]} to={`/posts/edit/${props.id}`}><EditIcon className="edit-icon" /></Link></button>
+              <Link className={styles["edit-link"]} to={`/posts/edit/${props.id}`}><button><EditIcon className="edit-icon" /></button></Link>
               <Delete id={props.id} classProp={styles["spinner-ui"]} />
             </div>
           </div>
