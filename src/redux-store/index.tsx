@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+// import 4 reducers from 4 slices
 import authReducer from "./authSlice";
 import loadingReducer from "./loadingSlice";
 import notificationReducer from "./notificationSlice";

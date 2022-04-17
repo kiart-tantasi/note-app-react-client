@@ -30,13 +30,15 @@ const postSlice = createSlice({
             state.posts = action.payload;
         },
         addPost(state, action:PayloadAction<{id:string;item:string;des:string;date:number}>) {
-            state.posts = [...state.posts,{
-                _id: action.payload.id,
-                item: action.payload.item,
-                des: action.payload.des,
-                date: action.payload.date,
-                pending: false
-              }];
+            state.posts = [...state.posts,
+                {
+                    _id: action.payload.id,
+                    item: action.payload.item,
+                    des: action.payload.des,
+                    date: action.payload.date,
+                    pending: false
+                }
+            ];
         },
         deletePost(state, action:PayloadAction<string>) {
             state.posts = state.posts.filter(x => x._id !== action.payload);
