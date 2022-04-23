@@ -1,4 +1,3 @@
-import React from 'react';
 import EditModal from "../modals/EditModal";
 import {Routes, Route} from "react-router-dom";
 
@@ -11,3 +10,4 @@ export default function EditRoute() {
         </Routes>
     )
 }
+// DYNAMIC REACT ROUTER

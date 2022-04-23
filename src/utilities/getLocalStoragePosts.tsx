@@ -1,5 +1,5 @@
 import generateId from "./generateId";
-import { PostModel } from "../models/types";
+import { PostModel } from "../interfaces/interfaces";
 
 const DEFAULT_POSTS = [
     {_id: generateId(), item: "โพสต์แรกของฉัน", des:"ดูแลสุขภาพด้วยงับ", date: new Date().getTime(), pending: false},
@@ -36,6 +36,8 @@ export default function getLocalStoragePosts():PostModel[] {
     }
 
     else {
-        throw new Error("getting posts error."); // should never happen.
+        throw new Error("getting posts error."); // should not occur.
     }
 }
+
+// NEED MORE UTILITY FUNCTIONS TO ADD / EDIT / DELETE POSTS

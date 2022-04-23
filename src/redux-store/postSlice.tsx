@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PostModel } from "../models/types";
+import { PostModel } from "../interfaces/interfaces";
 
 const initialState:{posts:PostModel[];} = {
     posts: []
 }
 
+// createAsyncThunk
 const fetchPosts = createAsyncThunk(
     "posts/fetchPosts",
     async() => {
@@ -26,9 +27,13 @@ const postSlice = createSlice({
     name: "post",
     initialState: initialState,
     reducers: {
+
+        // SET POSTS
         setPosts(state, action: PayloadAction<PostModel[]>) {
             state.posts = action.payload;
         },
+
+        // ADD A POST
         addPost(state, action:PayloadAction<{id:string;item:string;des:string;date:number}>) {
             state.posts = [...state.posts,
                 {
@@ -40,9 +45,13 @@ const postSlice = createSlice({
                 }
             ];
         },
+
+        // DELETE A POST
         deletePost(state, action:PayloadAction<string>) {
             state.posts = state.posts.filter(x => x._id !== action.payload);
         },
+
+        // EDIT A POST
         editPost(state, action:PayloadAction<{id:string;item:string;des:string}>) {
             state.posts = state.posts.map(x => {
                 if (x._id === action.payload.id) {
@@ -51,6 +60,8 @@ const postSlice = createSlice({
                 return x;
             });
         },
+
+        // TURN A POST'S PENDING ON
         turnPendingOn(state, action: PayloadAction<string>) {
             state.posts = state.posts.map(x => {
                 if (x._id === action.payload) {
@@ -60,16 +71,17 @@ const postSlice = createSlice({
             });
         }
     },
+
+    // EXTRA REDUCERS (REDUX) ????
     extraReducers: (builder) => {
         builder
             .addCase(fetchPosts.fulfilled, (state, action) => {
                 console.log(action.payload);
-                // state.posts = action.payload;
             })
     }
 })
 
-export {fetchPosts};
+export {fetchPosts}; // ???
 
 export const postActions = postSlice.actions;
 const postReducer = postSlice.reducer;

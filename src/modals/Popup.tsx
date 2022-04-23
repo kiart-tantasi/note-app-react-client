@@ -1,16 +1,37 @@
-import React from "react";
 import styles from "./Popup.module.css";
 
-export default function Popup(props:{children:React.ReactNode; onClick:() => void; extraText?:string; onConfirm?:{text:string, fn:() => void}}) {
+type PopupProps = {
+  onClick: () => void;
+  mainText: string;
+  extraText?: string;
+  onConfirm?: {
+    text: string;
+    fn: () => void;
+  };
+}
+
+export default function Popup(props: PopupProps) {
 
   return (
     <div className={styles["pop-up"]}>
-        <p>{props.children}</p>
-        {props.extraText && <p>{props.extraText}</p>}
-        <div className={styles["button-container"]}>
-            {props.onConfirm && <button className={styles.button} onClick={props.onConfirm.fn}>{props.onConfirm.text}</button>}
-            <button className={styles.button} onClick={props.onClick}>ปิด</button>
-        </div>
+
+      {/* MAIN TEXT */}
+      <p>{props.mainText}</p>
+
+      {/* EXTRA TEXT IF USED */}
+      {props.extraText && <p>{props.extraText}</p>}
+
+      {/* BUTTONS */}
+      <div className={styles["button-container"]}>
+
+          {/* CONFIRM BUTTON */}
+          {props.onConfirm && <button className={styles.button} onClick={props.onConfirm.fn}>{props.onConfirm.text}</button>}
+
+          {/* CLOSE BUTTON */}
+          <button className={styles.button} onClick={props.onClick}>ปิด</button>
+
+      </div>
+
     </div>
   )
 }

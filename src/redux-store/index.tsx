@@ -1,10 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-
-// import 4 reducers from 4 slices
 import authReducer from "./authSlice";
 import loadingReducer from "./loadingSlice";
 import notificationReducer from "./notificationSlice";
 import postReducer from "./postSlice";
+// IMPORT 4 SLICES
 
 const store = configureStore({
     reducer: {
@@ -16,9 +15,11 @@ const store = configureStore({
 })
 export default store;
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+// "ReturnType<typeof store.getState>"
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+
+// "typeof store.dispatch"
 export type AppDispatch = typeof store.dispatch;
-// from https://redux.js.org/usage/usage-with-typescript
+
+// SOURCE: https://redux.js.org/usage/usage-with-typescript
 

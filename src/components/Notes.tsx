@@ -5,6 +5,7 @@ import { useAppSelector } from "../hooks/useRedux";
 export default function Notes() {
   const posts = useAppSelector(state => state.post.posts);
   const reversedPosts = [...posts].reverse();
+  // REVERSE TO BRING THE LATEST POSTS FIRST
 
   return (
     <div className={styles.notes}>      

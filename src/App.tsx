@@ -6,16 +6,17 @@ import Auth from "./pages/Auth";
 import "./App.css";
 
 import { useAppDispatch, useAppSelector } from "./hooks/useRedux";
-import { refreshData } from "./redux-store/actionsHelper";
+import { refreshData } from "./redux-store/dataRefresher";
 
 export default function App() {  
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.loading.main);
   
   const refreshDataHandler = useCallback(() => {
-    dispatch(refreshData());
+    refreshData(dispatch); // THUNK: dispatch(refreshData());
   }, [dispatch]);
 
+  // --- fetch data when app starts --- //
   useEffect(() => {
     refreshDataHandler();
   }, [refreshDataHandler]);
@@ -27,16 +28,27 @@ export default function App() {
   }
 
   return (
+    // FLEX CONTAINER
     <div className="flex-container">
+
       <Layout>
-      <div className="flex-main-body">
-      <Routes>
-        <Route path="/posts/*" element={<Main />} />
-        <Route path="/account" element={<Auth onRefreshData={refreshDataHandler} />} />
-        <Route path="/*" element={<Navigate to="/posts" />} />
-      </Routes>
-      </div>
+        {/* NAV IS IN LAYOUT */}
+
+        {/* MAIN BODY */}
+        <div className="flex-main-body">
+
+          {/* ROUTES "/posts" and "/account" */}
+          <Routes>
+            <Route path="/posts/*" element={<Main />} />
+            <Route path="/account" element={<Auth onRefreshData={refreshDataHandler} />} />
+            <Route path="/*" element={<Navigate to="/posts" />} />
+          </Routes>
+
+        </div>
+
+      {/* FOOTER IS IN LAYOUT */}
       </Layout>
+
     </div>
   );
 }

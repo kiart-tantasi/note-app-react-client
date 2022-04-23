@@ -4,13 +4,16 @@ import { useNavigate } from "react-router-dom";
 import Alert from '../modals/AlertModal';
 import Popup from "../modals/Popup";
 import CircularProgress from '@mui/material/CircularProgress';
-import { FetchOptionsModel } from '../models/types';
+import { FetchOptionsModel } from '../interfaces/interfaces';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import { notificationActions } from '../redux-store/notificationSlice';
 
 export default function Auth(props:{onRefreshData: () => void}) {
 
+    // NAVIGATE
     const navigate = useNavigate();
+
+    // STATES
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const [ registering, setRegistering ] = useState(false);
@@ -19,12 +22,16 @@ export default function Auth(props:{onRefreshData: () => void}) {
     const [pendingLogin, setPendingLogin] = useState(false);
     const [pendingLogout, setPendingLogout] = useState(false);
 
+    // REDUX
     const dispatch = useAppDispatch();
     const trialNotificationIsClosed = useAppSelector(state => state.notification.trialNotificationIsClosed);
     const { isLoggedIn, userName } = useAppSelector(state => state.auth);
     
+    // --------------------------- SUBMIT FORM ----------------------------- //
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
+
+        // ----- FORM VALIDATION ----- //
         const username = usernameRef.current!.value;
         const password = passwordRef.current!.value;
         if (!username || !password) {
@@ -32,13 +39,14 @@ export default function Auth(props:{onRefreshData: () => void}) {
             setAlertOn(true);
             return;
         }
+
         const options: FetchOptionsModel = {
             method:"POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({username:username, password:password}),
             credentials: "include"
         }
-        // register
+        // ----- REGISTER ----- //
         if (registering) {
             setPendingLogin(true);
             fetch("/api/register", options)
@@ -61,7 +69,7 @@ export default function Auth(props:{onRefreshData: () => void}) {
                     setAlertOn(true);
                 }
             })
-        // log in
+        // ----- LOGIN ----- //
         } else if (!registering) {
             setPendingLogin(true);
             fetch("/api/login", options)
@@ -86,7 +94,9 @@ export default function Auth(props:{onRefreshData: () => void}) {
             });
         }
     }
+    // --------------------------------------------------------------------- //
 
+    // LOGOUT
     function handleLogOut() {
         setPendingLogout(true);
         fetch("/api/logout", {credentials:"include", method:"POST"})
@@ -96,7 +106,7 @@ export default function Auth(props:{onRefreshData: () => void}) {
             props.onRefreshData();
           } else {
             props.onRefreshData();
-              throw new Error("failed logging out.")
+            throw new Error("failed logging out.")
           }
         })
         .catch(err => console.log(err.message));
@@ -105,7 +115,8 @@ export default function Auth(props:{onRefreshData: () => void}) {
     function closeModal() {
         setAlertOn(false);
     }
-
+    
+    // PRESS "ENTER" TO GO FROM USERNAME INPUT TO PASSWORD INPUT
     function handleUsernameKeyDown(e: React.KeyboardEvent) {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -113,50 +124,131 @@ export default function Auth(props:{onRefreshData: () => void}) {
         }
     }
     
+    // PRESS "ENTER" OR "ESC" TO CLOSE MODAL
     window.onkeydown = (e) => {
         if (alertOn === true) {
             if (e.key === "Enter" || e.key === "Escape") {
-            e.preventDefault();
-            closeModal();
+                e.preventDefault();
+                closeModal();
             }
         }
     }
 
+    // IF NOT LOGGED IN, SHOW LOGIN / REGISTER FORM
     if (!isLoggedIn) {
         return (
             <>
+
+            {/* ALERT MODAL */}
             {alertOn && <Alert message={alertMessage} onClose={closeModal} />}
-            {!trialNotificationIsClosed && <Popup onClick={() => dispatch(notificationActions.closeTrialNotification())} extraText="password = my_password_123">ทดลองใช้งาน username = admin</Popup>}
+
+            {/* TRIAL NOTIFICATION (WHEN OFFLINE) */}
+            {!trialNotificationIsClosed &&
+            <Popup 
+                onClick={() => dispatch(notificationActions.closeTrialNotification())}
+                mainText="ทดลองใช้งาน username = admin"
+                extraText="password = my_password_123"
+            />}
+
+            {/* MAIN CONTENT */}
             <div className={styles.mainAuth}>
-                <button className={`${styles.toggleAuth} ${styles["two-buttons"]} `} onClick={() => setRegistering(!registering)}>ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}</button>
+
+                {/* BUTTON TO CHANGE FORM TYPE (LOGIN || REGISTER) */}
+                <button
+                    className={`${styles.toggleAuth} ${styles["two-buttons"]}`}
+                    onClick={() => setRegistering(!registering)}
+                >
+                ต้องการ{(registering) ? "เข้าสู่ระบบ" : "สมัครใช้งาน"}
+                </button>
+
                 <br/><br/>
+
+                {/* FORM */}
                 <form onSubmit={handleSubmit}>
+
+                    {/* USERNAME */}
                     <label htmlFor="username" className={styles.labelUsernamePassword}>username</label>
                     <br/>
                     <input type="text" ref={usernameRef} name="username" autoComplete="off" onKeyDown={handleUsernameKeyDown} />
                     <br/><br/>
+
+                    {/* PASSWORD */}
                     <label htmlFor="password" className={styles.labelUsernamePassword}>password</label>
                     <br/>
                     <input type="password" ref={passwordRef} name="password" autoComplete="off" />
                     <br/><br/>
-                    {!pendingLogin && <button className={`${styles.submitAuth} ${styles["two-buttons"]}`} type="submit">{(registering) ? "ลงทะเบียน" : "เข้าสู่ระบบ"}</button>}
-                    {pendingLogin && <CircularProgress size={25} color="inherit" className={styles["spinner-ui"]} />}
+
+                    {/* SUBMIT BUTTON OR SPINNER */}
+                    {!pendingLogin ?
+
+                    // BUTTON (REGISTER || LOGIN)
+                    <button 
+                        className={`${styles.submitAuth} ${styles["two-buttons"]}`}
+                        type="submit"
+                    >
+                    {(registering) ? "ลงทะเบียน" : "เข้าสู่ระบบ"}
+                    </button> :
+
+                    // SPINNER (WHEN PENDING)
+                    <CircularProgress size={25} color="inherit" className={styles["spinner-ui"]} />
+
+                    }
+        
                     <br/><br/>
-                    {/* <button type="button" className={styles.googleAuth}><a className={styles.googleA} href="/api/auth/google">เข้าสู่ระบบ/สมัครด้วย GOOGLE ACCOUNT</a></button> */}
-                    {/* when testing on 3000, use below */}
-                    <button type="button" className={styles.googleAuth}><a className={styles.googleA} href="http://localhost:4000/api/auth/google">เข้าสู่ระบบ/สมัครโดย GOOGLE (3000)</a></button>
+
+                    {/* GOOGLE AUTH BUTTON */}
+
+                    {/* <button
+                        type="button"
+                        className={styles.googleAuth}>
+                        <a 
+                        className={styles.googleA} 
+                        href="/api/auth/google">
+                            เข้าสู่ระบบ/สมัครด้วย GOOGLE ACCOUNT
+                        </a>
+                    </button> */}
+
+                    {/* WHEN TESTING, USE BELOW (localhost 4000) */}
+
+                    <button
+                        type="button"
+                        className={styles.googleAuth}>
+                        <a
+                        className={styles.googleA}
+                        href="http://localhost:4000/api/auth/google">
+                            เข้าสู่ระบบ/สมัครโดย GOOGLE (TESTING)
+                        </a>
+                    </button>
+
                 </form>
+
             </div>
+
             </>
         )
     }
+
+    // IF LOGGED IN, SHOW LOG OUT BUTTON
     return (
         <div className={styles.mainAuth}>
+
+            {/* USERNAME */}
             {!pendingLogout && <h1 className={styles.userName}>{userName || ""}</h1>}
             <br/>
-            {!pendingLogout && <button className={styles.logoutButton} type="button" onClick={handleLogOut}>ออกจากระบบ</button>}
-            {pendingLogout && <CircularProgress color="inherit" className={styles["spinner-ui"]} />}
+
+            {/* LOGOUT BUTTON || SPINNER */}
+            {!pendingLogout ?
+
+            // LOGOUT BUTTON
+            <button className={styles.logoutButton} type="button" onClick={handleLogOut}>ออกจากระบบ</button> :
+
+            // SPINNER (WHEN PENDING)
+            <CircularProgress color="inherit" className={styles["spinner-ui"]} />
+            
+            }
+
             <br/><br/>
+
         </div>
     )
 }

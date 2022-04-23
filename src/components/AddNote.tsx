@@ -41,10 +41,12 @@ export default function AddNote() {
     }
   }
 
+  // ------------------------ SUBMIT A POST ----------------------------- //
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    // FAILED
+    // ---------------- FORM VALIDATION ----------------- //
     if (expanded === false) {
       setAlertMessage("โปรดระบุข้อความ");
       setAlertOn(true);
@@ -73,11 +75,14 @@ export default function AddNote() {
     }
 
     // SUCCESS
-    //online adding
+    // ---------------- ONLINE ----------------- //
     if (isLoggedIn) {
-      const requestToAddPost = async() => {
+      setPending(true);
+      (async() => {
         try {
+          // http request
           const addRequestResponse = await addPostRequest({item:item,des:des});
+          // redux 
           dispatch(postActions.addPost({id: addRequestResponse.id, item, des, date: addRequestResponse.date}));
           setPending(false);
         } catch (error) {
@@ -87,11 +92,11 @@ export default function AddNote() {
             setPending(false);
           }
         }
-      }
-      setPending(true);
-      requestToAddPost();
-    //offline adding
+      }) ();
+      
+    // ---------------- OFFLINE ----------------- //
     } else {
+      // prepare post data
       const newItemId = generateId();
       const getDate = new Date().getTime();
       const newPosts = [
@@ -102,7 +107,9 @@ export default function AddNote() {
           date: getDate,
         }
       ];
+      // local storage
       localStorage.setItem("myPostIt", JSON.stringify(newPosts));
+      // redux
       dispatch(postActions.addPost({id: newItemId, item, des, date: getDate}))
     }
     
@@ -110,6 +117,8 @@ export default function AddNote() {
     desRef.current!.value = "";
     desRef.current!.focus();
   }
+
+  // -------------------------------------------------------------------- //
 
   function closeModal() {
     setAlertOn(false);
@@ -127,9 +136,15 @@ export default function AddNote() {
   return (
     <>
     {alertOn && <Alert message={alertMessage} onClose={closeModal} />}
+
     <div className={styles["Add-item"]}>
+
+      {/* FORM */}
       <form onSubmit={handleSubmit}>
+
         <div className={` ${styles["Two-input"]} ${expanded ? styles.cursorNone : styles.cursorPointer}`}>
+
+          {/* TITLE */}
           {expanded && <input
             className={styles["title-input"]}
             onKeyDown={handleTitleKeyPress}
@@ -139,6 +154,7 @@ export default function AddNote() {
             ref={titleRef}
           ></input>}
           
+          {/* DESCRIPTION */}
           <input
             className={styles["des-input"]}
             onClick={handleTitleOn}
@@ -148,14 +164,19 @@ export default function AddNote() {
             autoComplete="off"
             ref={desRef}
           ></input>
-
+          
         </div>
+
+        {/* SUBMIT BUTTON */}
         {!pending && <button
           type="submit"
         >
           <AddIcon />
         </button>}
+
       </form>
+      
+      {/* SPINNER WHEN ADDING A NEW POST */}
       {pending && <CircularProgress color="inherit" className={styles["spinner-ui"]} />}
     </div>
     </>

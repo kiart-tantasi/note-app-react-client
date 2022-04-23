@@ -16,10 +16,10 @@ export default function Delete(props:{id:string;classProp:string}) {
     const id = props.id;
   
     function handleDelete() {
-        //online deleting
+        // -------- ONLINE -------- //
         if (isLoggedIn) {
             setPending(true);
-            const requestToDelete = async() => {
+            (async() => {
                 try {
                     await deletePostRequest({id: id.toString()});
                     dispatch(postActions.deletePost(id));
@@ -27,10 +27,9 @@ export default function Delete(props:{id:string;classProp:string}) {
                     const err = error as Error;
                     console.log(err.message || "delete request failed.");
                 }
-            }
-            requestToDelete();
+            }) ();
             
-        //offline deleting
+        // -------- OFFLINE -------- //
         } else {
             const newPosts = posts.filter((x) => x._id.toString() !== id.toString());
             localStorage.setItem("myPostIt", JSON.stringify(newPosts));

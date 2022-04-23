@@ -17,6 +17,11 @@ export default function useInput(validatingFunction: (input:string) => boolean) 
         setInitialized(true);
     }
 
-
-    return {inputValue, errorNoInitialized, error, handleInputChange, handleInitialized};
+    return {
+        inputValue,
+        errorNoInitialized,
+        error,
+        handleInputChange,
+        handleInitialized
+    };
 }
