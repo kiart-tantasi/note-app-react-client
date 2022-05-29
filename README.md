@@ -1,12 +1,12 @@
-# Post-It-App-Simple-MERN-App
+# Post-It-App-Simple-MERN-App  
+
 Note App (Web Application) in Post It Note Style
 
 MERN Stack: MongoDB (Mongoose) + Express + React + NodeJS. 
   
-  
 
-Notice:  
+# SOURCE CODE
 
-server side: "https://github.com/kiart-tantasi/Post-It-App-Simple-MERN-App-server"  
+server side: "https://github.com/kiart-tantasi/Post-It-App-server"  
 
-client side: "https://github.com/kiart-tantasi/Post-It-App-Simple-MERN-App-client"  
+client side: "https://github.com/kiart-tantasi/Post-It-App-client"  

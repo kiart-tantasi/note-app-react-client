@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AddNote from '../components/AddNote';
 import Notes from "../components/Notes";
 import Edit from "../components/EditRoute";
@@ -24,6 +24,10 @@ export default function Main() {
         fn: handleNavigateToAuthPage,
         text: "ลองเลย!"
     }
+
+    useEffect(() => {
+        console.log("RENDERED.");
+    }, [])
 
     return (
         <React.Fragment>
